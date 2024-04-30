@@ -1,6 +1,6 @@
 import {Center, Heading} from "@chakra-ui/react";
 import {useAppSelector} from "../store/hooks.ts";
-import ChatComponent from "./ChatComponent.tsx";
+import ChatComponent from "./chat/ChatComponent.tsx";
 import React, {useEffect} from "react";
 
 /**

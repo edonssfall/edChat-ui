@@ -4,8 +4,6 @@ import {
     DrawerContent,
     CloseButton,
     IconButton,
-    FlexProps,
-    BoxProps,
     Spacer,
     Button,
     Drawer,
@@ -13,14 +11,15 @@ import {
     Text,
     Box,
 } from "@chakra-ui/react";
+import {IMobileProps, ISidebarContentProps} from "../../interfaces/sidebar.interface.ts";
 import {faArrowRightToBracket, faBars} from "@fortawesome/free-solid-svg-icons";
 import {clearUser, logout} from "../../store/slices/user.slice.ts";
 import AddChatModalComponent from "./AddChatModalComponent.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import UsernameModal from "../auth/UsernameModalComponent.tsx";
-import ChatButtonsComponent from "./ChatButtonsComponent.tsx";
+import ChatBoxComponent from "./ChatBoxComponent.tsx";
+import {ReactNode, useEffect, useState} from "react";
 import {useAppSelector} from "../../store/hooks.ts";
-import {ReactNode, useEffect} from "react";
 import {useDispatch} from "react-redux";
 
 /**
@@ -58,34 +57,28 @@ export default function SimpleSidebar({children}: { children: ReactNode }) {
 }
 
 /**
- * @name ISidebarProps
- * @description The props for the SidebarContent component.
- */
-interface ISidebarProps extends BoxProps {
-    onClose: () => void;
-}
-
-/**
  * @name SidebarContent
  * @description The content of the sidebar.
  * @param onClose
  * @param rest
  */
-const SidebarContent = ({onClose, ...rest}: ISidebarProps) => {
+const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
     const dispatch = useDispatch();
 
     const chats = [
             {
                 name: 'Chat 1',
+                message: 'message1',
                 path: '/chat1',
             },
             {
                 name: 'Chat 2',
+                message: 'message2',
                 path: '/chat2',
             },
         ],
-        selectedChat = chats[0];
+        [selectedChat, setSelectedChat] = useState(chats[0]);
 
     useEffect(() => {
     }, [isLoggedIn]);
@@ -111,8 +104,14 @@ const SidebarContent = ({onClose, ...rest}: ISidebarProps) => {
                     {isLoggedIn ?
                         <>
                             <Button onClick={() => console.log('open chat')}>add Chat</Button>
-
-                            <ChatButtonsComponent chats={chats} selectedChat={selectedChat}/>
+                            {chats.map((chat, index) => (
+                                <ChatBoxComponent
+                                    key={index}
+                                    chat={chat}
+                                    setSelectedChat={setSelectedChat}
+                                />
+                            ))
+                            }
 
                             <Spacer/>
 
@@ -134,14 +133,6 @@ const SidebarContent = ({onClose, ...rest}: ISidebarProps) => {
         </>
     );
 };
-
-/**
- * @name IMobileProps
- * @description The props for the MobileNav component.
- */
-interface IMobileProps extends FlexProps {
-    onOpen: () => void;
-}
 
 /**
  * @name MobileNav

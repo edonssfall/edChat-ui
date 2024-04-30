@@ -4,7 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState: IUser = {
     username: '',
     avatar: '',
-    isLoggedIn: false,
+    isLoggedIn: true,
 }
 
 /**

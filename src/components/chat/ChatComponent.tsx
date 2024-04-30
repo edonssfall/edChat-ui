@@ -1,7 +1,8 @@
 import {Button, Flex, FormControl, Heading, Input, Spacer} from "@chakra-ui/react";
-import {IChatProps} from "../interfaces/chat.interface.ts";
+import {IChatProps} from "../../interfaces/chat.interface.ts";
 import React, {useEffect, useRef, useState} from "react";
-import {useAppSelector} from "../store/hooks.ts";
+import MessageComponent from "./MessageComponent.tsx";
+import {useAppSelector} from "../../store/hooks.ts";
 import useWebSocket from "react-use-websocket";
 
 function ChatComponent({wsUrl}: IChatProps) {
@@ -80,13 +81,7 @@ function ChatComponent({wsUrl}: IChatProps) {
 
             <Flex direction='column' mb={4} h='full' overflowY='auto'>
                 {messageHistory.map((message, index) => (
-                    <Heading
-                        key={index}
-                        mb={2}
-                        bg={message.sender === username ? 'blue' : 'green'}
-                        textColor={'white'}
-                    >
-                        {message.sender}: {message.message}</Heading>
+                    <MessageComponent message={message} index={index}/>
                 ))}
             </Flex>
 
