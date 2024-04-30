@@ -1,5 +1,5 @@
-import { environment } from "../../environments/environment.ts";
-import { IChat } from "../../interfaces/chat.interface.ts";
+import {environment} from "../environments/environment.ts";
+import {IChat} from "../interfaces/chat.interface.ts";
 
 export function createIChat(name: string): IChat {
     return {

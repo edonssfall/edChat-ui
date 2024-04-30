@@ -1,11 +1,11 @@
-import { Button, Flex, FormControl, Heading, Input, Spacer } from "@chakra-ui/react";
+import {Button, Flex, FormControl, Heading, Input, Spacer} from "@chakra-ui/react";
+import {IChatProps} from "../interfaces/chat.interface.ts";
 import React, {useEffect, useRef, useState} from "react";
-import { useAppSelector } from "../store/hooks.ts";
+import {useAppSelector} from "../store/hooks.ts";
 import useWebSocket from "react-use-websocket";
 
-function Chat() {
-    const WS_URL = useAppSelector(state => state.user.chat.path),
-        username = useAppSelector(state => state.user.username);
+function ChatComponent({wsUrl}: IChatProps) {
+    const username = useAppSelector(state => state.user.username);
 
     const [sender, setSender] = useState<string>(''),
         [message, setMessage] = useState<string>(''),
@@ -13,7 +13,7 @@ function Chat() {
         [status, setStatus] = useState<string>('');
 
     const {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocket(
-        WS_URL + `?username=${username}`,
+        wsUrl + `?username=${username}`,
         {
             share: false,
             shouldReconnect: () => true,
@@ -27,7 +27,7 @@ function Chat() {
                 console.error('WebSocket Error:', event, lastJsonMessage);
             });
         }
-    }, [getWebSocket, WS_URL, lastJsonMessage]);
+    }, [getWebSocket, wsUrl, lastJsonMessage]);
 
     useEffect(() => {
         if (lastJsonMessage !== null && lastJsonMessage !== undefined) {
@@ -73,12 +73,12 @@ function Chat() {
     return (
         <Flex direction={'column'} h={'full'} w={'full'} mr={2} ml={2}>
             {!!sender || !!status ?
-                <Heading fontSize="xl" mb={4}>{sender}: {status}</Heading>
+                <Heading fontSize='xl' mb={4}>{sender}: {status}</Heading>
                 :
                 <></>
             }
 
-            <Flex direction="column" mb={4}  h="full" overflowY="auto">
+            <Flex direction='column' mb={4} h='full' overflowY='auto'>
                 {messageHistory.map((message, index) => (
                     <Heading
                         key={index}
@@ -93,17 +93,17 @@ function Chat() {
             <Spacer/>
 
             <Flex>
-                <FormControl flex="1" mr={2} mb={2}>
+                <FormControl flex='1' mr={2} mb={2}>
                     <Input
                         value={message}
-                        type="text"
-                        placeholder="Enter your message"
+                        type='text'
+                        placeholder='Enter your message'
                         onChange={onWriteMessage}
                     />
                 </FormControl>
 
                 <Button
-                    colorScheme="blue"
+                    colorScheme='blue'
                     onClick={handleSubmit}
                     disabled={!message.trim()}
                 >
@@ -114,4 +114,4 @@ function Chat() {
     );
 }
 
-export default Chat;
+export default ChatComponent;

@@ -1,5 +1,3 @@
-import { IChat } from "./chat.interface.ts";
-
 /**
  * @name IUser
  * @description Interface for user object
@@ -7,6 +5,21 @@ import { IChat } from "./chat.interface.ts";
 export interface IUser {
     username: string;
     avatar: string;
-    chats: IChat[];
-    chat: IChat;
+    isLoggedIn: boolean;
+}
+
+/**
+ * @name IUserSlice
+ * @description Interface for user slice
+ */
+export interface IUserSlice {
+    name: string;
+    initialState: IUser;
+    reducers: {
+        setUsername: (state: IUser, action: {payload: string}) => void;
+        setAvatar: (state: IUser, action: {payload: string}) => void;
+        login: (state: IUser) => void;
+        logout: (state: IUser) => void;
+        clearUser: () => IUser;
+    };
 }

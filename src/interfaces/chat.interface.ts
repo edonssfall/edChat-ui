@@ -18,3 +18,7 @@ export interface IMessage {
     sender: string,
     message: string,
 }
+
+export interface IChatProps {
+    wsUrl: string;
+}

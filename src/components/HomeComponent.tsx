@@ -1,16 +1,18 @@
-import { Center, Heading } from "@chakra-ui/react";
-import { useAppSelector } from "../store/hooks.ts";
+import {Center, Heading} from "@chakra-ui/react";
+import {useAppSelector} from "../store/hooks.ts";
+import ChatComponent from "./ChatComponent.tsx";
 import React, {useEffect} from "react";
-import Chat from "./Chat.tsx";
 
 /**
- * @name HomeView
- * @description View: HomeView page
+ * @name MainChatComponent
+ * @description component: MainChatComponent
  */
-const HomeView: React.FC = () => {
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn),
-        chat = useAppSelector(state => state.user.chat),
+const MainChatComponent: React.FC = () => {
+    const isLoggedIn = useAppSelector(state => state.user.isLoggedIn),
         username = useAppSelector(state => state.user.username);
+
+    const wsUrl = 'ws://';
+    const chat = false;
 
     useEffect(() => {
     }, [isLoggedIn]);
@@ -24,7 +26,7 @@ const HomeView: React.FC = () => {
                             {isLoggedIn ? `Welcome, ${username}!` : ''}
                         </Heading>
                     ) : (
-                        <Chat/>
+                        <ChatComponent wsUrl={wsUrl}/>
                     )) : (
                     <></>
                 )}
@@ -33,4 +35,4 @@ const HomeView: React.FC = () => {
     );
 };
 
-export default HomeView;
+export default MainChatComponent;

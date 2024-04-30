@@ -1,35 +1,37 @@
-import { createIChat } from "../../utils/helpers/chat.helpers.ts";
-import { IChat } from "../../interfaces/chat.interface.ts";
-import { IUser } from "../../interfaces/user.interface.ts";
-import { createSlice } from "@reduxjs/toolkit";
+import {IUser} from "../../interfaces/user.interface.ts";
+import {createSlice} from "@reduxjs/toolkit";
 
-const initialState: IUser= {
+const initialState: IUser = {
     username: '',
     avatar: '',
-    chats: [],
-    chat: {} as IChat,
+    isLoggedIn: false,
 }
 
-const authSlice = createSlice({
-    name: 'auth',
+/**
+ * Slice for user data
+ * @type
+ * @name userSlice
+ */
+const userSlice = createSlice({
+    name: 'user',
     initialState,
     reducers: {
-        setChat: (state, action) => {
-            state.chat = createIChat(action.payload);
-        },
         setUsername: (state, action) => {
             state.username = action.payload;
         },
         setAvatar: (state, action) => {
             state.avatar = action.payload;
         },
-        setChats: (state, action) => {
-            state.chats = [...state.chats, createIChat(action.payload)];
+        login: (state) => {
+            state.isLoggedIn = true;
+        },
+        logout: (state) => {
+            state.isLoggedIn = false;
         },
         clearUser: () => initialState,
     },
 })
 
-export const {setChat, setUsername, setAvatar, setChats, clearUser } = authSlice.actions;
+export const {setUsername, setAvatar, clearUser, login, logout} = userSlice.actions;
 
-export default authSlice.reducer;
+export default userSlice.reducer;

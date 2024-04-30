@@ -11,25 +11,18 @@ import {
     Input,
     Modal
 } from "@chakra-ui/react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
-import { setChat, setChats } from "../../store/slices/user.slice.ts";
-import { closeChat } from "../../store/slices/modal.slice.ts";
-import { useState } from "react";
+import {useState} from "react";
 
-function AddChatModal() {
+function AddChatModalComponent() {
     const [chat, setChatState] = useState<string>('');
 
-    const isOpen = useAppSelector(state => state.modal.chat),
-        dispatch = useAppDispatch();
-
     function onCloseModal() {
-        dispatch(setChats(chat));
-        dispatch(closeChat());
+        console.log('close')
     }
 
     return (
         <Modal
-            isOpen={isOpen}
+            isOpen={false}
             onClose={onCloseModal}
         >
             <ModalOverlay/>
@@ -38,10 +31,10 @@ function AddChatModal() {
                 <ModalCloseButton/>
                 <ModalBody pb={6}>
                     <FormControl mt={4}>
-                        <FormLabel>Chat</FormLabel>
+                        <FormLabel>ChatComponent</FormLabel>
                         <Input
                             onChange={(e) => setChatState(e.target.value)}
-                            placeholder='Chat'
+                            placeholder='ChatComponent'
                             value={chat}
                         />
                     </FormControl>
@@ -56,4 +49,4 @@ function AddChatModal() {
     )
 }
 
-export default AddChatModal;
+export default AddChatModalComponent;

@@ -11,29 +11,23 @@ import {
     Input,
     Modal
 } from "@chakra-ui/react";
-import { setChat, setChats, setUsername } from "../../store/slices/user.slice.ts";
-import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
-import { closeUsername } from "../../store/slices/modal.slice.ts";
-import { login } from "../../store/slices/auth.slice.ts";
-import { useState } from "react";
+import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
+import {setUsername} from "../../store/slices/user.slice.ts";
+import {useState} from "react";
 
 function UsernameModal() {
     const [chat, setChatState] = useState<string>('');
 
-    const isOpen = useAppSelector(state => state.modal.username),
-        username = useAppSelector(state => state.user.username),
+    const username = useAppSelector(state => state.user.username),
         dispatch = useAppDispatch();
 
     function onCloseModal() {
-        dispatch(setChat(chat));
-        dispatch(setChats(chat));
-        dispatch(login());
-        dispatch(closeUsername());
+        console.log('close')
     }
 
     return (
         <Modal
-            isOpen={isOpen}
+            isOpen={false}
             onClose={onCloseModal}
         >
             <ModalOverlay/>
@@ -51,10 +45,10 @@ function UsernameModal() {
                     </FormControl>
 
                     <FormControl mt={4}>
-                        <FormLabel>Chat</FormLabel>
+                        <FormLabel>ChatComponent</FormLabel>
                         <Input
                             onChange={(e) => setChatState(e.target.value)}
-                            placeholder='Chat'
+                            placeholder='ChatComponent'
                             value={chat}
                         />
                     </FormControl>
