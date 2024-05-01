@@ -1,4 +1,4 @@
-import {deleteTokens, setCoockiesAccessToken, setCoockiesTokens} from "../../utils/token.service.ts";
+import {deleteTokens, setCoockiesAccessToken, setCoockiesTokens} from "../../services/token.service.ts";
 import {environment} from "../../environments/environment.ts";
 import {IToken} from "../../interfaces/token.interface.ts";
 import {createSlice} from "@reduxjs/toolkit";
@@ -44,9 +44,13 @@ const tokenSlice = createSlice({
             state.refreshToken = undefined;
             deleteTokens();
         },
+        saveToken: (state) => {
+            state.save = !state.save;
+            localStorage.setItem(environment.saveToken, state.save.toString());
+        }
     },
 })
 
-export const {setAccessToken, deleteAccessToken, setTokens, clearToken} = tokenSlice.actions;
+export const {setAccessToken, deleteAccessToken, setTokens, clearToken, saveToken} = tokenSlice.actions;
 
 export default tokenSlice.reducer;

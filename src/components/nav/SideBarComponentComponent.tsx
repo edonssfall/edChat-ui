@@ -16,7 +16,7 @@ import {faArrowRightToBracket, faBars} from "@fortawesome/free-solid-svg-icons";
 import {clearUser, logout} from "../../store/slices/user.slice.ts";
 import AddChatModalComponent from "./AddChatModalComponent.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import UsernameModal from "../auth/UsernameModalComponent.tsx";
+import {IChat} from "../../interfaces/chat.interface.ts";
 import ChatBoxComponent from "./ChatBoxComponent.tsx";
 import {ReactNode, useEffect, useState} from "react";
 import {useAppSelector} from "../../store/hooks.ts";
@@ -66,7 +66,7 @@ const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
     const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
     const dispatch = useDispatch();
 
-    const chats = [
+    const chats: IChat[] = [
             {
                 name: 'Chat 1',
                 message: 'message1',
@@ -81,11 +81,11 @@ const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
         [selectedChat, setSelectedChat] = useState(chats[0]);
 
     useEffect(() => {
-    }, [isLoggedIn]);
+        console.log(selectedChat);
+    }, [selectedChat]);
 
     return (
         <>
-            <UsernameModal/>
             <AddChatModalComponent/>
             <Box
                 bg={useColorModeValue('gray.100', 'gray.900')}
