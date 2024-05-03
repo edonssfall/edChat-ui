@@ -16,6 +16,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import {toast} from "react-toastify";
 import axios from "axios";
 import {IRegister} from "../../interfaces/user.interface.ts";
+import PasswordIconButton from "./password/PasswordIcon.tsx";
 
 /**
  * Interface for validation function
@@ -375,11 +376,8 @@ function SignupComponent(): React.JSX.Element {
                         value={password}
                         onChange={((event) => handleInputChange(event, setPassword, setPasswordTouched))}
                     />
-                    <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? 'Hide' : 'Show'}
-                        </Button>
-                    </InputRightElement>
+                    <PasswordIconButton showPassword={showPassword}
+                                        setShowPassword={() => setShowPassword(!showPassword)}/>
                 </InputGroup>
                 {!passwordValid && passwordTouched &&
                     <Text color={'red'}>{passwordError}</Text>
@@ -412,11 +410,8 @@ function SignupComponent(): React.JSX.Element {
                         value={password2}
                         onChange={((event) => handleInputChange(event, setPassword2, setPassword2Touched))}
                     />
-                    <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={() => setShowPassword2(!showPassword2)}>
-                            {showPassword2 ? 'Hide' : 'Show'}
-                        </Button>
-                    </InputRightElement>
+                    <PasswordIconButton showPassword={showPassword2}
+                                        setShowPassword={() => setShowPassword2(!showPassword2)}/>
                 </InputGroup>
                 {!password2Valid && password2Touched &&
                     <Text color={'red'}>{password2Error}</Text>
