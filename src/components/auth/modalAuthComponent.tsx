@@ -1,4 +1,3 @@
-import {IModal} from "../../interfaces/modal.interface.ts";
 import {
     ModalContent,
     ModalOverlay,
@@ -11,11 +10,12 @@ import {
     Tabs,
     Tab,
 } from "@chakra-ui/react";
-import React from "react";
-import LoginComponent from "./LoginModalComponent.tsx";
+import {IModalAuth} from "../../interfaces/modal.interface.ts";
 import SignupComponent from "./SignupModalComponent.tsx";
+import LoginComponent from "./LoginModalComponent.tsx";
+import React from "react";
 
-function AuthModal({modal, setModal}: IModal) {
+function AuthModal({modal, setModal, setModalPassword}: IModalAuth) {
     const closeModal = (): void => {
         setModal(false);
     }
@@ -43,7 +43,7 @@ function AuthModal({modal, setModal}: IModal) {
                     <ModalBody>
                         <TabPanels>
                             <TabPanel>
-                                <LoginComponent/>
+                                <LoginComponent setModalAuth={setModal} setModalPassword={setModalPassword}/>
                             </TabPanel>
                             <TabPanel>
                                 <SignupComponent/>

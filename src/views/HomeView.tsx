@@ -21,11 +21,11 @@ const HomeView: React.FC = () => {
 
     return (
         <>
-            <UsernameModal />
-            <ModalForgetPasswordComponent modal={modalForgetPassword} setModal={setModalForgetPassword} />
-            <ModalAuthComponent modal={modalAuth} setModal={setModalAuth} />
+            <UsernameModal/>
+            <ModalForgetPasswordComponent modal={modalForgetPassword} setModal={setModalForgetPassword} setModalAuth={setModalAuth}/>
+            <ModalAuthComponent modal={modalAuth} setModal={setModalAuth} setModalPassword={setModalForgetPassword}/>
             <SideBar>
-                <MainChatComponent />
+                <MainChatComponent/>
             </SideBar>
         </>
     );

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {IResetPassword, ISetPassword} from "../../interfaces/user.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {IModal} from "../../interfaces/modal.interface.ts";
+import {IModalPassword} from "../../interfaces/modal.interface.ts";
 import PasswordIconButton from "./password/PasswordIcon.tsx";
 import {axiosService} from "../../services/axios.service.ts";
 import {setTokens} from "../../store/slices/token.slice.ts";
@@ -26,7 +26,7 @@ import axios from "axios";
  * @name ModalResetPasswordComponent
  * @description This component is used to log in the user.
  */
-function ModalResetPasswordComponent({modal, setModal}: IModal) {
+function ModalResetPasswordComponent({modal, setModal, setModalAuth}: IModalPassword) {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [password, setPassword] = useState<string>(''),
         [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false),
@@ -43,6 +43,7 @@ function ModalResetPasswordComponent({modal, setModal}: IModal) {
 
     function closeModal(): void {
         setModal(false);
+        setModalAuth(true);
     }
 
     function handleKeyDown(e: React.KeyboardEvent): void {

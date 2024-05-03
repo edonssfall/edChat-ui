@@ -1,6 +1,7 @@
 import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from "@chakra-ui/react";
 import {saveToken, setTokens} from "../../store/slices/token.slice.ts";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
+import {IModalLogin} from "../../interfaces/modal.interface.ts";
 import {environment} from "../../services/environment.ts";
 import {ILogin} from "../../interfaces/user.interface.ts";
 import {setUser} from "../../services/user.service.ts";
@@ -11,7 +12,7 @@ import axios from "axios";
  * @name LoginComponent
  * @description This component is used to log in the user.
  */
-function LoginComponent() {
+function LoginComponent({setModalAuth, setModalPassword}: IModalLogin) {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -47,11 +48,11 @@ function LoginComponent() {
 
     return (
         <Box>
-            <FormControl id='email_login' isInvalid={loginFailed}>
+            <FormControl isInvalid={loginFailed}>
                 <FormLabel>E-Mail</FormLabel>
                 <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
             </FormControl>
-            <FormControl id='password_login' isInvalid={loginFailed}>
+            <FormControl isInvalid={loginFailed}>
                 <FormLabel>Passwort</FormLabel>
                 <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
             </FormControl>
@@ -67,7 +68,12 @@ function LoginComponent() {
                     direction={{base: 'column', sm: 'row'}}
                     align={'start'}
                     justify={'space-between'}>
-                    <Link color={'blue.400'}>Passwort forget?</Link>
+                    <Link color={'blue.400'}
+                          onClick={() => {
+                              setModalAuth(false);
+                              setModalPassword(true);
+                          }}
+                    >Passwort forget?</Link>
                 </Stack>
                 <Stack spacing={5}>
                     {loginFailed &&
@@ -87,6 +93,6 @@ function LoginComponent() {
             </Stack>
         </Box>
     );
-};
+}
 
 export default LoginComponent;
