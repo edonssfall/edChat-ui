@@ -1,10 +1,13 @@
-import {IUser} from "../../interfaces/user.interface.ts";
+import {IUserChat} from "../../interfaces/user.interface.ts";
+import {environment} from "../../services/environment.ts";
 import {createSlice} from "@reduxjs/toolkit";
 
-const initialState: IUser = {
+/**
+ * @name initialState
+ */
+const initialState: IUserChat = {
     username: '',
-    avatar: '',
-    isLoggedIn: true,
+    user: JSON.parse(localStorage.getItem(environment.user) || '{}'),
 }
 
 /**
@@ -19,19 +22,10 @@ const userSlice = createSlice({
         setUsername: (state, action) => {
             state.username = action.payload;
         },
-        setAvatar: (state, action) => {
-            state.avatar = action.payload;
-        },
-        login: (state) => {
-            state.isLoggedIn = true;
-        },
-        logout: (state) => {
-            state.isLoggedIn = false;
-        },
         clearUser: () => initialState,
     },
 })
 
-export const {setUsername, setAvatar, clearUser, login, logout} = userSlice.actions;
+export const {setUsername, clearUser} = userSlice.actions;
 
 export default userSlice.reducer;

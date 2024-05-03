@@ -3,23 +3,77 @@
  * @description Interface for user object
  */
 export interface IUser {
-    username: string;
+    id: number;
+    first_name: string;
+    last_name: string;
     avatar: string;
-    isLoggedIn: boolean;
+    email: string;
+    groups: string[];
 }
 
 /**
- * @name IUserSlice
- * @description Interface for user slice
+ * @name IUserChat
+ * @description Interface for user object
  */
-export interface IUserSlice {
-    name: string;
-    initialState: IUser;
-    reducers: {
-        setUsername: (state: IUser, action: {payload: string}) => void;
-        setAvatar: (state: IUser, action: {payload: string}) => void;
-        login: (state: IUser) => void;
-        logout: (state: IUser) => void;
-        clearUser: () => IUser;
-    };
+export interface IUserChat {
+    username: string;
+    user?: IUser;
+}
+
+/**
+ * @name ILogin
+ * @description Interface for login object
+ */
+export interface ILogin {
+    email: string;
+    password: string;
+}
+
+export interface IRegister {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    repeat_password: string;
+}
+
+/**
+ * @name ILoginResponse
+ * @description Interface for login object
+ */
+export interface ILoginResponse {
+    accessToken: string;
+    refreshToken: string;
+    user: IUser;
+}
+
+/**
+ * @name ISetPassword
+ * @description Interface for login object
+ */
+export interface ISetPassword {
+    password: string;
+    new_password: string;
+    repeat_new_password: string;
+}
+
+
+/**
+ * @name IResetPassword
+ * @description Interface for login object
+ */
+export interface IResetPassword {
+    password: string;
+    confirm_password: string;
+    uidb64: string;
+    token: string;
+}
+
+/**
+ * @name IPasswordIconProps
+ * @description Interface for password icon props
+ */
+export interface IPasswordIconProps {
+    showPassword: boolean;
+    setShowPassword: () => void;
 }

@@ -1,22 +1,21 @@
 import {
-    useColorModeValue,
     InputRightElement,
     FormControl,
     InputGroup,
     FormLabel,
-    Heading,
     Button,
     Input,
     Stack,
     Text,
     Box, Checkbox,
 } from "@chakra-ui/react";
-import {environment} from "../../environments/environment.ts";
+import {environment} from "../../services/environment.ts";
+import React, {useEffect, useRef, useState} from "react";
 import PasswordChecklist from "react-password-checklist"
-import {useEffect, useRef, useState} from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import {toast} from "react-toastify";
 import axios from "axios";
+import {IRegister} from "../../interfaces/user.interface.ts";
 
 /**
  * Interface for validation function
@@ -30,8 +29,8 @@ interface ValidationRule {
  * @name SignupComponent
  * @description Component for signing up a new user.
  */
-export default function SignupComponent(): JSX.Element {
-    const captchaRef = useRef<ReCAPTCHA | null>(null)
+function SignupComponent(): React.JSX.Element {
+    const captchaRef = useRef<ReCAPTCHA | null>(null);
 
     // Variables with state for form
     const [username, setUsername] = useState<string>(''),
@@ -178,7 +177,7 @@ export default function SignupComponent(): JSX.Element {
             {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihr Passwort ohne Leerzeichen ein"},
             {
                 condition: (val) => !/[#?!@$%^&*-/(/)_}{|":;'\\.><=\[\]]/.test(val),
-                errorMsg: "Geben Sie mindestens 1 Sondernzeichen ein"
+                errorMsg: "Geben Sie mindestens 1 Sondern zeichen ein"
             },
             {condition: (val) => !/[0-9]/.test(val), errorMsg: "Geben Sie mindestens 1 Zahl ein."},
             {condition: (val) => !/[a-zA-Z]/.test(val), errorMsg: "Geben Sie mindestens 1 Buchstaben ein."},
@@ -187,7 +186,7 @@ export default function SignupComponent(): JSX.Element {
         // password2 field validation control
         validateField(password2, setPassword2Error, setPassword2Valid, [
             {condition: (val) => val !== password, errorMsg: "Geben Sie Ihr gleiches Passwort ein."},
-            {condition: (_) => password === '', errorMsg: "Geben Sie Ihr Passwort ein."},
+            {condition: () => password === '', errorMsg: "Geben Sie Ihr Passwort ein."},
         ]);
         // captcha validate control
         validateCaptcha();
@@ -247,13 +246,12 @@ export default function SignupComponent(): JSX.Element {
         if (allValid()) {
             setIsLoading(true);
             // JSON for request.
-            const data = {
-                username: username,
-                firstname: firstname,
-                lastname: lastname,
+            const data: IRegister = {
+                first_name: firstname,
+                last_name: lastname,
                 email: email,
                 password: password,
-                accepted_terms_and_conditions: checkbox,
+                repeat_password: password2,
             }
             // Send request to signup link to backend.
             axios.post(environment.BACKEND_URL_AUTH + environment.api.register, data)
@@ -293,7 +291,6 @@ export default function SignupComponent(): JSX.Element {
     }
 
     return (
-
         <Box>
             <FormControl
                 isRequired
@@ -379,7 +376,7 @@ export default function SignupComponent(): JSX.Element {
                         onChange={((event) => handleInputChange(event, setPassword, setPasswordTouched))}
                     />
                     <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={(_) => setShowPassword(!showPassword)}>
+                        <Button h='1.75rem' size='sm' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? 'Hide' : 'Show'}
                         </Button>
                     </InputRightElement>
@@ -397,7 +394,7 @@ export default function SignupComponent(): JSX.Element {
                     minLength: "Mindestens 8 Zeichen",
                     letter: "Mindestens 1 Buchstabe",
                     number: "Mindestens 1 Zahl",
-                    specialChar: "Mindestens 1 Sondernzeichen",
+                    specialChar: "Mindestens 1 Sondern zeichen",
                 }}
             />
             <FormControl
@@ -416,7 +413,7 @@ export default function SignupComponent(): JSX.Element {
                         onChange={((event) => handleInputChange(event, setPassword2, setPassword2Touched))}
                     />
                     <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={(_) => setShowPassword2(!showPassword2)}>
+                        <Button h='1.75rem' size='sm' onClick={() => setShowPassword2(!showPassword2)}>
                             {showPassword2 ? 'Hide' : 'Show'}
                         </Button>
                     </InputRightElement>
@@ -427,9 +424,9 @@ export default function SignupComponent(): JSX.Element {
             </FormControl>
             <Checkbox
                 isChecked={checkbox}
-                onChange={(_) => setCheckbox(!checkbox)}
+                onChange={() => setCheckbox(!checkbox)}
             >
-                Ich akzeptiere die Daneschutz- und<br/>Geshaftsbedingungen.
+                Ich akzeptiere die Datenschutz- und<br/>Geschäftsbedingungen.
             </Checkbox>
             {!checkbox && !!checkboxError &&
                 <Text color={'red'}>{checkboxError}</Text>
@@ -437,7 +434,7 @@ export default function SignupComponent(): JSX.Element {
             <ReCAPTCHA
                 className={"reCaptcha"}
                 ref={captchaRef}
-                sietekey={process.env.ReCAPTCHA_KEY}
+                sitekey={import.meta.env.VITE_ReCAPTCHA_KEY}
                 onChange={validateCaptcha}
             />
             {!captchaValid && captchaTouched && (
@@ -458,3 +455,5 @@ export default function SignupComponent(): JSX.Element {
         </Box>
     );
 }
+
+export default SignupComponent;

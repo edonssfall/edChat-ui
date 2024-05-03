@@ -1,3 +1,4 @@
+import ModalForgetPasswordComponent from "../components/auth/modalForgetPasswordComponent.tsx";
 import ModalAuthComponent from "../components/auth/modalAuthComponent.tsx";
 import UsernameModal from "../components/auth/UsernameModalComponent.tsx";
 import SideBar from "../components/nav/SideBarComponentComponent.tsx";
@@ -10,16 +11,19 @@ import React, {useEffect, useState} from "react";
  * @description View: HomeView page
  */
 const HomeView: React.FC = () => {
-    const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
-    const [modal, setModal] = useState<boolean>(true);
+    const user = useAppSelector(state => state.user),
+        [modalAuth, setModalAuth] = useState<boolean>(true),
+        [modalForgetPassword, setModalForgetPassword] = useState<boolean>(false);
 
     useEffect(() => {
-    }, [isLoggedIn]);
+        setModalAuth(!!user.username);
+    }, [user, modalAuth]);
 
     return (
         <>
             <UsernameModal />
-            <ModalAuthComponent modal={modal} setModal={setModal} />
+            <ModalForgetPasswordComponent modal={modalForgetPassword} setModal={setModalForgetPassword} />
+            <ModalAuthComponent modal={modalAuth} setModal={setModalAuth} />
             <SideBar>
                 <MainChatComponent />
             </SideBar>

@@ -1,6 +1,6 @@
 import {deleteTokens, setCoockiesAccessToken, setCoockiesTokens} from "../../services/token.service.ts";
-import {environment} from "../../environments/environment.ts";
 import {IToken} from "../../interfaces/token.interface.ts";
+import {environment} from "../../services/environment.ts";
 import {createSlice} from "@reduxjs/toolkit";
 import Cookie from "universal-cookie";
 
@@ -8,6 +8,10 @@ const refresh_token = environment.refresh_token;
 const access_token = environment.access_token;
 const coockies = new Cookie();
 
+/**
+ * @name initialState
+ * @description This constant is used to define the initial state of the token.
+ */
 const initialState: IToken = {
     accessToken: coockies.get(access_token)
         ? 'Bearer ' + coockies.get(access_token)
@@ -18,6 +22,10 @@ const initialState: IToken = {
     save: localStorage.getItem(environment.saveToken) === 'true',
 }
 
+/**
+ * @name tokenSlice
+ * @description This slice is used to manage the token.
+ */
 const tokenSlice = createSlice({
     name: 'token',
     initialState,
@@ -49,7 +57,7 @@ const tokenSlice = createSlice({
             localStorage.setItem(environment.saveToken, state.save.toString());
         }
     },
-})
+});
 
 export const {setAccessToken, deleteAccessToken, setTokens, clearToken, saveToken} = tokenSlice.actions;
 

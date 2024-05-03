@@ -1,8 +1,8 @@
 import {deleteAccessToken, clearToken} from "../store/slices/token.slice.ts";
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
-import {environment} from "../environments/environment.ts";
 import {logout} from "../store/slices/user.slice.ts";
 import {createSelector} from "@reduxjs/toolkit";
+import {environment} from "./environment.ts";
 import {RootState} from "../store/store.ts";
 import Cookie from "universal-cookie";
 

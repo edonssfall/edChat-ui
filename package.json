@@ -11,9 +11,11 @@
     "test": "vitest",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "generate-pwa-assets": "pwa-asset-generator public/logo.jpg"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
@@ -23,6 +25,8 @@
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.6.7",
     "framer-motion": "^11.0.14",
+    "immer": "^10.1.1",
+    "pwa-asset-generator": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
@@ -39,6 +43,7 @@
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
+    "@types/react-google-recaptcha": "^2.1.9",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",

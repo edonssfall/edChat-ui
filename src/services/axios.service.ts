@@ -1,6 +1,6 @@
 import {clearToken, setAccessToken} from "../store/slices/token.slice.ts";
 import axios, {AxiosInstance, InternalAxiosRequestConfig} from "axios";
-import {environment} from "../environments/environment";
+import {environment} from "./environment.ts";
 import {useAppDispatch} from "../store/hooks.ts";
 import {useTokens} from "./token.service.ts";
 

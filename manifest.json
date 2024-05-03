@@ -1,0 +1,50 @@
+{
+  "name": "edChat",
+  "short_name": "edChat",
+  "theme_color": "#000",
+  "background_color": "#fff",
+  "display": "fullScreen",
+  "orientation": "landscape",
+  "scope": "/chats",
+  "start_url": "/chats",
+  "shortcuts": [
+    {
+      "name": "Start Live Session",
+      "short_name": "Start Live",
+      "description": "Jump direction into starting or joining a live session",
+      "url": "/chats",
+      "icons": [
+        {
+          "src": "logo/pwa/pwa-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "logo/pwa/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo/pwa/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "logo/pwa/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo/pwa/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

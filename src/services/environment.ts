@@ -1,11 +1,12 @@
 const api = {
-    isLoggedIn: '/profile/is-logged',
-    isRoot: '/profile/is-is-root',
-    refresh_token: 'token/refresh',
-    register: '/register',
+    password_reset: '/password-reset',
+    refresh_token: '/token/refresh',
+    password_set: '/password-set',
+    register: '/signup',
     otp: '/verify-otp',
     logout: '/logout',
     login: '/login',
+    user: '/user',
 };
 
 export const environment = {
@@ -15,6 +16,7 @@ export const environment = {
     refresh_token: 'refresh',
     saveToken: 'saveToken',
     access_token: 'access',
+    chat_user: 'chat_user',
     accessTokenLive: 15,
     refreshTokenLive: 2,
     title: 'edSockets',

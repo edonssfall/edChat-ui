@@ -1,4 +1,4 @@
-import {IModalAuth} from "../../interfaces/modal.interface.ts";
+import {IModal} from "../../interfaces/modal.interface.ts";
 import {
     ModalContent,
     ModalOverlay,
@@ -15,7 +15,7 @@ import React from "react";
 import LoginComponent from "./LoginModalComponent.tsx";
 import SignupComponent from "./SignupModalComponent.tsx";
 
-function AuthModal({modal, setModal}: IModalAuth) {
+function AuthModal({modal, setModal}: IModal) {
     const closeModal = (): void => {
         setModal(false);
     }
@@ -43,10 +43,10 @@ function AuthModal({modal, setModal}: IModalAuth) {
                     <ModalBody>
                         <TabPanels>
                             <TabPanel>
-                                <LoginComponent />
+                                <LoginComponent/>
                             </TabPanel>
                             <TabPanel>
-                                <SignupComponent />
+                                <SignupComponent/>
                             </TabPanel>
                         </TabPanels>
                     </ModalBody>

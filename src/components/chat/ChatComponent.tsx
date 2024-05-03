@@ -44,15 +44,10 @@ function ChatComponent({wsUrl}: IChatProps) {
     }, [lastJsonMessage]);
 
     function onWriteMessage(e: React.ChangeEvent<HTMLInputElement>) {
-        let timer: NodeJS.Timeout | null = null;
         setMessage(e.target.value);
         sendJsonMessage({type: 'chat.status', status: 'typing...', sender: username})
-        if (timer) {
-            clearTimeout(timer);
-            timer = null;
-        }
 
-        timer = setTimeout(() => {
+        setTimeout(() => {
             sendJsonMessage({type: 'chat.status', status: 'online', sender: username});
         }, 2000);
     }

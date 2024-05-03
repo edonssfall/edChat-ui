@@ -1,7 +1,8 @@
 import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from "@chakra-ui/react";
 import {saveToken, setTokens} from "../../store/slices/token.slice.ts";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {environment} from "../../environments/environment.ts";
+import {environment} from "../../services/environment.ts";
+import {ILogin} from "../../interfaces/user.interface.ts";
 import {setUser} from "../../services/user.service.ts";
 import {useState} from "react";
 import axios from "axios";
@@ -10,13 +11,13 @@ import axios from "axios";
  * @name LoginComponent
  * @description This component is used to log in the user.
  */
-const LoginComponent = () => {
+function LoginComponent() {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
         [loginFailed, setLoginFailed] = useState<boolean>(false),
         dispatch = useAppDispatch(),
-        {save} = useAppSelector(state => state.token.save);
+        {save} = useAppSelector(state => state.token);
 
     /**
      * @name login
@@ -24,7 +25,7 @@ const LoginComponent = () => {
      */
     const login = () => {
         setIsLoading(true);
-        const data = {
+        const data: ILogin = {
             email: email,
             password: password
         };
@@ -46,18 +47,18 @@ const LoginComponent = () => {
 
     return (
         <Box>
-            <FormControl id='email' isInvalid={loginFailed}>
+            <FormControl id='email_login' isInvalid={loginFailed}>
                 <FormLabel>E-Mail</FormLabel>
                 <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
             </FormControl>
-            <FormControl id='password' isInvalid={loginFailed}>
+            <FormControl id='password_login' isInvalid={loginFailed}>
                 <FormLabel>Passwort</FormLabel>
                 <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
             </FormControl>
             <Checkbox
                 mt={2}
                 isChecked={save}
-                onChange={(_) => dispatch(saveToken())}
+                onChange={() => dispatch(saveToken())}
             >
                 Save login
             </Checkbox>
