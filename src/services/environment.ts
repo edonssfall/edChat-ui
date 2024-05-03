@@ -10,9 +10,9 @@ const api = {
 };
 
 export const environment = {
-    BACKEND_WS_CHAT: 'ws://localhost:8000/ws/chat/',
-    BACKEND_URL_AUTH: 'http://localhost/api/auth',
-    BACKEND_URL: 'http://localhost',
+    BACKEND_WS_CHAT: import.meta.env.VITE_BACKEND_WS_CHAT,
+    BACKEND_URL_AUTH: import.meta.env.VITE_BACKEND_URL_AUTH,
+    BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
     refresh_token: 'refresh',
     saveToken: 'saveToken',
     access_token: 'access',

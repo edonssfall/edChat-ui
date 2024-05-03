@@ -10,14 +10,14 @@ import {
     Tabs,
     Tab,
 } from "@chakra-ui/react";
-import {IModalAuth} from "../../interfaces/modal.interface.ts";
+import {IModal} from "../../interfaces/modal.interface.ts";
 import SignupComponent from "./SignupModalComponent.tsx";
 import LoginComponent from "./LoginModalComponent.tsx";
 import React from "react";
 
-function AuthModal({modal, setModal, setModalPassword}: IModalAuth) {
+function AuthModal({modalType, setModalType}: IModal) {
     const closeModal = (): void => {
-        setModal(false);
+        setModalType(null);
     }
 
     const handleKeyDown = (e: React.KeyboardEvent): void => {
@@ -28,7 +28,7 @@ function AuthModal({modal, setModal, setModalPassword}: IModalAuth) {
 
     return (
         <Modal
-            isOpen={modal}
+            isOpen={modalType === 'auth'}
             onClose={closeModal}
         >
             <ModalOverlay/>
@@ -43,7 +43,7 @@ function AuthModal({modal, setModal, setModalPassword}: IModalAuth) {
                     <ModalBody>
                         <TabPanels>
                             <TabPanel>
-                                <LoginComponent setModalAuth={setModal} setModalPassword={setModalPassword}/>
+                                <LoginComponent setModalType={setModalType}/>
                             </TabPanel>
                             <TabPanel>
                                 <SignupComponent/>

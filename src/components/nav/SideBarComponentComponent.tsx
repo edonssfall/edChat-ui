@@ -13,9 +13,9 @@ import {
 } from "@chakra-ui/react";
 import {IMobileProps, ISidebarContentProps} from "../../interfaces/sidebar.interface.ts";
 import {faArrowRightToBracket, faBars} from "@fortawesome/free-solid-svg-icons";
-import {clearUser, logout} from "../../store/slices/user.slice.ts";
 import AddChatModalComponent from "./AddChatModalComponent.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {clearUser} from "../../store/slices/user.slice.ts";
 import {IChat} from "../../interfaces/chat.interface.ts";
 import ChatBoxComponent from "./ChatBoxComponent.tsx";
 import {ReactNode, useEffect, useState} from "react";
@@ -63,7 +63,7 @@ export default function SimpleSidebar({children}: { children: ReactNode }) {
  * @param rest
  */
 const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
-    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+    const user = useAppSelector((state) => state.user);
     const dispatch = useDispatch();
 
     const chats: IChat[] = [
@@ -101,7 +101,7 @@ const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
                         <CloseButton display={{base: 'flex', md: 'none'}} onClick={onClose}/>
                     </Flex>
 
-                    {isLoggedIn ?
+                    {user.username ?
                         <>
                             <Button onClick={() => console.log('open chat')}>add Chat</Button>
                             {chats.map((chat, index) => (
@@ -117,10 +117,7 @@ const SidebarContent = ({onClose, ...rest}: ISidebarContentProps) => {
 
                             <Flex bgColor={'gray.400'} color={'white'} mb={'2em'} mx={'4'} px={'4'} py={'2'}
                                   align={'center'} _hover={{bg: 'gray.600', color: 'white'}} borderRadius='lg'
-                                  role='group' cursor='pointer' onClick={() => dispatch(
-                                logout(),
-                                clearUser(),
-                            )}>
+                                  role='group' cursor='pointer' onClick={() => dispatch(clearUser())}>
                                 <FontAwesomeIcon icon={faArrowRightToBracket}/>
                                 <Text ml={'4'}>Logout</Text>
                             </Flex>

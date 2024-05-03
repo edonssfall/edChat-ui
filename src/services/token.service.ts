@@ -1,6 +1,6 @@
 import {deleteAccessToken, clearToken} from "../store/slices/token.slice.ts";
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
-import {logout} from "../store/slices/user.slice.ts";
+import {clearUser} from "../store/slices/user.slice.ts";
 import {createSelector} from "@reduxjs/toolkit";
 import {environment} from "./environment.ts";
 import {RootState} from "../store/store.ts";
@@ -30,7 +30,7 @@ export const useTokens = () => {
             case refresh_token:
                 if (event.newValue === null) {
                     dispatch(clearToken());
-                    dispatch(logout());
+                    dispatch(clearUser());
                 }
                 break;
             case access_token:

@@ -5,6 +5,7 @@ import SideBar from "../components/nav/SideBarComponentComponent.tsx";
 import MainChatComponent from "../components/HomeComponent.tsx";
 import {useAppSelector} from "../store/hooks.ts";
 import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 /**
  * @name HomeView
@@ -12,18 +13,30 @@ import React, {useEffect, useState} from "react";
  */
 const HomeView: React.FC = () => {
     const user = useAppSelector(state => state.user),
-        [modalAuth, setModalAuth] = useState<boolean>(true),
-        [modalForgetPassword, setModalForgetPassword] = useState<boolean>(false);
+        {uidb64, token} = useParams(),
+        [modalType, setModalType] = useState<'auth' | 'password' | null>(null);
 
     useEffect(() => {
-        setModalAuth(!!user.username);
-    }, [user, modalAuth]);
+        if (user.username) {
+            setModalType(null);
+        } else {
+            setModalType('auth');
+        }
+    }, [user, modalType]);
+
+    useState(() => {
+        if (uidb64 && token) {
+            setModalType('password');
+        } else if (!user.username) {
+            setModalType('auth');
+        }
+    })
 
     return (
         <>
             <UsernameModal/>
-            <ModalForgetPasswordComponent modal={modalForgetPassword} setModal={setModalForgetPassword} setModalAuth={setModalAuth}/>
-            <ModalAuthComponent modal={modalAuth} setModal={setModalAuth} setModalPassword={setModalForgetPassword}/>
+            <ModalForgetPasswordComponent modalType={modalType} setModalType={setModalType} token={token} uidb64={uidb64}/>
+            <ModalAuthComponent modalType={modalType} setModalType={setModalType}/>
             <SideBar>
                 <MainChatComponent/>
             </SideBar>

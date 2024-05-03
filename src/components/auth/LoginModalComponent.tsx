@@ -12,7 +12,7 @@ import axios from "axios";
  * @name LoginComponent
  * @description This component is used to log in the user.
  */
-function LoginComponent({setModalAuth, setModalPassword}: IModalLogin) {
+function LoginComponent({setModalType}: IModalLogin) {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -69,10 +69,7 @@ function LoginComponent({setModalAuth, setModalPassword}: IModalLogin) {
                     align={'start'}
                     justify={'space-between'}>
                     <Link color={'blue.400'}
-                          onClick={() => {
-                              setModalAuth(false);
-                              setModalPassword(true);
-                          }}
+                          onClick={() => setModalType('password')}
                     >Passwort forget?</Link>
                 </Stack>
                 <Stack spacing={5}>
