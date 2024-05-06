@@ -1,9 +1,9 @@
-import {Button, Flex, FormControl, Heading, Input, Spacer} from "@chakra-ui/react";
-import {IChatProps} from "../../interfaces/chat.interface.ts";
-import React, {useEffect, useRef, useState} from "react";
-import MessageComponent from "./MessageComponent.tsx";
-import {useAppSelector} from "../../store/hooks.ts";
-import useWebSocket from "react-use-websocket";
+import {Button, Flex, FormControl, Heading, Input, Spacer} from '@chakra-ui/react';
+import {IChatProps} from '../../interfaces/chat.interface.ts';
+import React, {useEffect, useRef, useState} from 'react';
+import MessageComponent from './MessageComponent.tsx';
+import {useAppSelector} from '../../store/hooks.ts';
+import useWebSocket from 'react-use-websocket';
 
 function ChatComponent({wsUrl}: IChatProps) {
     const username = useAppSelector(state => state.user.username);

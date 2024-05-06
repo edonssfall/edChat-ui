@@ -9,11 +9,11 @@ import {
     Modal,
     Tabs,
     Tab,
-} from "@chakra-ui/react";
-import {IModal} from "../../interfaces/modal.interface.ts";
-import SignupComponent from "./SignupModalComponent.tsx";
-import LoginComponent from "./LoginModalComponent.tsx";
-import React from "react";
+} from '@chakra-ui/react';
+import {IModal} from '../../interfaces/modal.interface.ts';
+import SignupComponent from './SignupModalComponent.tsx';
+import LoginComponent from './LoginModalComponent.tsx';
+import React from 'react';
 
 function AuthModal({modalType, setModalType}: IModal) {
     const closeModal = (): void => {

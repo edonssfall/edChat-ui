@@ -17,6 +17,7 @@ export const environment = {
     saveToken: 'saveToken',
     access_token: 'access',
     chat_user: 'chat_user',
+    username: 'username',
     accessTokenLive: 15,
     refreshTokenLive: 2,
     title: 'edSockets',

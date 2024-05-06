@@ -17,7 +17,7 @@ export interface IUser {
  */
 export interface IUserChat {
     username: string;
-    user?: IUser;
+    user: IUser;
 }
 
 /**

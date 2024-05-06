@@ -1,10 +1,10 @@
 import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from "@chakra-ui/react";
+import {ILogin, ILoginResponse} from "../../interfaces/user.interface.ts";
 import {saveToken, setTokens} from "../../store/slices/token.slice.ts";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {IModalLogin} from "../../interfaces/modal.interface.ts";
 import {environment} from "../../services/environment.ts";
-import {ILogin} from "../../interfaces/user.interface.ts";
-import {setUser} from "../../services/user.service.ts";
+import {setUser} from "../../store/slices/user.slice.ts";
 import {useState} from "react";
 import axios from "axios";
 
@@ -32,9 +32,10 @@ function LoginComponent({setModalType}: IModalLogin) {
         };
         axios.post(environment.BACKEND_URL_AUTH + environment.api.login, data)
             .then(res => {
+                const data: ILoginResponse = res.data;
                 setLoginFailed(false);
-                dispatch(setTokens({accessToken: res.data.accessToken, refreshToken: res.data.refreshToken}));
-                setUser(res.data.user);
+                dispatch(setTokens({accessToken: data.accessToken, refreshToken: data.refreshToken}));
+                dispatch(setUser(data.user));
                 window.location.reload();
             })
             .catch(err => {
@@ -53,7 +54,7 @@ function LoginComponent({setModalType}: IModalLogin) {
                 <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
             </FormControl>
             <FormControl isInvalid={loginFailed}>
-                <FormLabel>Passwort</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
             </FormControl>
             <Checkbox
@@ -70,7 +71,7 @@ function LoginComponent({setModalType}: IModalLogin) {
                     justify={'space-between'}>
                     <Link color={'blue.400'}
                           onClick={() => setModalType('password')}
-                    >Passwort forget?</Link>
+                    >Password forget?</Link>
                 </Stack>
                 <Stack spacing={5}>
                     {loginFailed &&

@@ -1,5 +1,4 @@
 import {
-    InputRightElement,
     FormControl,
     InputGroup,
     FormLabel,
@@ -8,30 +7,24 @@ import {
     Stack,
     Text,
     Box, Checkbox,
-} from "@chakra-ui/react";
-import {environment} from "../../services/environment.ts";
-import React, {useEffect, useRef, useState} from "react";
-import PasswordChecklist from "react-password-checklist"
-import ReCAPTCHA from "react-google-recaptcha";
-import {toast} from "react-toastify";
-import axios from "axios";
-import {IRegister} from "../../interfaces/user.interface.ts";
-import PasswordIconButton from "./password/PasswordIcon.tsx";
-
-/**
- * Interface for validation function
- */
-interface ValidationRule {
-    condition: (val: string) => boolean;
-    errorMsg: string;
-}
+} from '@chakra-ui/react';
+import {IValidationRule} from '../../interfaces/modal.interface.ts';
+import {IRegister} from '../../interfaces/user.interface.ts';
+import PasswordIconButton from './password/PasswordIcon.tsx';
+import {environment} from '../../services/environment.ts';
+import React, {useEffect, useRef, useState} from 'react';
+import PasswordChecklist from 'react-password-checklist'
+import ReCAPTCHA from 'react-google-recaptcha';
+import {toast} from 'react-toastify';
+import axios from 'axios';
 
 /**
  * @name SignupComponent
  * @description Component for signing up a new user.
  */
 function SignupComponent(): React.JSX.Element {
-    const captchaRef = useRef<ReCAPTCHA | null>(null);
+    const captchaRef = useRef<ReCAPTCHA | null>(null),
+        captchaKey = import.meta.env.VITE_ReCAPTCHA_KEY;
 
     // Variables with state for form
     const [username, setUsername] = useState<string>(''),
@@ -45,11 +38,11 @@ function SignupComponent(): React.JSX.Element {
         [checkbox, setCheckbox] = useState<boolean>(false),
         [isLoading, setIsLoading] = useState<boolean>(false)
 
-    /*
+    /**
     Variables to control that the field has been touched.
     Error to set error message.
     Valid to set validation status.
-     */
+     **/
     const [usernameError, setUsernameError] = useState<string>(''),
         [usernameTouched, setUsernameTouched] = useState<boolean>(false),
         [usernameValid, setUsernameValid] = useState<boolean>(false),
@@ -100,7 +93,7 @@ function SignupComponent(): React.JSX.Element {
         value: string,
         setError: React.Dispatch<React.SetStateAction<string>>,
         setValid: React.Dispatch<React.SetStateAction<boolean>>,
-        validations: ValidationRule[]
+        validations: IValidationRule[]
     ): void {
         let isValid = true;
         setError('');
@@ -130,64 +123,64 @@ function SignupComponent(): React.JSX.Element {
     function validate() {
         // username field validation control
         validateField(username, setUsernameError, setUsernameValid, [
-            {condition: (val) => val.length <= 0, errorMsg: "Geben Sie Ihren Benutzernamen ein."},
+            {condition: (val) => val.length <= 0, errorMsg: 'Enter your user name.'},
             {
                 condition: (val) => val.length > 20,
-                errorMsg: "Geben Sie Ihren Benutzernamen mit einer Länge von weniger als 20 ein."
+                errorMsg: 'Enter your user name with a length of less than 20.'
             },
-            {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihren Benutzernamen ohne Leerzeichen ein."},
+            {condition: (val) => val.includes(' '), errorMsg: 'Enter your user name without spaces.'},
         ]);
         // firstname field validation control
         validateField(firstname, setFirstnameError, setFirstnameValid, [
-            {condition: (val) => val.length <= 0, errorMsg: "Geben Sie Ihren Vornamen ein."},
+            {condition: (val) => val.length <= 0, errorMsg: 'Enter your first name.'},
             {
                 condition: (val) => val.length > 50,
-                errorMsg: "Geben Sie Ihren Vornamen ein, der weniger als 50 Zeichen beinhaltet."
+                errorMsg: 'Enter your first name, which contains less than 50 characters.'
             },
-            {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihren Vornamen ohne Leerzeichen ein."},
+            {condition: (val) => val.includes(' '), errorMsg: 'Enter your first name without spaces.'},
         ]);
         // lastname field validation control
         validateField(lastname, setLastnameError, setLastnameValid, [
-            {condition: (val) => val.length <= 0, errorMsg: "Geben Sie Ihren Nachnamen ein."},
+            {condition: (val) => val.length <= 0, errorMsg: 'Enter your last name.'},
             {
                 condition: (val) => val.length > 50,
-                errorMsg: "Geben Sie Ihren Nachnamen, der weniger als 50 Zeichen beinhaltet."
+                errorMsg: 'Enter your last name, which contains less than 50 characters.'
             },
-            {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihren Nachnamen ohne Leerzeichen ein."},
+            {condition: (val) => val.includes(' '), errorMsg: 'Enter your last name without spaces.'},
         ])
         // email field validation control
         validateField(email, setEmailError, setEmailValid, [
             {
                 condition: (val) => !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val),
-                errorMsg: "Geben Sie Ihre richtige E-Mail-Adresse ein."
+                errorMsg: 'Enter your correct e-mail address.'
             },
             {
                 condition: (val) => val.length > 254,
-                errorMsg: "Geben Sie Ihre E-Mail, die weniger als 254 Zeichen beinhaltet."
+                errorMsg: 'Enter your e-mail, which contains less than 254 characters.'
             },
-            {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihre E-Mail ohne Leerzeichen ein."},
-            {condition: (val) => val.length <= 0, errorMsg: "Geben Sie Ihre E-Mail ein."},
+            {condition: (val) => val.includes(' '), errorMsg: 'Enter your e-mail without spaces.'},
+            {condition: (val) => val.length <= 0, errorMsg: 'Enter your e-mail address.'},
         ]);
         // password field validation control
         validateField(password, setPasswordError, setPasswordValid, [
-            {condition: (val) => val.length < 8, errorMsg: "Geben Sie Ihr Passwort ein, das größer oder gleich 8 ist."},
+            {condition: (val) => val.length < 8, errorMsg: 'Enter your password, which is greater than or equal to 8.'},
             {
                 condition: (val) => val.length > 128,
-                errorMsg: "Geben Sie Ihr Passwort kleiner als 128 Zeichen beinhaltet."
+                errorMsg: 'Enter a password of less than 128 characters.'
             },
-            {condition: (val) => val.includes(' '), errorMsg: "Geben Sie Ihr Passwort ohne Leerzeichen ein"},
+            {condition: (val) => val.includes(' '), errorMsg: 'Enter your password without spaces.'},
             {
-                condition: (val) => !/[#?!@$%^&*-/(/)_}{|":;'\\.><=\[\]]/.test(val),
-                errorMsg: "Geben Sie mindestens 1 Sondern zeichen ein"
+                condition: (val) => !/[#?!@$%^&*-/(/)_}{|':;'\\.><=[\]]/.test(val),
+                errorMsg: 'Enter at least 1 special character.'
             },
-            {condition: (val) => !/[0-9]/.test(val), errorMsg: "Geben Sie mindestens 1 Zahl ein."},
-            {condition: (val) => !/[a-zA-Z]/.test(val), errorMsg: "Geben Sie mindestens 1 Buchstaben ein."},
-            {condition: (val) => val.length <= 0, errorMsg: "Geben Sie Ihr Passwort ein."},
+            {condition: (val) => !/[0-9]/.test(val), errorMsg: 'Enter at least 1 number.'},
+            {condition: (val) => !/[a-zA-Z]/.test(val), errorMsg: 'Enter at least 1 letter.'},
+            {condition: (val) => val.length <= 0, errorMsg: 'Enter your password.'},
         ]);
         // password2 field validation control
         validateField(password2, setPassword2Error, setPassword2Valid, [
-            {condition: (val) => val !== password, errorMsg: "Geben Sie Ihr gleiches Passwort ein."},
-            {condition: () => password === '', errorMsg: "Geben Sie Ihr Passwort ein."},
+            {condition: (val) => val !== password, errorMsg: 'Enter your same password.'},
+            {condition: () => password === '', errorMsg: 'Enter your password.'},
         ]);
         // captcha validate control
         validateCaptcha();
@@ -204,7 +197,7 @@ function SignupComponent(): React.JSX.Element {
             {valid: emailValid, setTouched: setEmailTouched},
             {valid: passwordValid, setTouched: setPasswordTouched},
             {valid: password2Valid, setTouched: setPassword2Touched},
-            {valid: checkbox, setCheckboxError: () => setCheckboxError("Er muss aktiv sein.")},
+            {valid: checkbox, setCheckboxError: () => setCheckboxError('It must be active.')},
             {valid: captchaValid, setTouched: setCaptchaTouched},
         ];
         fields.forEach(field => {
@@ -258,7 +251,7 @@ function SignupComponent(): React.JSX.Element {
             axios.post(environment.BACKEND_URL_AUTH + environment.api.register, data)
                 .then(res => {
                     if (res.status >= 200 && res.status < 300) {
-                        toast.success("Erfolgreich anmelden!!");
+                        toast.success('Register successfully!!!');
                     }
                 })
                 .catch(err => {
@@ -267,10 +260,10 @@ function SignupComponent(): React.JSX.Element {
                         const errorObject = err.response.data;
                         Object.entries(errorObject).forEach(([field, message]: [string, unknown]) => {
                             if (Array.isArray(message) && message.length > 0 && typeof message[0] === 'string') {
-                                if (field === "username") {
+                                if (field === 'username') {
                                     setUsernameValid(false);
                                     setUsernameError(message[0]);
-                                } else if (field === "email") {
+                                } else if (field === 'email') {
                                     setEmailValid(false);
                                     setEmailError(message[0]);
                                 }
@@ -279,10 +272,10 @@ function SignupComponent(): React.JSX.Element {
                         });
                     } else if (err.request) {
                         // Handle network errors or request timeout
-                        toast.error("Netzwerkfehler. Bitte versuchen Sie es erneut.");
+                        toast.error('Network error. Please try again.');
                     } else {
                         // Handle other unexpected errors
-                        toast.error("Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut.");
+                        toast.error('An unexpected error has occurred. Please try again.');
                     }
                 })
                 .finally(() => {
@@ -295,14 +288,14 @@ function SignupComponent(): React.JSX.Element {
         <Box>
             <FormControl
                 isRequired
-                id="username"
+                id='username'
                 isInvalid={!usernameValid && usernameTouched}
             >
-                <FormLabel color={!usernameValid && usernameTouched ? "red" : "black"}>
-                    Benutzername
+                <FormLabel color={!usernameValid && usernameTouched ? 'red' : 'black'}>
+                    Username
                 </FormLabel>
                 <Input
-                    type="text"
+                    type='text'
                     value={username}
                     onChange={((event) => handleInputChange(event, setUsername, setUsernameTouched))}
                 />
@@ -310,17 +303,17 @@ function SignupComponent(): React.JSX.Element {
                     <Text color={'red'}>{usernameError}</Text>
                 }
             </FormControl>
-            <Box display="flex" justifyContent="space-between" width="100%">
+            <Box display='flex' justifyContent='space-between' width='100%'>
                 <FormControl
                     isRequired
-                    id="firstname"
+                    id='firstname'
                     isInvalid={!firstnameValid && firstnameTouched}
                     pr={2}
                 >
                     <FormLabel
-                        color={!firstnameValid && firstnameTouched ? "red" : "black"}>Vorname</FormLabel>
+                        color={!firstnameValid && firstnameTouched ? 'red' : 'black'}>First Name</FormLabel>
                     <Input
-                        type="text"
+                        type='text'
                         value={firstname}
                         onChange={((event) => handleInputChange(event, setFirstname, setFirstnameTouched))}
                     />
@@ -330,14 +323,14 @@ function SignupComponent(): React.JSX.Element {
                 </FormControl>
                 <FormControl
                     isRequired
-                    id="lastname"
+                    id='lastname'
                     isInvalid={!lastnameValid && lastnameTouched}
                 >
-                    <FormLabel color={!lastnameValid && lastnameTouched ? "red" : "black"}>
-                        Nachname
+                    <FormLabel color={!lastnameValid && lastnameTouched ? 'red' : 'black'}>
+                        Last Name
                     </FormLabel>
                     <Input
-                        type="text"
+                        type='text'
                         value={lastname}
                         onChange={((event) => handleInputChange(event, setLastname, setLastnameTouched))}
                     />
@@ -348,12 +341,12 @@ function SignupComponent(): React.JSX.Element {
             </Box>
             <FormControl
                 isRequired
-                id="email"
+                id='email'
                 isInvalid={!emailValid && emailTouched}
             >
-                <FormLabel color={!emailValid && emailTouched ? "red" : "black"}>E-Mail</FormLabel>
+                <FormLabel color={!emailValid && emailTouched ? 'red' : 'black'}>E-Mail</FormLabel>
                 <Input
-                    type="email"
+                    type='email'
                     value={email}
                     onChange={((event) => handleInputChange(event, setEmail, setEmailTouched))}
                 />
@@ -363,16 +356,16 @@ function SignupComponent(): React.JSX.Element {
             </FormControl>
             <FormControl
                 isRequired
-                id="password"
+                id='password'
                 isInvalid={!passwordValid && passwordTouched}
             >
-                <FormLabel color={!passwordValid && passwordTouched ? "red" : "black"}>
-                    Passwort
+                <FormLabel color={!passwordValid && passwordTouched ? 'red' : 'black'}>
+                    Password
                 </FormLabel>
                 <InputGroup>
                     <Input
                         isRequired
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={((event) => handleInputChange(event, setPassword, setPasswordTouched))}
                     />
@@ -384,29 +377,29 @@ function SignupComponent(): React.JSX.Element {
                 }
             </FormControl>
             <PasswordChecklist
-                rules={["minLength", "letter", "number", "specialChar"]}
+                rules={['minLength', 'letter', 'number', 'specialChar']}
                 minLength={8}
                 value={password}
                 valueAgain={password2}
                 messages={{
-                    minLength: "Mindestens 8 Zeichen",
-                    letter: "Mindestens 1 Buchstabe",
-                    number: "Mindestens 1 Zahl",
-                    specialChar: "Mindestens 1 Sondern zeichen",
+                    minLength: 'At Least 8 Characters.',
+                    letter: 'At Least 1 Letter.',
+                    number: 'At Least 1 Number.',
+                    specialChar: 'At Least 1 Special Character.',
                 }}
             />
             <FormControl
                 isRequired
-                id="password2"
+                id='password2'
                 isInvalid={!password2Valid && password2Touched}
             >
-                <FormLabel color={!password2Valid && password2Touched ? "red" : "black"}>
-                    Passwort wiederholen
+                <FormLabel color={!password2Valid && password2Touched ? 'red' : 'black'}>
+                    Confirm Password
                 </FormLabel>
                 <InputGroup>
                     <Input
                         isRequired
-                        type={showPassword2 ? "text" : "password"}
+                        type={showPassword2 ? 'text' : 'password'}
                         value={password2}
                         onChange={((event) => handleInputChange(event, setPassword2, setPassword2Touched))}
                     />
@@ -418,24 +411,26 @@ function SignupComponent(): React.JSX.Element {
                 }
             </FormControl>
             <Checkbox
+                mb={3}
+                mt={3}
                 isChecked={checkbox}
                 onChange={() => setCheckbox(!checkbox)}
             >
-                Ich akzeptiere die Datenschutz- und<br/>Geschäftsbedingungen.
+                I accept the data protection and<br/>terms and conditions.
             </Checkbox>
             {!checkbox && !!checkboxError &&
                 <Text color={'red'}>{checkboxError}</Text>
             }
             <ReCAPTCHA
-                className={"reCaptcha"}
+                className={'reCaptcha'}
                 ref={captchaRef}
-                sitekey={import.meta.env.VITE_ReCAPTCHA_KEY}
+                sitekey={captchaKey}
                 onChange={validateCaptcha}
             />
             {!captchaValid && captchaTouched && (
                 <Text color={'red'}>Sind Sie ein Robot?!</Text>
             )}
-            <Stack spacing={5} mt={2}>
+            <Stack spacing={5} mt={4}>
                 <Button
                     onClick={handleSubmit}
                     isLoading={isLoading}

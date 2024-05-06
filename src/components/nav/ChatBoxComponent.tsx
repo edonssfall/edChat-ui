@@ -1,6 +1,6 @@
-import {ISidebarProps} from "../../interfaces/sidebar.interface.ts";
+import {ISidebarProps} from '../../interfaces/sidebar.interface.ts';
 import {Box, Text, Avatar, Link} from '@chakra-ui/react';
-import {useEffect} from "react";
+import {useEffect} from 'react';
 
 function ChatBoxComponent({chat, setSelectedChat}: ISidebarProps) {
 
@@ -11,19 +11,19 @@ function ChatBoxComponent({chat, setSelectedChat}: ISidebarProps) {
         <>
             <Link onClick={() => setSelectedChat(chat)}>
                 <Box
-                    display="flex"
-                    alignItems="center"
-                    bg="gray.100"
-                    borderRadius="md"
+                    display='flex'
+                    alignItems='center'
+                    bg='gray.100'
+                    borderRadius='md'
                     p={3}
                     mb={4}
                 >
-                    <Avatar size="sm" src={'as'} mr={3}/>
+                    <Avatar size='sm' src={'as'} mr={3}/>
                     <Box>
-                        <Text fontWeight="bold" fontSize="sm">
+                        <Text fontWeight='bold' fontSize='sm'>
                             {chat.name}
                         </Text>
-                        <Text fontSize="xs" color="gray.500">
+                        <Text fontSize='xs' color='gray.500'>
                             {chat.message}
                         </Text>
                     </Box>

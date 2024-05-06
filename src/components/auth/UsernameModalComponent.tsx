@@ -10,9 +10,9 @@ import {
     Button,
     Input,
     Modal
-} from "@chakra-ui/react";
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {setUsername} from "../../store/slices/user.slice.ts";
+} from '@chakra-ui/react';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {setUsername} from '../../store/slices/user.slice.ts';
 
 function UsernameModal() {
     const username = useAppSelector(state => state.user.username),

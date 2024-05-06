@@ -1,13 +1,13 @@
-import {IUserChat} from "../../interfaces/user.interface.ts";
-import {environment} from "../../services/environment.ts";
-import {createSlice} from "@reduxjs/toolkit";
+import {getUserLocal, setUsernameLocal} from '../../services/user.service.ts';
+import {IUserChat} from '../../interfaces/user.interface.ts';
+import {createSlice} from '@reduxjs/toolkit';
 
 /**
  * @name initialState
  */
 const initialState: IUserChat = {
     username: '',
-    user: JSON.parse(localStorage.getItem(environment.user) || '{}'),
+    user: getUserLocal(),
 }
 
 /**
@@ -21,11 +21,15 @@ const userSlice = createSlice({
     reducers: {
         setUsername: (state, action) => {
             state.username = action.payload;
+            setUsernameLocal(action.payload.username);
+        },
+        setUser: (state, action) => {
+            state.user = action.payload;
         },
         clearUser: () => initialState,
     },
 })
 
-export const {setUsername, clearUser} = userSlice.actions;
+export const {setUsername, setUser,  clearUser} = userSlice.actions;
 
 export default userSlice.reducer;

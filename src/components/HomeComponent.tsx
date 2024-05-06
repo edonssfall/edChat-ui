@@ -1,29 +1,28 @@
-import {Center, Heading} from "@chakra-ui/react";
-import {useAppSelector} from "../store/hooks.ts";
-import ChatComponent from "./chat/ChatComponent.tsx";
-import React, {useEffect} from "react";
+import ChatComponent from './chat/ChatComponent.tsx';
+import {Center, Heading} from '@chakra-ui/react';
+import {useAppSelector} from '../store/hooks.ts';
+import React, {useEffect} from 'react';
 
 /**
  * @name MainChatComponent
  * @description component: MainChatComponent
  */
 const MainChatComponent: React.FC = () => {
-    const isLoggedIn = useAppSelector(state => state.user.isLoggedIn),
-        username = useAppSelector(state => state.user.username);
+    const username = useAppSelector(state => state.user.username);
 
     const wsUrl = 'ws://';
     const chat = false;
 
     useEffect(() => {
-    }, [isLoggedIn]);
+    }, [username]);
 
     return (
         <>
             <Center h={'100vh'}>
-                {isLoggedIn ? (
+                {username ? (
                     !chat ? (
                         <Heading size={{lg: '3xl', md: 'xl'}} color={'blue.500'}>
-                            {isLoggedIn ? `Welcome, ${username}!` : ''}
+                            {username ? `Welcome, ${username}!` : ''}
                         </Heading>
                     ) : (
                         <ChatComponent wsUrl={wsUrl}/>

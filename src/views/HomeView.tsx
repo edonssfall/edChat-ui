@@ -1,25 +1,23 @@
-import ModalForgetPasswordComponent from "../components/auth/modalForgetPasswordComponent.tsx";
-import ModalAuthComponent from "../components/auth/modalAuthComponent.tsx";
-import UsernameModal from "../components/auth/UsernameModalComponent.tsx";
-import SideBar from "../components/nav/SideBarComponentComponent.tsx";
-import MainChatComponent from "../components/HomeComponent.tsx";
-import {useAppSelector} from "../store/hooks.ts";
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import ModalForgetPasswordComponent from '../components/auth/modalForgetPasswordComponent.tsx';
+import ModalAuthComponent from '../components/auth/modalAuthComponent.tsx';
+import UsernameModal from '../components/auth/UsernameModalComponent.tsx';
+import SideBar from '../components/nav/SideBar/SideBarComponentComponent.tsx';
+import MainChatComponent from '../components/HomeComponent.tsx';
+import {useAppSelector} from '../store/hooks.ts';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 
 /**
  * @name HomeView
  * @description View: HomeView page
  */
-const HomeView: React.FC = () => {
+function HomeView(): React.JSX.Element {
     const user = useAppSelector(state => state.user),
         {uidb64, token} = useParams(),
         [modalType, setModalType] = useState<'auth' | 'password' | null>(null);
 
     useEffect(() => {
-        if (user.username) {
-            setModalType(null);
-        } else {
+        if (!user.username && modalType === null) {
             setModalType('auth');
         }
     }, [user, modalType]);
@@ -42,6 +40,6 @@ const HomeView: React.FC = () => {
             </SideBar>
         </>
     );
-};
+}
 
 export default HomeView;

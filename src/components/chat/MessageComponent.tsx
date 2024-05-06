@@ -1,6 +1,6 @@
-import {IMessageProps} from "../../interfaces/chat.interface.ts";
-import {Heading} from "@chakra-ui/react";
-import {useAppSelector} from "../../store/hooks.ts";
+import {IMessageProps} from '../../interfaces/chat.interface.ts';
+import {Heading} from '@chakra-ui/react';
+import {useAppSelector} from '../../store/hooks.ts';
 
 function MessageComponent({message, index}: IMessageProps) {
     const username = useAppSelector(state => state.user.username);

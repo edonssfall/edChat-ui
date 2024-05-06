@@ -24,3 +24,10 @@ export interface IModalPassword extends IModal {
     uidb64?: string;
 }
 
+/**
+ * Interface for validation function
+ */
+export interface IValidationRule {
+    condition: (val: string) => boolean;
+    errorMsg: string;
+}

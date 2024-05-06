@@ -10,8 +10,8 @@ import {
     Button,
     Input,
     Modal
-} from "@chakra-ui/react";
-import {useState} from "react";
+} from '@chakra-ui/react';
+import {useState} from 'react';
 
 function AddChatModalComponent() {
     const [chat, setChatState] = useState<string>('');
