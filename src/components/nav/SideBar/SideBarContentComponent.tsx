@@ -2,6 +2,7 @@ import {Box, Button, CloseButton, Flex, Spacer, useColorModeValue, Text} from '@
 import {ISidebarContentProps} from '../../../interfaces/sidebar.interface.ts';
 import {faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import AddChatModalComponent from '../AddChatModalComponent.tsx';
+import {clearToken} from '../../../store/slices/token.slice.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {clearUser} from '../../../store/slices/user.slice.ts';
 import {IChat} from '../../../interfaces/chat.interface.ts';
@@ -73,7 +74,12 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
                                   align={'center'} _hover={{bg: 'gray.600', color: 'white'}} borderRadius='lg'
                                   role='group' cursor='pointer' onClick={() => dispatch(clearUser())}>
                                 <FontAwesomeIcon icon={faArrowRightToBracket}/>
-                                <Text ml={'4'}>Logout</Text>
+                                <Text ml={'4'}
+                                      onClick={() => dispatch(
+                                          clearUser(),
+                                          clearToken(),
+                                      )}
+                                >Logout</Text>
                             </Flex>
                         </>
                         :

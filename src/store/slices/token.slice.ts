@@ -46,18 +46,24 @@ const tokenSlice = createSlice({
                 setCoockiesTokens(action.payload.accessToken, action.payload.refreshToken);
             }
         },
-        clearToken: (state) => {
-            state.accessToken = undefined;
-            state.refreshToken = undefined;
-            deleteTokens();
-        },
         saveToken: (state) => {
             state.save = !state.save;
             localStorage.setItem(environment.saveToken, state.save.toString());
-        }
+        },
+        clearToken: (state) => {
+            deleteTokens();
+            state.accessToken = undefined;
+            state.refreshToken = undefined;
+        },
     },
 });
 
-export const {setAccessToken, deleteAccessToken, setTokens, clearToken, saveToken} = tokenSlice.actions;
+export const {
+    setAccessToken,
+    deleteAccessToken,
+    setTokens,
+    clearToken,
+    saveToken,
+} = tokenSlice.actions;
 
 export default tokenSlice.reducer;

@@ -10,6 +10,14 @@ export function setUserLocal(user: string) {
 }
 
 /**
+ * @name deleteUserLocal
+ * @description This function is used to delete the user from the local storage.
+ */
+export function deleteUserLocal() {
+    localStorage.removeItem(environment.user)
+}
+
+/**
  * @name getUserLocal
  * @description This function is used to get the user from the local storage.
  */
@@ -24,4 +32,12 @@ export function getUserLocal() {
  */
 export function setUsernameLocal(username: string) {
     localStorage.setItem(environment.username, username)
+}
+
+/**
+ * @name deleteUsernameLocal
+ * @description This function is used to get the username from the local storage.
+ */
+export function deleteUsernameLocal() {
+    localStorage.removeItem(environment.username)
 }

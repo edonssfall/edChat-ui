@@ -34,9 +34,9 @@ function LoginComponent({setModalType}: IModalLogin) {
             .then(res => {
                 const data: ILoginResponse = res.data;
                 setLoginFailed(false);
-                dispatch(setTokens({accessToken: data.accessToken, refreshToken: data.refreshToken}));
+                dispatch(setTokens({accessToken: data.access, refreshToken: data.refresh}));
                 dispatch(setUser(data.user));
-                window.location.reload();
+                setModalType(null);
             })
             .catch(err => {
                 console.log(err);
@@ -70,7 +70,7 @@ function LoginComponent({setModalType}: IModalLogin) {
                     align={'start'}
                     justify={'space-between'}>
                     <Link color={'blue.400'}
-                          onClick={() => setModalType('password')}
+                          onClick={() => setModalType('forgot')}
                     >Password forget?</Link>
                 </Stack>
                 <Stack spacing={5}>

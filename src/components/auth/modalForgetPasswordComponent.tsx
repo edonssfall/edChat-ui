@@ -1,14 +1,15 @@
 import {
-    Box,
-    Button,
-    FormControl,
-    FormLabel,
-    Input,
-    InputGroup,
-    Modal, ModalContent,
+    ModalContent,
     ModalOverlay,
+    FormControl,
+    InputGroup,
+    FormLabel,
+    Button,
+    Input,
+    Modal,
     Stack,
-    Text
+    Text,
+    Box
 } from '@chakra-ui/react';
 import {IResetPassword, ISetPassword} from '../../interfaces/user.interface.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
@@ -22,10 +23,10 @@ import React, {useState} from 'react';
 import axios from 'axios';
 
 /**
- * @name ModalResetPasswordComponent
+ * @name ModalResetPassword
  * @description This component is used to log in the user.
  */
-function ModalResetPasswordComponent({modalType, setModalType, token, uidb64}: IModalPassword) {
+function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalPassword) {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -114,7 +115,6 @@ function ModalResetPasswordComponent({modalType, setModalType, token, uidb64}: I
                     .finally(() => setIsLoading(false));
             } else {
                 const data: ISetPassword = {
-                    password: password,
                     new_password: newPassword,
                     repeat_new_password: repeatNewPassword,
                 };
@@ -203,4 +203,4 @@ function ModalResetPasswordComponent({modalType, setModalType, token, uidb64}: I
     );
 }
 
-export default ModalResetPasswordComponent;
+export default ModalResetPassword;

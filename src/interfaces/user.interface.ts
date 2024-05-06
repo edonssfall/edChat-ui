@@ -42,8 +42,8 @@ export interface IRegister {
  * @description Interface for login object
  */
 export interface ILoginResponse {
-    accessToken: string;
-    refreshToken: string;
+    access: string;
+    refresh: string;
     user: IUser;
 }
 
@@ -52,7 +52,6 @@ export interface ILoginResponse {
  * @description Interface for login object
  */
 export interface ISetPassword {
-    password: string;
     new_password: string;
     repeat_new_password: string;
 }

@@ -1,4 +1,10 @@
-import {getUserLocal, setUsernameLocal} from '../../services/user.service.ts';
+import {
+    deleteUserLocal,
+    deleteUsernameLocal,
+    getUserLocal,
+    setUserLocal,
+    setUsernameLocal
+} from '../../services/user.service.ts';
 import {IUserChat} from '../../interfaces/user.interface.ts';
 import {createSlice} from '@reduxjs/toolkit';
 
@@ -25,11 +31,20 @@ const userSlice = createSlice({
         },
         setUser: (state, action) => {
             state.user = action.payload;
+            setUserLocal(action.payload);
         },
-        clearUser: () => initialState,
+        clearUser: () => {
+            initialState;
+            deleteUsernameLocal();
+            deleteUserLocal();
+        },
     },
 })
 
-export const {setUsername, setUser,  clearUser} = userSlice.actions;
+export const {
+    setUsername,
+    setUser,
+    clearUser,
+} = userSlice.actions;
 
 export default userSlice.reducer;

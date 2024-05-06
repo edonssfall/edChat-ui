@@ -3,7 +3,7 @@
  * @param setModalType - Set the modal type
  */
 export interface IModalLogin {
-    setModalType: (modalType: 'auth' | 'password' | null) => void;
+    setModalType: (modalType: 'auth' | 'password' | 'username' | 'password-reset' | 'forgot' | null) => void;
 }
 
 /**
@@ -22,6 +22,15 @@ export interface IModal extends IModalLogin {
 export interface IModalPassword extends IModal {
     token?: string;
     uidb64?: string;
+}
+
+/**
+ * Interface for ModalForgotPassword
+ * @param modalType - The modal type
+ */
+export interface IModalResetPassword extends IModal {
+    token: string;
+    uidb64: string;
 }
 
 /**

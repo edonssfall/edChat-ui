@@ -11,9 +11,11 @@ import {
 import {IValidationRule} from '../../interfaces/modal.interface.ts';
 import {IRegister} from '../../interfaces/user.interface.ts';
 import PasswordIconButton from './password/PasswordIcon.tsx';
+import {setUsername} from '../../store/slices/user.slice.ts';
 import {environment} from '../../services/environment.ts';
 import React, {useEffect, useRef, useState} from 'react';
 import PasswordChecklist from 'react-password-checklist'
+import {useAppDispatch} from '../../store/hooks.ts';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {toast} from 'react-toastify';
 import axios from 'axios';
@@ -23,11 +25,15 @@ import axios from 'axios';
  * @description Component for signing up a new user.
  */
 function SignupComponent(): React.JSX.Element {
+    // Create a reference to the reCAPTCHA component
     const captchaRef = useRef<ReCAPTCHA | null>(null),
-        captchaKey = import.meta.env.VITE_ReCAPTCHA_KEY;
+        captchaKey = import.meta.env.VITE_RECAPTCHA_KEY;
+    
+    // Use the dispatch function from the Redux store
+    const dispatch = useAppDispatch();
 
     // Variables with state for form
-    const [username, setUsername] = useState<string>(''),
+    const [username, setUserName] = useState<string>(''),
         [firstname, setFirstname] = useState<string>(''),
         [lastname, setLastname] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
@@ -251,6 +257,7 @@ function SignupComponent(): React.JSX.Element {
             axios.post(environment.BACKEND_URL_AUTH + environment.api.register, data)
                 .then(res => {
                     if (res.status >= 200 && res.status < 300) {
+                        dispatch(setUsername(username));
                         toast.success('Register successfully!!!');
                     }
                 })
@@ -297,7 +304,7 @@ function SignupComponent(): React.JSX.Element {
                 <Input
                     type='text'
                     value={username}
-                    onChange={((event) => handleInputChange(event, setUsername, setUsernameTouched))}
+                    onChange={((event) => handleInputChange(event, setUserName, setUsernameTouched))}
                 />
                 {!usernameValid && usernameTouched &&
                     <Text color={'red'}>{usernameError}</Text>

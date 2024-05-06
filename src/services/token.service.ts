@@ -37,13 +37,13 @@ export const useTokens = () => {
     window.addEventListener('storage', (event) => {
         switch (event.key) {
             case refresh_token:
-                if (event.newValue === null) {
+                if (event.newValue === refresh_token) {
                     dispatch(clearToken());
                     dispatch(clearUser());
                 }
                 break;
             case access_token:
-                if (event.newValue === null) {
+                if (event.newValue === access_token) {
                     dispatch(deleteAccessToken());
                 }
                 break;
