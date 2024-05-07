@@ -27,17 +27,26 @@ const userSlice = createSlice({
     reducers: {
         setUsername: (state, action) => {
             state.username = action.payload;
-            setUsernameLocal(action.payload.username);
+            setUsernameLocal(action.payload);
         },
         setUser: (state, action) => {
             state.user = action.payload;
             setUserLocal(action.payload);
         },
-        clearUser: () => {
-            initialState;
-            deleteUsernameLocal();
+        clearUser: (state) => {
+            state.user = null;
             deleteUserLocal();
         },
+        clearUserName: (state) => {
+            state.username = '';
+            deleteUsernameLocal();
+        },
+        clearUserStore: (state) => {
+            state.user = null;
+            state.username = '';
+            deleteUserLocal();
+            deleteUsernameLocal();
+        }
     },
 })
 
@@ -45,6 +54,8 @@ export const {
     setUsername,
     setUser,
     clearUser,
+    clearUserName,
+    clearUserStore,
 } = userSlice.actions;
 
 export default userSlice.reducer;

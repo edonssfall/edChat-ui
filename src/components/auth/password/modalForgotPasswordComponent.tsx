@@ -10,6 +10,7 @@ import {
     Text,
     Box
 } from '@chakra-ui/react';
+import {IForgotPassword} from '../../../interfaces/user.interface.ts';
 import {environment} from '../../../services/environment.ts';
 import {IModal} from '../../../interfaces/modal.interface.ts';
 import React, {useState} from 'react';
@@ -61,8 +62,12 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
      */
     const resetPassword = () => {
         setIsLoading(true);
+        const data: IForgotPassword = {
+            email: email,
+            url: window.location.href,
+        }
 
-        axios.post(environment.BACKEND_URL_AUTH + environment.api.password_reset, {email: email})
+        axios.post(environment.BACKEND_URL_AUTH + environment.api.password_reset, data)
             .then(() => {
                 setFailed(false);
                 closeForgot();
@@ -96,7 +101,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
                             _hover={{
                                 bg: 'blue.500'
                             }}>
-                            Login
+                            Send Email
                         </Button>
                     </Stack>
                 </Box>

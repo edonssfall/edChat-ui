@@ -1,10 +1,10 @@
 import {Box, Button, CloseButton, Flex, Spacer, useColorModeValue, Text} from '@chakra-ui/react';
 import {ISidebarContentProps} from '../../../interfaces/sidebar.interface.ts';
 import {faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons';
+import {clearUserStore} from '../../../store/slices/user.slice.ts';
 import AddChatModalComponent from '../AddChatModalComponent.tsx';
 import {clearToken} from '../../../store/slices/token.slice.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {clearUser} from '../../../store/slices/user.slice.ts';
 import {IChat} from '../../../interfaces/chat.interface.ts';
 import ChatBoxComponent from '../ChatBoxComponent.tsx';
 import {useAppSelector} from '../../../store/hooks.ts';
@@ -72,11 +72,11 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
 
                             <Flex bgColor={'gray.400'} color={'white'} mb={'2em'} mx={'4'} px={'4'} py={'2'}
                                   align={'center'} _hover={{bg: 'gray.600', color: 'white'}} borderRadius='lg'
-                                  role='group' cursor='pointer' onClick={() => dispatch(clearUser())}>
+                                  role='group' cursor='pointer'>
                                 <FontAwesomeIcon icon={faArrowRightToBracket}/>
                                 <Text ml={'4'}
                                       onClick={() => dispatch(
-                                          clearUser(),
+                                          clearUserStore(),
                                           clearToken(),
                                       )}
                                 >Logout</Text>

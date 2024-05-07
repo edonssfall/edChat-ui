@@ -17,7 +17,7 @@ export interface IUser {
  */
 export interface IUserChat {
     username: string;
-    user: IUser;
+    user: IUser | null;
 }
 
 /**
@@ -45,6 +45,15 @@ export interface ILoginResponse {
     access: string;
     refresh: string;
     user: IUser;
+}
+
+/**
+ * @name IForgotPassword
+ * @description Interface for login object
+ */
+export interface IForgotPassword {
+    email: string;
+    url: string;
 }
 
 /**

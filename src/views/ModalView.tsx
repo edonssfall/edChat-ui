@@ -14,21 +14,21 @@ import {useParams} from 'react-router-dom';
  */
 function ModalView(): React.JSX.Element {
     const {username} = useAppSelector(state => state.user),
-        {accessToken, refreshToken} = useTokens(),
+        {refreshToken} = useTokens(),
         {uidb64, token} = useParams(),
         [modalType, setModalType] = useState<'auth' | 'password' | 'username' | 'password-reset' | 'forgot' | null>(null);
 
     useEffect(() => {
-        if (!accessToken || !refreshToken && modalType === null) {
+        if (!refreshToken && modalType === null) {
             setModalType('auth');
-        } else if (accessToken && refreshToken && !username) {
+        } else if (refreshToken && !username) {
             setModalType('username');
         }
     }, [username, modalType]);
 
     useState(() => {
-        if (accessToken && refreshToken && !username) {
-            setModalType(null);
+        if (!refreshToken) {
+            setModalType('auth');
         } else if (uidb64 && token) {
             setModalType('password-reset');
         } else if (!username) {

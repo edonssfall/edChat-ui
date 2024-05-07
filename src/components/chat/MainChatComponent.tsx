@@ -1,30 +1,27 @@
-import ChatComponent from './chat/ChatComponent.tsx';
+import {useTokens} from "../../services/token.service.ts";
+import {useProfile} from "../../services/user.service.ts";
 import {Center, Heading} from '@chakra-ui/react';
-import {useAppSelector} from '../store/hooks.ts';
-import React, {useEffect} from 'react';
-import {useTokens} from "../services/token.service.ts";
+import ChatComponent from './ChatComponent.tsx';
+import React from 'react';
 
 /**
  * @name MainChatComponent
  * @description component: MainChatComponent
  */
 const MainChatComponent: React.FC = () => {
-    const user = useAppSelector(state => state.user),
+    const {profile} = useProfile(),
         {refreshToken} = useTokens();
 
     const wsUrl = 'ws://';
     const chat = false;
 
-    useEffect(() => {
-    }, [refreshToken]);
-
     return (
         <>
             <Center h={'100vh'}>
-                {refreshToken ? (
+                {refreshToken && profile.username ? (
                     !chat ? (
                         <Heading size={{lg: '3xl', md: 'xl'}} color={'blue.500'}>
-                            Welcome, {user.username}!
+                            Welcome, {profile.username}!
                         </Heading>
                     ) : (
                         <ChatComponent wsUrl={wsUrl}/>

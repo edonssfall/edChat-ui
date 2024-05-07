@@ -30,6 +30,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
      * @description This function is used to set the initial states.
      */
     function initialStates(): void {
+        setUserName('');
         setFailed(false);
         setError('');
     }

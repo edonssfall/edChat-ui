@@ -6,52 +6,10 @@ import {environment} from './environment.ts';
 import {RootState} from '../store/store.ts';
 import Cookie from 'universal-cookie';
 
+
 export const refresh_token = environment.refresh_token;
 export const access_token = environment.access_token;
 export const coockies = new Cookie();
-
-// Token interface
-const selectTokens = (state: RootState) => state.token;
-
-/**
- * @name selectedTokensMemoized
- * @description This function is used to get the tokens from the store.
- */
-const selectedTokensMemoized = createSelector(
-    [selectTokens],
-    (token) => ({
-        refreshToken: token.refreshToken,
-        accessToken: token.accessToken,
-    })
-);
-
-/**
- * @name useTokens
- * @description This function is used to get the tokens from the store.
- */
-export const useTokens = () => {
-    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized);
-
-    const dispatch = useAppDispatch();
-
-    window.addEventListener('storage', (event) => {
-        switch (event.key) {
-            case refresh_token:
-                if (event.newValue === refresh_token) {
-                    dispatch(clearToken());
-                    dispatch(clearUser());
-                }
-                break;
-            case access_token:
-                if (event.newValue === access_token) {
-                    dispatch(deleteAccessToken());
-                }
-                break;
-        }
-    });
-
-    return {refreshToken, accessToken};
-};
 
 /**
  * @name getAccessTokenLocal
@@ -112,3 +70,46 @@ export function deleteTokens() {
     coockies.remove(refresh_token);
     coockies.remove(access_token);
 }
+
+// Token interface
+const selectTokens = (state: RootState) => state.token;
+
+/**
+ * @name selectedTokensMemoized
+ * @description This function is used to get the tokens from the store.
+ */
+const selectedTokensMemoized = createSelector(
+    [selectTokens],
+    (token) => ({
+        refreshToken: token.refreshToken,
+        accessToken: token.accessToken,
+    })
+);
+
+/**
+ * @name useTokens
+ * @description This function is used to get the tokens from the store.
+ */
+export const useTokens = () => {
+    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized);
+
+    const dispatch = useAppDispatch();
+
+    window.addEventListener('storage', (event) => {
+        switch (event.key) {
+            case refresh_token:
+                if (event.newValue === refresh_token) {
+                    dispatch(clearToken());
+                    dispatch(clearUser());
+                }
+                break;
+            case access_token:
+                if (event.newValue === access_token) {
+                    dispatch(deleteAccessToken());
+                }
+                break;
+        }
+    });
+
+    return {refreshToken, accessToken};
+};

@@ -1,8 +1,8 @@
 import SideBar from '../components/nav/SideBar/SideBarComponentComponent.tsx';
-import MainChatComponent from '../components/HomeComponent.tsx';
+import MainChatComponent from '../components/chat/MainChatComponent.tsx';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import ModalView from './ModalView.tsx';
 import React from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 /**
  * @name HomeView

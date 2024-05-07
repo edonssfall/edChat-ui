@@ -136,7 +136,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
                             _hover={{
                                 bg: 'blue.500'
                             }}>
-                            Login
+                            Set New Password
                         </Button>
                     </Stack>
                 </Box>

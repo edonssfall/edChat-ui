@@ -173,7 +173,7 @@ function ModalSetPassword({modalType, setModalType}: IModal) {
                             _hover={{
                                 bg: 'blue.500'
                             }}>
-                            Login
+                            Change Password
                         </Button>
                     </Stack>
                 </Box>
