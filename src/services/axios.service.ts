@@ -1,4 +1,4 @@
-import {clearToken, setAccessToken} from '../store/slices/token.slice.ts';
+import {clearTokens, setAccessToken} from '../store/slices/token.slice.ts';
 import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
 import {environment} from './environment.ts';
 import {useAppDispatch} from '../store/hooks.ts';
@@ -39,7 +39,7 @@ export const axiosService = () => {
                     });
 
                     if (response.status === 200) {
-                        dispatch(clearToken());
+                        dispatch(clearTokens());
                     }
                 }
             }

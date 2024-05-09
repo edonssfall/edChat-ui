@@ -10,6 +10,15 @@ export interface IChat {
 }
 
 /**
+ * @name IChatStore
+ * @description Interface for chat store object
+ */
+export interface IChatStore {
+    selectedChat: IChat | null;
+    chats: IChat[];
+}
+
+/**
  * @name IMessage
  * @description Interface for message object
  */

@@ -1,15 +1,14 @@
-import {Box, Button, CloseButton, Flex, Spacer, useColorModeValue, Text} from '@chakra-ui/react';
+import {Box, CloseButton, Flex, Spacer, useColorModeValue, Text} from '@chakra-ui/react';
 import {ISidebarContentProps} from '../../../interfaces/sidebar.interface.ts';
 import {faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import {clearUserStore} from '../../../store/slices/user.slice.ts';
 import AddChatModalComponent from '../AddChatModalComponent.tsx';
-import {clearToken} from '../../../store/slices/token.slice.ts';
+import {clearTokens} from '../../../store/slices/token.slice.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IChat} from '../../../interfaces/chat.interface.ts';
 import ChatBoxComponent from '../ChatBoxComponent.tsx';
 import {useAppSelector} from '../../../store/hooks.ts';
-import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import SearchBarComponent from "./SearchBar.tsx";
 
 /**
  * @name SidebarContent
@@ -19,25 +18,8 @@ import {useDispatch} from 'react-redux';
  */
 function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
     const user = useAppSelector((state) => state.user),
+        chat = useAppSelector((state) => state.chat),
         dispatch = useDispatch();
-
-    const chats: IChat[] = [
-            {
-                name: 'Chat 1',
-                message: 'message1',
-                path: '/chat1',
-            },
-            {
-                name: 'Chat 2',
-                message: 'message2',
-                path: '/chat2',
-            },
-        ],
-        [selectedChat, setSelectedChat] = useState(chats[0]);
-
-    useEffect(() => {
-        console.log(selectedChat);
-    }, [selectedChat]);
 
     return (
         <>
@@ -58,27 +40,27 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
 
                     {user.username ?
                         <>
-                            <Button onClick={() => console.log('open chat')}>add Chat</Button>
-                            {chats.map((chat, index) => (
+                            <Flex>
+                                <SearchBarComponent />
+                            </Flex>
+
+                            {chat.chats.map((chat, index) => (
                                 <ChatBoxComponent
                                     key={index}
                                     chat={chat}
-                                    setSelectedChat={setSelectedChat}
                                 />
                             ))
                             }
-
                             <Spacer/>
-
                             <Flex bgColor={'gray.400'} color={'white'} mb={'2em'} mx={'4'} px={'4'} py={'2'}
                                   align={'center'} _hover={{bg: 'gray.600', color: 'white'}} borderRadius='lg'
                                   role='group' cursor='pointer'>
                                 <FontAwesomeIcon icon={faArrowRightToBracket}/>
                                 <Text ml={'4'}
-                                      onClick={() => dispatch(
-                                          clearUserStore(),
-                                          clearToken(),
-                                      )}
+                                      onClick={() => {
+                                          dispatch(clearUserStore());
+                                          dispatch(clearTokens());
+                                      }}
                                 >Logout</Text>
                             </Flex>
                         </>

@@ -1,6 +1,5 @@
 import {BoxProps, FlexProps} from '@chakra-ui/react';
 import {IChat} from './chat.interface.ts';
-import React from 'react';
 
 /**
  * @name ISidebarProps
@@ -8,7 +7,6 @@ import React from 'react';
  */
 export interface ISidebarProps {
     chat: IChat;
-    setSelectedChat: React.Dispatch<React.SetStateAction<IChat>>;
 }
 
 /**

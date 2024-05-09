@@ -11,7 +11,7 @@ function NotificationComponent() {
         dispatch = useDispatch();
 
     const {lastJsonMessage} = useWebSocket(
-        `${environment.BACKEND_WS_CHAT}/${profile.username}`,
+        `${environment.BACKEND_WS_CHAT}/user/${profile.username}`,
         {
             share: false,
             shouldReconnect: () => true,

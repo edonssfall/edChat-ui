@@ -1,8 +1,8 @@
 /**
  * Interface for token
- * @interface IToken
+ * @interface ITokenStore
  */
-export interface IToken {
+export interface ITokenStore {
     accessToken: string | undefined;
     refreshToken: string | undefined;
     save: boolean;
