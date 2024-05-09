@@ -20,19 +20,21 @@ import PasswordChecklist from 'react-password-checklist';
 import PasswordIconButton from './IconPassword.tsx';
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useModalTypeContext} from "../../../services/modal.context.tsx";
 
 /**
  * @name ModalResetPassword
  * @description This component is used to log in the user.
  */
-function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalResetPassword) {
+function ModalResetPassword({token, uidb64}: IModalResetPassword) {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [newPassword, setNewPassword] = useState<string>(''),
         [showNewPassword, setShowNewPassword] = useState<boolean>(false),
         [repeatNewPassword, setRepeatNewPassword] = useState<string>(''),
         [showNewRepeatPassword, setShowNewRepeatPassword] = useState<boolean>(false),
         [Error, setError] = useState<string>(''),
-        [Failed, setFailed] = useState<boolean>(false);
+        [Failed, setFailed] = useState<boolean>(false),
+        {modalState, setModalState} = useModalTypeContext();
 
     /**
      * @name initialStates
@@ -51,7 +53,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
      */
     function closePasswordModal() {
         initialStates();
-        setModalType('auth');
+        setModalState({state: 'auth'});
     }
 
     /**
@@ -93,7 +95,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
     };
 
     return (
-        <Modal isOpen={modalType === 'password-reset'} onClose={closePasswordModal}>
+        <Modal isOpen={modalState.state === 'password-reset'} onClose={closePasswordModal}>
             <ModalOverlay/>
             <ModalContent className='modalWindow' onKeyDown={handleKeyDown}>
                 <ModalHeader>Reset Password</ModalHeader>

@@ -1,5 +1,4 @@
-import {environment} from "../../../services/environment.ts";
-import useWebSocket from "react-use-websocket";
+import {useWebSocketContext} from "../../../services/websocket.context.tsx";
 import {Input, Stack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 
@@ -14,23 +13,15 @@ interface ISearchResponse {
 
 function SearchBarComponent() {
     const [search, setSearch] = useState('');
-    const { sendJsonMessage, lastJsonMessage, readyState, getWebSocket } = useWebSocket(
-        `${environment.BACKEND_WS_CHAT}/search`,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        }
-    );
+    const {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocketContext();
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
 
         if (search) {
-            if (readyState === 1) {
-                timeoutId = setTimeout(() => {
-                    sendJsonMessage({search_query: search});
-                }, 2000);
-            }
+            timeoutId = setTimeout(() => {
+                sendJsonMessage({search_query: search});
+            }, 2000);
         } else {
             getWebSocket()?.close();
         }

@@ -1,22 +1,13 @@
+import {useWebSocketContext} from "../services/websocket.context.tsx";
 import {IConnection} from '../interfaces/chat.interface.ts';
 import {setTokens} from '../store/slices/token.slice.ts';
-import {environment} from '../services/environment.ts';
-import {useProfile} from '../services/user.service.ts';
-import useWebSocket from 'react-use-websocket';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 
 function NotificationComponent() {
-    const {profile} = useProfile(),
-        dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    const {lastJsonMessage} = useWebSocket(
-        `${environment.BACKEND_WS_CHAT}/user/${profile.username}`,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        },
-    )
+    const {lastJsonMessage} = useWebSocketContext();
 
     // useState(() => dispatch(setTokens({refreshToken: lastJsonMessage, accessToken: true}));
     useEffect(() => {

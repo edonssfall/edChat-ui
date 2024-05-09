@@ -2,8 +2,9 @@ import ModalForgotPassword from '../components/auth/password/modalForgotPassword
 import ModalResetPassword from '../components/auth/password/modalResetPassword.tsx';
 import ModalAuthComponent from '../components/auth/modalAuthComponent.tsx';
 import ModalUsername from '../components/auth/modalUsernameComponent.tsx';
+import {useModalTypeContext} from "../services/modal.context.tsx";
 import {useTokens} from '../services/token.service.ts';
-import {useAppSelector} from '../store/hooks.ts';
+import {useProfile} from "../services/user.service.ts";
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
@@ -12,35 +13,35 @@ import {useParams} from 'react-router-dom';
  * @description View: HomeView page
  */
 function AuthView(): React.JSX.Element {
-    const {username} = useAppSelector(state => state.user),
+    const {profile} = useProfile(),
         {refreshToken} = useTokens(),
         {uidb64, token} = useParams(),
-        [modalType, setModalType] = useState<'auth' | 'password' | 'username' | 'password-reset' | 'forgot' | null>(null);
+        {modalState, setModalState} = useModalTypeContext();
 
     useEffect(() => {
-        if (!refreshToken && modalType === null) {
-            setModalType('auth');
-        } else if (refreshToken && !username) {
-            setModalType('username');
+        if (!refreshToken && modalState === null) {
+            setModalState({state: 'auth'});
+        } else if (refreshToken && !profile.username) {
+            setModalState({state: 'username'});
         }
-    }, [username, modalType, refreshToken]);
+    }, [profile.username, modalState, refreshToken]);
 
     useState(() => {
         if (uidb64 && token) {
-            setModalType('password-reset');
+            setModalState({state: 'password-reset'});
         } else if (!refreshToken) {
-            setModalType('auth');
-        } else if (!username) {
-            setModalType('username');
+            setModalState({state: 'auth'});
+        } else if (!profile.username) {
+            setModalState({state: 'username'});
         }
     })
 
     return (
         <>
-            <ModalForgotPassword modalType={modalType} setModalType={setModalType}/>
-            <ModalResetPassword token={token!} uidb64={uidb64!} modalType={modalType} setModalType={setModalType}/>
-            <ModalUsername modalType={modalType} setModalType={setModalType}/>
-            <ModalAuthComponent modalType={modalType} setModalType={setModalType}/>
+            <ModalForgotPassword/>
+            <ModalResetPassword token={token!} uidb64={uidb64!}/>
+            <ModalUsername/>
+            <ModalAuthComponent/>
         </>
     );
 }

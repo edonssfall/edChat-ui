@@ -1,3 +1,6 @@
+import {SendJsonMessage, WebSocketLike} from "react-use-websocket/dist/lib/types";
+import {ReactNode} from "react";
+
 /**
  * @name IChat
  * @description Interface for chat route object
@@ -53,4 +56,18 @@ export interface IMessageProps {
 export interface IConnection {
     access: string;
     refresh: string;
+}
+
+/**
+ * @name IProviderProps
+ * @description Interface for websocket provider props
+ */
+export interface IProviderProps {
+    children: ReactNode;
+}
+
+export interface IWebsocketContext {
+    sendJsonMessage: SendJsonMessage;
+    lastJsonMessage: IMessage | IConnection | unknown;
+    getWebSocket: () => (WebSocketLike | null);
 }
