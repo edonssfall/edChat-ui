@@ -3,15 +3,14 @@ const api = {
     refresh_token: '/token/refresh',
     password_set: '/password-set',
     register: '/signup',
-    otp: '/verify-otp',
     logout: '/logout',
+    user: '/profile',
     login: '/login',
-    user: '/user',
 };
 
 export const environment = {
-    BACKEND_WS_CHAT: import.meta.env.VITE_BACKEND_WS_CHAT,
     BACKEND_URL_AUTH: import.meta.env.VITE_BACKEND_URL_AUTH,
+    BACKEND_WS_CHAT: import.meta.env.VITE_BACKEND_WS_CHAT,
     BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
     refresh_token: 'refresh',
     saveToken: 'saveToken',

@@ -14,7 +14,7 @@ function ChatComponent({wsUrl}: IChatProps) {
         [status, setStatus] = useState<string>('');
 
     const {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocket(
-        wsUrl + `?username=${username}`,
+        wsUrl,
         {
             share: false,
             shouldReconnect: () => true,
