@@ -18,3 +18,20 @@ export interface IMessage {
     sender: string,
     message: string,
 }
+
+/**
+ * @name IChatProps
+ * @description Interface for chat props
+ */
+export interface IChatProps {
+    wsUrl: string;
+}
+
+/**
+ * @name IMessageProps
+ * @description Interface for message props
+ */
+export interface IMessageProps {
+    message: IMessage;
+    index: number;
+}

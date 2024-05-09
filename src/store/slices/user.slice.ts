@@ -1,35 +1,61 @@
-import { createIChat } from "../../utils/helpers/chat.helpers.ts";
-import { IChat } from "../../interfaces/chat.interface.ts";
-import { IUser } from "../../interfaces/user.interface.ts";
-import { createSlice } from "@reduxjs/toolkit";
+import {
+    deleteUserLocal,
+    deleteUsernameLocal,
+    getUserLocal,
+    setUserLocal,
+    setUsernameLocal
+} from '../../services/user.service.ts';
+import {IUserChat} from '../../interfaces/user.interface.ts';
+import {createSlice} from '@reduxjs/toolkit';
 
-const initialState: IUser= {
+/**
+ * @name initialState
+ */
+const initialState: IUserChat = {
     username: '',
-    avatar: '',
-    chats: [],
-    chat: {} as IChat,
+    user: getUserLocal(),
 }
 
-const authSlice = createSlice({
-    name: 'auth',
+/**
+ * Slice for user data
+ * @type
+ * @name userSlice
+ */
+const userSlice = createSlice({
+    name: 'user',
     initialState,
     reducers: {
-        setChat: (state, action) => {
-            state.chat = createIChat(action.payload);
-        },
         setUsername: (state, action) => {
             state.username = action.payload;
+            setUsernameLocal(action.payload);
         },
-        setAvatar: (state, action) => {
-            state.avatar = action.payload;
+        setUser: (state, action) => {
+            state.user = action.payload;
+            setUserLocal(action.payload);
         },
-        setChats: (state, action) => {
-            state.chats = [...state.chats, createIChat(action.payload)];
+        clearUser: (state) => {
+            state.user = null;
+            deleteUserLocal();
         },
-        clearUser: () => initialState,
+        clearUserName: (state) => {
+            state.username = '';
+            deleteUsernameLocal();
+        },
+        clearUserStore: (state) => {
+            state.user = null;
+            state.username = '';
+            deleteUserLocal();
+            deleteUsernameLocal();
+        }
     },
 })
 
-export const {setChat, setUsername, setAvatar, setChats, clearUser } = authSlice.actions;
+export const {
+    setUsername,
+    setUser,
+    clearUser,
+    clearUserName,
+    clearUserStore,
+} = userSlice.actions;
 
-export default authSlice.reducer;
+export default userSlice.reducer;
