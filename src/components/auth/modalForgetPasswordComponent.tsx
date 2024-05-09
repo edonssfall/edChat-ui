@@ -14,7 +14,7 @@ import {
 import {IResetPassword, ISetPassword} from '../../interfaces/user.interface.ts';
 import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
 import {IModalPassword} from '../../interfaces/modal.interface.ts';
-import PasswordIconButton from './password/PasswordIcon.tsx';
+import PasswordIconButton from './password/IconPassword.tsx';
 import {axiosService} from '../../services/axios.service.ts';
 import {setTokens} from '../../store/slices/token.slice.ts';
 import {environment} from '../../services/environment.ts';
