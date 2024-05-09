@@ -38,7 +38,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
      * @name initialStates
      * @description This function is used to set the initial states.
      */
-    function initialStates(): void {
+    function initialStates() {
         setNewPassword('');
         setRepeatNewPassword('');
         setFailed(false);
@@ -49,7 +49,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
      * @name closePasswordModal
      * @description This function is used to close the password modal.
      */
-    function closePasswordModal(): void {
+    function closePasswordModal() {
         initialStates();
         setModalType('auth');
     }
@@ -59,7 +59,7 @@ function ModalResetPassword({modalType, setModalType, token, uidb64}: IModalRese
      * @param e React.KeyboardEvent
      * @description This function is used to handle the key down event.
      */
-    function handleKeyDown(e: React.KeyboardEvent): void {
+    function handleKeyDown(e: React.KeyboardEvent) {
         if (e.key === 'Escape') {
             closePasswordModal();
         }

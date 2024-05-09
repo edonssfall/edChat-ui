@@ -1,8 +1,8 @@
 import {Button, Flex, FormControl, Heading, Input, Spacer} from '@chakra-ui/react';
-import {IChatProps} from '../../interfaces/chat.interface.ts';
-import React, {useEffect, useRef, useState} from 'react';
+import {IChatProps, IMessage} from '../../interfaces/chat.interface.ts';
 import MessageComponent from './MessageComponent.tsx';
 import {useAppSelector} from '../../store/hooks.ts';
+import React, {useEffect, useState} from 'react';
 import useWebSocket from 'react-use-websocket';
 
 function ChatComponent({wsUrl}: IChatProps) {
@@ -10,10 +10,10 @@ function ChatComponent({wsUrl}: IChatProps) {
 
     const [sender, setSender] = useState<string>(''),
         [message, setMessage] = useState<string>(''),
-        [messageHistory, setMessageHistory] = useState<[]>([]),
+        [messageHistory, setMessageHistory] = useState<IMessage[]>([]),
         [status, setStatus] = useState<string>('');
 
-    const {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocket(
+    const {sendJsonMessage, lastJsonMessage} = useWebSocket(
         wsUrl,
         {
             share: false,
@@ -22,26 +22,18 @@ function ChatComponent({wsUrl}: IChatProps) {
     )
 
     useEffect(() => {
-        const webSocket = getWebSocket();
-        if (webSocket) {
-            webSocket.addEventListener('error', (event) => {
-                console.error('WebSocket Error:', event, lastJsonMessage);
-            });
-        }
-    }, [getWebSocket, wsUrl, lastJsonMessage]);
-
-    useEffect(() => {
-        if (lastJsonMessage !== null && lastJsonMessage !== undefined) {
-            if (lastJsonMessage.sender !== username) {
-                setSender(lastJsonMessage.sender);
+        if (lastJsonMessage) {
+            const message = lastJsonMessage as IMessage;
+            if (message.sender !== username) {
+                setSender(message.sender);
             }
-            if (lastJsonMessage.type === 'chat.message') {
-                setMessageHistory((prev) => prev.concat(lastJsonMessage));
-            } else if (lastJsonMessage.type === 'chat.status' && lastJsonMessage.sender === sender) {
-                setStatus(lastJsonMessage.status);
+            if (message.message) {
+                setMessageHistory((prev) => [...prev, message]);
+            } else if (message.status && message.sender === sender) {
+                setStatus(message.status);
             }
         }
-    }, [lastJsonMessage]);
+    }, [lastJsonMessage, sender, username]);
 
     function onWriteMessage(e: React.ChangeEvent<HTMLInputElement>) {
         setMessage(e.target.value);
@@ -56,15 +48,6 @@ function ChatComponent({wsUrl}: IChatProps) {
         sendJsonMessage({type: 'chat.message', message, sender: username});
         setMessage('');
     }
-
-    const chatContainerRef = useRef(null);
-
-    useEffect(() => {
-        // Scroll to the bottom of the chat container when message history changes
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        }
-    }, [messageHistory]);
 
     return (
         <Flex direction={'column'} h={'full'} w={'full'} mr={2} ml={2}>

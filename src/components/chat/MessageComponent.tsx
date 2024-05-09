@@ -1,16 +1,16 @@
 import {IMessageProps} from '../../interfaces/chat.interface.ts';
+import {useProfile} from "../../services/user.service.ts";
 import {Heading} from '@chakra-ui/react';
-import {useAppSelector} from '../../store/hooks.ts';
 
 function MessageComponent({message, index}: IMessageProps) {
-    const username = useAppSelector(state => state.user.username);
+    const {profile} = useProfile();
 
     return (
         <>
             <Heading
                 key={index}
                 mb={2}
-                bg={message.sender === username ? 'blue' : 'green'}
+                bg={message.sender === profile.username ? 'blue' : 'green'}
                 textColor={'white'}
             >
                 {message.sender}: {message.message}

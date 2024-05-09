@@ -14,9 +14,10 @@ export interface IChat {
  * @description Interface for message object
  */
 export interface IMessage {
-    type: string,
     sender: string,
-    message: string,
+    message?: string,
+    file?: string,
+    status?: string,
 }
 
 /**
@@ -34,4 +35,13 @@ export interface IChatProps {
 export interface IMessageProps {
     message: IMessage;
     index: number;
+}
+
+/**
+ * @name IConnection
+ * @description Interface for connection object
+ */
+export interface IConnection {
+    access: string;
+    refresh: string;
 }

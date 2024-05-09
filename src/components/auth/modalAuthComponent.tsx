@@ -16,11 +16,11 @@ import LoginComponent from './LoginModalComponent.tsx';
 import React from 'react';
 
 function AuthModal({modalType, setModalType}: IModal) {
-    const closeModal = (): void => {
+    const closeModal = () => {
         setModalType(null);
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent): void => {
+    const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') {
             closeModal();
         }

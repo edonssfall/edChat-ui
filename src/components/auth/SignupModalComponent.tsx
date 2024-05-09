@@ -81,7 +81,7 @@ function SignupComponent(): React.JSX.Element {
         event: React.ChangeEvent<HTMLInputElement>,
         setState: React.Dispatch<React.SetStateAction<string>>,
         setTouched: React.Dispatch<React.SetStateAction<boolean>>,
-    ): void {
+    ) {
         setState(event.target.value);
         setTouched(true);
     }
@@ -100,7 +100,7 @@ function SignupComponent(): React.JSX.Element {
         setError: React.Dispatch<React.SetStateAction<string>>,
         setValid: React.Dispatch<React.SetStateAction<boolean>>,
         validations: IValidationRule[]
-    ): void {
+    ) {
         let isValid = true;
         setError('');
         validations.forEach((validation) => {
@@ -116,7 +116,7 @@ function SignupComponent(): React.JSX.Element {
     /**
      * Function to validate reCAPTCHA
      */
-    function validateCaptcha(): void {
+    function validateCaptcha() {
         const captcha = captchaRef.current?.getValue();
         !captcha ? setCaptchaValid(false) : setCaptchaValid(true);
     }
@@ -195,7 +195,7 @@ function SignupComponent(): React.JSX.Element {
     /**
      * Set fields boolean touched on true
      */
-    function setFieldsTouched(): void {
+    function setFieldsTouched() {
         const fields = [
             {valid: usernameValid, setTouched: setUsernameTouched},
             {valid: firstnameValid, setTouched: setFirstnameTouched},
@@ -226,7 +226,7 @@ function SignupComponent(): React.JSX.Element {
     /**
      * Reactive validate of fields.
      */
-    useEffect((): void => {
+    useEffect(() => {
         validate();
     }, [username, firstname, lastname, email, password, password2, checkbox]);
 
@@ -235,7 +235,7 @@ function SignupComponent(): React.JSX.Element {
      * Make one more validation control.
      * If all okay, send request to signup
      */
-    function handleSubmit(): void {
+    function handleSubmit() {
         // Makes it so that errors are displayed for invalid and don't do touched fields.
         setFieldsTouched();
 

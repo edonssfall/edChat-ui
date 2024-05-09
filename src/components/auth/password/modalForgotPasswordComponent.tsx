@@ -35,7 +35,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
      * @name initialStates
      * @description This function is used to set the initial states.
      */
-    function initialStates(): void {
+    function initialStates() {
         setEmail('');
         setFailed(false);
         setError('');
@@ -45,7 +45,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
      * @name closeForgot
      * @description This function is used to close the password modal.
      */
-    function closeForgot(): void {
+    function closeForgot() {
         initialStates();
         setModalType('auth');
     }
@@ -55,7 +55,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
      * @param e React.KeyboardEvent
      * @description This function is used to handle the key down event.
      */
-    function handleKeyDown(e: React.KeyboardEvent): void {
+    function handleKeyDown(e: React.KeyboardEvent) {
         if (e.key === 'Escape') {
             closeForgot();
         }
