@@ -1,18 +1,21 @@
 import {
+    ModalCloseButton,
     ModalContent,
     ModalOverlay,
     FormControl,
+    ModalHeader,
+    ModalBody,
     FormLabel,
     Button,
     Input,
     Modal,
     Stack,
     Text,
-    Box
 } from '@chakra-ui/react';
+import {IModal, IModalResetPasswordResponse} from '../../../interfaces/modal.interface.ts';
 import {IForgotPassword} from '../../../interfaces/user.interface.ts';
 import {environment} from '../../../services/environment.ts';
-import {IModal} from '../../../interfaces/modal.interface.ts';
+import {useNavigate} from "react-router-dom";
 import React, {useState} from 'react';
 import axios from 'axios';
 
@@ -21,6 +24,8 @@ import axios from 'axios';
  * @description This component is used to start reset password.
  */
 function ModalForgotPassword({modalType, setModalType}: IModal) {
+    const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [Error, setError] = useState<string>(''),
@@ -68,9 +73,11 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
         }
 
         axios.post(environment.BACKEND_URL_AUTH + environment.api.password_reset, data)
-            .then(() => {
+            .then((response) => {
+                const data: IModalResetPasswordResponse = response.data;
                 setFailed(false);
                 closeForgot();
+                navigate(data.data.link);
             })
             .catch(err => {
                 console.log(err);
@@ -84,12 +91,14 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
         <Modal isOpen={modalType === 'forgot'} onClose={closeForgot}>
             <ModalOverlay/>
             <ModalContent className='modalWindow' onKeyDown={handleKeyDown}>
-                <Box p={'6'}>
+                <ModalHeader>Forgot Password?</ModalHeader>
+                <ModalCloseButton/>
+                <ModalBody>
                     <FormControl isInvalid={Failed}>
                         <FormLabel>E-Mail</FormLabel>
                         <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </FormControl>
-                    <Stack spacing={5} mt={4}>
+                    <Stack spacing={5} mt={4} mb={4}>
                         {Failed &&
                             <Text color={'red.500'}>{Error}</Text>
                         }
@@ -104,7 +113,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
                             Send Email
                         </Button>
                     </Stack>
-                </Box>
+                </ModalBody>
             </ModalContent>
         </Modal>
     );
