@@ -14,7 +14,7 @@ import {
 import {IModalResetPassword} from '../../../interfaces/modal.interface.ts';
 import {IResetPassword} from '../../../interfaces/user.interface.ts';
 import {environment} from '../../../services/environment.ts';
-import PasswordIconButton from './PasswordIcon.tsx';
+import PasswordIconButton from './IconPassword.tsx';
 import React, {useState} from 'react';
 import axios from 'axios';
 import PasswordChecklist from "react-password-checklist";

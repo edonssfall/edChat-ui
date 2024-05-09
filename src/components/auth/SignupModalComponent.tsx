@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import {IValidationRule} from '../../interfaces/modal.interface.ts';
 import {IRegister} from '../../interfaces/user.interface.ts';
-import PasswordIconButton from './password/PasswordIcon.tsx';
+import PasswordIconButton from './password/IconPassword.tsx';
 import {setUsername} from '../../store/slices/user.slice.ts';
 import {environment} from '../../services/environment.ts';
 import React, {useEffect, useRef, useState} from 'react';
