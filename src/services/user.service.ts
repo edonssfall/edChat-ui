@@ -47,6 +47,10 @@ export function setUsernameLocal(username: string) {
     localStorage.setItem(username_data, username)
 }
 
+export function getUsernameLocal(): string | null {
+    return localStorage.getItem(username_data)
+}
+
 /**
  * @name deleteUsernameLocal
  * @description This function is used to get the username from the local storage.

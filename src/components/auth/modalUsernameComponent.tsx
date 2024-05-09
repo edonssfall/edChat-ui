@@ -29,7 +29,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
      * @name initialStates
      * @description This function is used to set the initial states.
      */
-    function initialStates(): void {
+    function initialStates() {
         setUserName('');
         setFailed(false);
         setError('');
@@ -39,7 +39,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
      * @name closeUsernameModal
      * @description This function is used to close the password modal.
      */
-    function closeUsernameModal(): void {
+    function closeUsernameModal() {
         initialStates();
         dispatch(setUsername(userName));
         setModalType(null);
@@ -50,7 +50,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
      * @param e React.KeyboardEvent
      * @description This function is used to handle the key down event.
      */
-    function handleKeyDown(e: React.KeyboardEvent): void {
+    function handleKeyDown(e: React.KeyboardEvent) {
         if (e.key === 'Escape') {
             closeUsernameModal();
         }

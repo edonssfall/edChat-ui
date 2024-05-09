@@ -16,7 +16,7 @@ export interface IUser {
  * @description Interface for user object
  */
 export interface IUserChat {
-    username: string;
+    username: string | null;
     user: IUser | null;
 }
 
