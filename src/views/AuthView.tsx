@@ -23,15 +23,15 @@ function AuthView(): React.JSX.Element {
         } else if (refreshToken && !username) {
             setModalType('username');
         }
-    }, [username, modalType]);
+    }, [username, modalType, refreshToken]);
 
     useState(() => {
-        if (!refreshToken) {
-            setModalType('auth');
-        } else if (uidb64 && token) {
+        if (uidb64 && token) {
             setModalType('password-reset');
-        } else if (!username) {
+        } else if (!refreshToken) {
             setModalType('auth');
+        } else if (!username) {
+            setModalType('username');
         }
     })
 

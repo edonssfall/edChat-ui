@@ -33,6 +33,14 @@ export interface IModalResetPassword extends IModal {
     uidb64: string;
 }
 
+export interface IModalResetPasswordResponse {
+    message: string;
+    data: {
+        link: string;
+        email: string;
+    }
+}
+
 /**
  * Interface for validation function
  */
