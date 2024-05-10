@@ -2,11 +2,12 @@ import {
     FormControl,
     InputGroup,
     FormLabel,
+    Checkbox,
     Button,
     Input,
     Stack,
     Text,
-    Box, Checkbox,
+    Box,
 } from '@chakra-ui/react';
 import {IValidationRule} from '../../interfaces/modal.interface.ts';
 import {IRegister} from '../../interfaces/user.interface.ts';
@@ -15,8 +16,8 @@ import {setUsername} from '../../store/slices/user.slice.ts';
 import {environment} from '../../services/environment.ts';
 import React, {useEffect, useRef, useState} from 'react';
 import PasswordChecklist from 'react-password-checklist'
-import {useAppDispatch} from '../../store/hooks.ts';
 import ReCAPTCHA from 'react-google-recaptcha';
+import {useDispatch} from "react-redux";
 import {toast} from 'react-toastify';
 import axios from 'axios';
 
@@ -27,10 +28,8 @@ import axios from 'axios';
 function SignupComponent(): React.JSX.Element {
     // Create a reference to the reCAPTCHA component
     const captchaRef = useRef<ReCAPTCHA | null>(null),
-        captchaKey = import.meta.env.VITE_RECAPTCHA_KEY;
-    
-    // Use the dispatch function from the Redux store
-    const dispatch = useAppDispatch();
+        captchaKey = import.meta.env.VITE_RECAPTCHA_KEY,
+        dispatch = useDispatch();
 
     // Variables with state for form
     const [username, setUserName] = useState<string>(''),

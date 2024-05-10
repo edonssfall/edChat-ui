@@ -5,10 +5,11 @@ import {clearUserStore} from '../../../store/slices/user.slice.ts';
 import AddChatModalComponent from '../AddChatModalComponent.tsx';
 import {clearTokens} from '../../../store/slices/token.slice.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {useProfile} from "../../../services/user.service.ts";
 import ChatBoxComponent from '../ChatBoxComponent.tsx';
 import {useAppSelector} from '../../../store/hooks.ts';
-import {useDispatch} from 'react-redux';
 import SearchBarComponent from "./SearchBar.tsx";
+import {useDispatch} from 'react-redux';
 
 /**
  * @name SidebarContent
@@ -17,9 +18,17 @@ import SearchBarComponent from "./SearchBar.tsx";
  * @param rest
  */
 function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
-    const user = useAppSelector((state) => state.user),
+    const {profile} = useProfile(),
         chat = useAppSelector((state) => state.chat),
         dispatch = useDispatch();
+
+    /**
+     * @name redirectHome
+     * @description Redirects the user to the home page.
+     */
+    const redirectHome = () => {
+        window.location.href = '/';
+    }
 
     return (
         <>
@@ -33,12 +42,12 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
                 h='full'
                 {...rest}>
                 <Flex direction={'column'} h={'full'}>
-                    <Flex h='20' alignItems='center' mx='8' justifyContent='space-between' my={'2em'}>
-                        <h1>edSockets</h1>
+                    <Flex h='20' alignItems='center' mx='8' my={'2em'}>
+                        <Text onClick={redirectHome}>edSockets</Text>
                         <CloseButton display={{base: 'flex', md: 'none'}} onClick={onClose}/>
                     </Flex>
 
-                    {user.username ?
+                    {profile.username ?
                         <>
                             <Flex>
                                 <SearchBarComponent />

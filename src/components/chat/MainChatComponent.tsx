@@ -24,7 +24,10 @@ const MainChatComponent: React.FC = () => {
                             Welcome, {profile.username}!
                         </Heading>
                     ) : (
-                        <ChatComponent wsUrl={`${environment.BACKEND_WS_CHAT}/${chat.selectedChat.path}`}/>
+                        <>
+                            <ChatComponent wsUrl={`${environment.BACKEND_WS_CHAT}/${chat.selectedChat.path}`}/>
+                            chat.selectedChat
+                        </>
                     )) : (
                     <></>
                 )}

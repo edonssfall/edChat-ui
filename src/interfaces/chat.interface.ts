@@ -66,6 +66,10 @@ export interface IProviderProps {
     children: ReactNode;
 }
 
+/**
+ * @name IWebsocketContext
+ * @description Interface for websocket context
+ */
 export interface IWebsocketContext {
     sendJsonMessage: SendJsonMessage;
     lastJsonMessage: IMessage | IConnection | unknown;

@@ -1,11 +1,19 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IChatStore} from "../../interfaces/chat.interface.ts";
 
+/**
+ * @name initialState
+ * @description Initial state for chat store
+ */
 const initialState: IChatStore= {
     selectedChat: null,
     chats: [],
 };
 
+/**
+ * @name ChatSlice
+ * @description Chat slice
+ */
 const ChatSlice = createSlice({
     name: 'chat',
     initialState: initialState,

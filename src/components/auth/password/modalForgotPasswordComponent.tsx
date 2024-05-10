@@ -18,7 +18,7 @@ import {environment} from '../../../services/environment.ts';
 import {useNavigate} from "react-router-dom";
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useModalTypeContext} from "../../../services/modal.context.tsx";
+import {useModalTypeContext} from "../../../context/modal.context.tsx";
 
 /**
  * @name ModalForgotPassword
@@ -73,7 +73,6 @@ function ModalForgotPassword() {
             email: email,
             url: window.location.href,
         }
-
         axios.post(environment.BACKEND_URL_AUTH + environment.api.password_reset, data)
             .then((response) => {
                 const data: IModalResetPasswordResponse = response.data;

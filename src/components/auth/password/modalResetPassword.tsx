@@ -20,7 +20,7 @@ import PasswordChecklist from 'react-password-checklist';
 import PasswordIconButton from './IconPassword.tsx';
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useModalTypeContext} from "../../../services/modal.context.tsx";
+import {useModalTypeContext} from "../../../context/modal.context.tsx";
 
 /**
  * @name ModalResetPassword
@@ -79,7 +79,6 @@ function ModalResetPassword({token, uidb64}: IModalResetPassword) {
             password: newPassword,
             confirm_password: repeatNewPassword,
         };
-
         axios.patch(environment.BACKEND_URL_AUTH + environment.api.password_set, data)
             .then(() => {
                 setFailed(false);

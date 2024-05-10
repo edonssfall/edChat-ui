@@ -24,7 +24,6 @@ function HomeView(): React.JSX.Element {
                     }/>
                 </Routes>
             </BrowserRouter>
-
             <SideBar>
                 <MainChatComponent/>
             </SideBar>

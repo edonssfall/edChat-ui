@@ -2,8 +2,18 @@ import {IModalState, IModalTypeContextType} from "../interfaces/modal.interface.
 import {IProviderProps} from "../interfaces/chat.interface.ts";
 import React, {createContext, FC, useState} from 'react';
 
+/**
+ * @name ModalTypeContext
+ * @description Modal type context
+ */
 const ModalTypeContext = createContext<IModalTypeContextType | undefined>(undefined);
 
+/**
+ * @name ModalTypeProvider
+ * @param children
+ * @constructor
+ * @description Modal type provider component
+ */
 const ModalTypeProvider: FC<IProviderProps> = ({ children }) => {
     const [modalState, setModalState] = useState<IModalState>({ state: null });
 
@@ -19,6 +29,10 @@ const ModalTypeProvider: FC<IProviderProps> = ({ children }) => {
     );
 };
 
+/**
+ * @name useModalTypeContext
+ * @description Hook to use modal type context
+ */
 const useModalTypeContext = () => {
     const context = React.useContext(ModalTypeContext);
     if (!context) {

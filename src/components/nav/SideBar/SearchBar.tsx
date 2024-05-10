@@ -1,21 +1,24 @@
-import {useWebSocketContext} from "../../../services/websocket.context.tsx";
-import {Input, Stack} from "@chakra-ui/react";
+import {Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, Text} from "@chakra-ui/react";
+import {ISearchResponse, ISearchUser} from "../../../interfaces/sidebar.interface.ts";
+import {useWebSocketContext} from "../../../context/websocket.context.tsx";
 import {useEffect, useState} from "react";
 
-interface ISearchUser {
-    id?: string;
-    username: string;
-}
-
-interface ISearchResponse {
-    users: ISearchUser[]
-}
-
+/**
+ * @name SearchBarComponent
+ * @description component: SearchBarComponent
+ */
 function SearchBarComponent() {
-    const [search, setSearch] = useState('');
-    const {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocketContext();
+    const [search, setSearch] = useState(''),
+        [searchResults, setSearchResults] = useState<ISearchUser[]>([]),
+        [isSearching, setIsSearching] = useState<boolean>(false),
+        {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocketContext();
 
+    /**
+     * @name useEffect
+     * @description This function is used to set the initial states.
+     */
     useEffect(() => {
+        setIsSearching(true);
         let timeoutId: NodeJS.Timeout;
 
         if (search) {
@@ -25,26 +28,80 @@ function SearchBarComponent() {
         } else {
             getWebSocket()?.close();
         }
+
         return () => clearTimeout(timeoutId);
     }, [search]);
 
+    /**
+     * @name useEffect
+     * @description This function is used to set the initial states.
+     */
     useEffect(() => {
-        if (lastJsonMessage){
-            const message: ISearchResponse = lastJsonMessage as ISearchResponse;
-            console.log(message.users[0]);
+        if (lastJsonMessage && (lastJsonMessage as ISearchResponse).users !== undefined) {
+            const users = (lastJsonMessage as ISearchResponse).users;
+            if (users) {
+                setSearchResults(users);
+            }
         }
+        setIsSearching(false);
     }, [lastJsonMessage]);
 
-  return (
-    <Stack>
-      <Input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search..."
-      />
-    </Stack>
-  );
+    /**
+     * @name handleClear
+     * @description This function is used to clear the search.
+     */
+    const handleClear = () => {
+        setSearch('');
+        setSearchResults([]);
+    };
+
+    return (
+        <Stack>
+            <Flex alignItems="center">
+                <InputGroup>
+                    <Input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search..."
+                        w="full"
+                    />
+                    {search.length > 0 && (
+                        <InputRightElement width="4.5rem">
+                            <Button h="1.75rem" size="sm" onClick={handleClear}>
+                                X
+                            </Button>
+                        </InputRightElement>
+                    )}
+                </InputGroup>
+            </Flex>
+
+            {search.length > 0 && !isSearching  && (
+                <Box
+                    bg="white"
+                    border="1px solid #ddd"
+                    borderRadius="md"
+                    p={2}
+                    w="full"
+                    boxShadow="md"
+                >
+                    {searchResults.length === 0 ? (
+                        <Text>No results found</Text>
+                    ) : (
+                        searchResults.map((result) => (
+                            <Text
+                                key={result.id}
+                                cursor="pointer"
+                                _hover={{ bg: '#ddd' }}
+                            >
+                                {result.username}
+                            </Text>
+                        ))
+                    )}
+                </Box>
+            )}
+        </Stack>
+    );
 }
 
 export default SearchBarComponent;

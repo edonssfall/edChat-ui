@@ -2,7 +2,7 @@ import ModalForgotPassword from '../components/auth/password/modalForgotPassword
 import ModalResetPassword from '../components/auth/password/modalResetPassword.tsx';
 import ModalAuthComponent from '../components/auth/modalAuthComponent.tsx';
 import ModalUsername from '../components/auth/modalUsernameComponent.tsx';
-import {useModalTypeContext} from "../services/modal.context.tsx";
+import {useModalTypeContext} from "../context/modal.context.tsx";
 import {useTokens} from '../services/token.service.ts';
 import {useProfile} from "../services/user.service.ts";
 import React, {useEffect, useState} from 'react';
@@ -18,6 +18,10 @@ function AuthView(): React.JSX.Element {
         {uidb64, token} = useParams(),
         {modalState, setModalState} = useModalTypeContext();
 
+    /**
+     * @name useEffect
+     * @description This hook is used to set the modal state.
+     */
     useEffect(() => {
         if (!refreshToken && modalState === null) {
             setModalState({state: 'auth'});
@@ -26,6 +30,10 @@ function AuthView(): React.JSX.Element {
         }
     }, [profile.username, modalState, refreshToken]);
 
+    /**
+     * @name useState
+     * @description This hook is used to set the modal state.
+     */
     useState(() => {
         if (uidb64 && token) {
             setModalState({state: 'password-reset'});

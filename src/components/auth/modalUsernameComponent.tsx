@@ -10,10 +10,10 @@ import {
     Text,
     Box
 } from '@chakra-ui/react';
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 import {setUsername} from '../../store/slices/user.slice.ts';
-import {useAppDispatch} from '../../store/hooks.ts';
+import {useDispatch} from "react-redux";
 import React, {useState} from 'react';
-import {useModalTypeContext} from "../../services/modal.context.tsx";
 
 /**
  * @name ModalUsername
@@ -24,7 +24,7 @@ function ModalUsername() {
         [Error, setError] = useState<string>(''),
         [Failed, setFailed] = useState<boolean>(false),
         {modalState, setModalState} = useModalTypeContext(),
-        dispatch = useAppDispatch();
+        dispatch = useDispatch();
 
     /**
      * @name initialStates

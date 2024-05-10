@@ -92,9 +92,8 @@ const selectedTokensMemoized = createSelector(
  * @description This function is used to get the tokens from the store.
  */
 export const useTokens = () => {
-    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized);
-
-    const dispatch = useAppDispatch();
+    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized),
+        dispatch = useAppDispatch();
 
     window.addEventListener('storage', (event) => {
         switch (event.key) {

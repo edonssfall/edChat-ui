@@ -13,15 +13,29 @@ import {
 import SignupComponent from './SignupModalComponent.tsx';
 import LoginComponent from './LoginModalComponent.tsx';
 import React from 'react';
-import {useModalTypeContext} from "../../services/modal.context.tsx";
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 
+/**
+ * @name AuthModal
+ * @description This component is used to display the authentication modal.
+ * @constructor
+ */
 function AuthModal() {
     const {modalState, setModalState} = useModalTypeContext();
 
+    /**
+     * @name closeModal
+     * @description This function is used to close the modal.
+     */
     const closeModal = () => {
         setModalState({state: null});
     }
 
+    /**
+     * @name handleKeyDown
+     * @param e
+     * @description This function is used to handle the key down event.
+     */
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') {
             closeModal();

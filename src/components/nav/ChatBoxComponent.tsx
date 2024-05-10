@@ -3,6 +3,12 @@ import {Box, Text, Avatar, Link} from '@chakra-ui/react';
 import {setChat} from "../../store/slices/chat.slice.ts";
 import {useDispatch} from "react-redux";
 
+/**
+ * @name ChatBoxComponent
+ * @param chat
+ * @constructor
+ * @description This component is used to display the chat box.
+ */
 function ChatBoxComponent({chat}: ISidebarProps) {
     const dispatch = useDispatch();
 

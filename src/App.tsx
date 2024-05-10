@@ -1,14 +1,16 @@
+import {AppProvider} from "./context/app.context.tsx";
 import HomeView from "./views/HomeView.tsx";
-import {WebSocketProvider} from "./services/websocket.context.tsx";
-import {ModalTypeProvider} from "./services/modal.context.tsx";
 
+/**
+ * @name App
+ * @constructor
+ * @description Main application component
+ */
 function App() {
     return (
-        <WebSocketProvider>
-            <ModalTypeProvider>
-                <HomeView />
-            </ModalTypeProvider>
-        </WebSocketProvider>
+        <AppProvider>
+            <HomeView/>
+        </AppProvider>
     );
 }
 

@@ -24,6 +24,10 @@ export interface IModalResetPassword {
     uidb64: string;
 }
 
+/**
+ * Interface for ModalForgotPasswordResponse
+ * @param message - The message
+ */
 export interface IModalResetPasswordResponse {
     message: string;
     data: {

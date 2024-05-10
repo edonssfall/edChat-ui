@@ -1,10 +1,11 @@
 import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from "@chakra-ui/react";
 import {ILogin, ILoginResponse} from "../../interfaces/user.interface.ts";
 import {saveToken, setTokens} from "../../store/slices/token.slice.ts";
-import {useModalTypeContext} from "../../services/modal.context.tsx";
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 import {environment} from "../../services/environment.ts";
 import {setUser} from "../../store/slices/user.slice.ts";
+import {useAppSelector} from "../../store/hooks.ts";
+import {useDispatch} from "react-redux";
 import {useState} from "react";
 import axios from "axios";
 
@@ -17,7 +18,7 @@ function LoginComponent() {
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
         [loginFailed, setLoginFailed] = useState<boolean>(false),
-        dispatch = useAppDispatch(),
+        dispatch = useDispatch(),
         {save} = useAppSelector(state => state.token),
         {setModalState} = useModalTypeContext();
 

@@ -24,3 +24,20 @@ export interface ISidebarContentProps extends BoxProps {
 export interface IMobileProps extends FlexProps {
     onOpen: () => void;
 }
+
+/**
+ * @name ISearchUser
+ * @description The props for the SearchUser component.
+ */
+export interface ISearchUser {
+    id?: string;
+    username: string;
+}
+
+/**
+ * @name ISearchResponse
+ * @description The props for the SearchResponse component.
+ */
+export interface ISearchResponse {
+    users?: ISearchUser[];
+}
