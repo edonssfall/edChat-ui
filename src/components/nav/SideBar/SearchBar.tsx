@@ -2,6 +2,8 @@ import {Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, Text} fr
 import {ISearchResponse, ISearchUser} from "../../../interfaces/sidebar.interface.ts";
 import {useWebSocketContext} from "../../../context/websocket.context.tsx";
 import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {setChatUUID} from "../../../store/slices/chat.slice.ts";
 
 /**
  * @name SearchBarComponent
@@ -9,6 +11,7 @@ import {useEffect, useState} from "react";
  */
 function SearchBarComponent() {
     const [search, setSearch] = useState(''),
+        dispatch = useDispatch(),
         [searchResults, setSearchResults] = useState<ISearchUser[]>([]),
         [isSearching, setIsSearching] = useState<boolean>(false),
         {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocketContext();
@@ -34,14 +37,23 @@ function SearchBarComponent() {
 
     /**
      * @name useEffect
-     * @description This function is used to set the initial states.
+     * @description This function is used to set the initial states. And also to set the search results.
      */
     useEffect(() => {
-        if (lastJsonMessage && (lastJsonMessage as ISearchResponse).users !== undefined) {
-            const users = (lastJsonMessage as ISearchResponse).users;
-            if (users) {
-                setSearchResults(users);
+        if (lastJsonMessage) {
+            if ((lastJsonMessage as ISearchResponse).users !== undefined) {
+                const users = (lastJsonMessage as ISearchResponse).users;
+                if (users) {
+                    setSearchResults(users);
+                }
+            } else if ((lastJsonMessage as ISearchResponse).room_uuid !== undefined) {
+                const room_uuid = (lastJsonMessage as ISearchResponse).room_uuid;
+                if (room_uuid) {
+                    dispatch(setChatUUID(room_uuid));
+                    handleClear();
+                }
             }
+
         }
         setIsSearching(false);
     }, [lastJsonMessage]);
@@ -93,6 +105,7 @@ function SearchBarComponent() {
                                 key={result.id}
                                 cursor="pointer"
                                 _hover={{ bg: '#ddd' }}
+                                onClick={() => sendJsonMessage({chat: result.username})}
                             >
                                 {result.username}
                             </Text>

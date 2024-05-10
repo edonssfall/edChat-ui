@@ -17,6 +17,7 @@ export interface IChat {
  * @description Interface for chat store object
  */
 export interface IChatStore {
+    chat_uuid: string | null;
     selectedChat: IChat | null;
     chats: IChat[];
 }
@@ -26,18 +27,13 @@ export interface IChatStore {
  * @description Interface for message object
  */
 export interface IMessage {
+    type: string,
     sender: string,
-    message?: string,
+    content?: string,
+    timestamp?: string,
     file?: string,
     status?: string,
-}
-
-/**
- * @name IChatProps
- * @description Interface for chat props
- */
-export interface IChatProps {
-    wsUrl: string;
+    messages?: IMessage[],
 }
 
 /**

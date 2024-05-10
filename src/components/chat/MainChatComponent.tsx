@@ -1,5 +1,4 @@
 import {useTokens} from "../../services/token.service.ts";
-import {environment} from "../../services/environment.ts";
 import {useProfile} from "../../services/user.service.ts";
 import {useAppSelector} from "../../store/hooks.ts";
 import {Center, Heading} from '@chakra-ui/react';
@@ -19,14 +18,13 @@ const MainChatComponent: React.FC = () => {
         <>
             <Center h={'100vh'}>
                 {refreshToken && profile.username ? (
-                    !chat.selectedChat ? (
+                    !chat.chat_uuid ? (
                         <Heading size={{lg: '3xl', md: 'xl'}} color={'blue.500'}>
                             Welcome, {profile.username}!
                         </Heading>
                     ) : (
                         <>
-                            <ChatComponent wsUrl={`${environment.BACKEND_WS_CHAT}/${chat.selectedChat.path}`}/>
-                            chat.selectedChat
+                            <ChatComponent/>
                         </>
                     )) : (
                     <></>
