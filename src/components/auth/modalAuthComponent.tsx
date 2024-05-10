@@ -10,16 +10,32 @@ import {
     Tabs,
     Tab,
 } from '@chakra-ui/react';
-import {IModal} from '../../interfaces/modal.interface.ts';
 import SignupComponent from './SignupModalComponent.tsx';
 import LoginComponent from './LoginModalComponent.tsx';
 import React from 'react';
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 
-function AuthModal({modalType, setModalType}: IModal) {
+/**
+ * @name AuthModal
+ * @description This component is used to display the authentication modal.
+ * @constructor
+ */
+function AuthModal() {
+    const {modalState, setModalState} = useModalTypeContext();
+
+    /**
+     * @name closeModal
+     * @description This function is used to close the modal.
+     */
     const closeModal = () => {
-        setModalType(null);
+        setModalState({state: null});
     }
 
+    /**
+     * @name handleKeyDown
+     * @param e
+     * @description This function is used to handle the key down event.
+     */
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') {
             closeModal();
@@ -28,7 +44,7 @@ function AuthModal({modalType, setModalType}: IModal) {
 
     return (
         <Modal
-            isOpen={modalType === 'auth'}
+            isOpen={modalState.state === 'auth'}
             onClose={closeModal}
         >
             <ModalOverlay/>
@@ -43,7 +59,7 @@ function AuthModal({modalType, setModalType}: IModal) {
                     <ModalBody>
                         <TabPanels>
                             <TabPanel>
-                                <LoginComponent setModalType={setModalType}/>
+                                <LoginComponent/>
                             </TabPanel>
                             <TabPanel>
                                 <SignupComponent/>

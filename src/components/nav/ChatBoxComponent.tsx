@@ -1,15 +1,20 @@
 import {ISidebarProps} from '../../interfaces/sidebar.interface.ts';
 import {Box, Text, Avatar, Link} from '@chakra-ui/react';
-import {useEffect} from 'react';
+import {setChat} from "../../store/slices/chat.slice.ts";
+import {useDispatch} from "react-redux";
 
-function ChatBoxComponent({chat, setSelectedChat}: ISidebarProps) {
-
-    useEffect(() => {
-    }, [chat]);
+/**
+ * @name ChatBoxComponent
+ * @param chat
+ * @constructor
+ * @description This component is used to display the chat box.
+ */
+function ChatBoxComponent({chat}: ISidebarProps) {
+    const dispatch = useDispatch();
 
     return (
         <>
-            <Link onClick={() => setSelectedChat(chat)}>
+            <Link onClick={() => dispatch(setChat(chat))}>
                 <Box
                     display='flex'
                     alignItems='center'

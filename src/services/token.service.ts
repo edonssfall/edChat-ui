@@ -1,5 +1,5 @@
-import {deleteAccessToken, clearToken} from '../store/slices/token.slice.ts';
 import {useAppDispatch, useAppSelector} from '../store/hooks.ts';
+import {clearTokens} from '../store/slices/token.slice.ts';
 import {clearUser} from '../store/slices/user.slice.ts';
 import {createSelector} from '@reduxjs/toolkit';
 import {environment} from './environment.ts';
@@ -67,8 +67,9 @@ export function setCoockiesTokens(accessToken: string, refreshToken: string) {
  * @description This function is used to delete the tokens from the coockies.
  */
 export function deleteTokens() {
-    coockies.remove(refresh_token);
-    coockies.remove(access_token);
+    console.log('dwa')
+    coockies.remove(refresh_token, {path: '/'});
+    coockies.remove(access_token, {path: '/'});
 }
 
 // Token interface
@@ -91,21 +92,15 @@ const selectedTokensMemoized = createSelector(
  * @description This function is used to get the tokens from the store.
  */
 export const useTokens = () => {
-    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized);
-
-    const dispatch = useAppDispatch();
+    const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized),
+        dispatch = useAppDispatch();
 
     window.addEventListener('storage', (event) => {
         switch (event.key) {
             case refresh_token:
                 if (event.newValue === refresh_token) {
-                    dispatch(clearToken());
+                    dispatch(clearTokens());
                     dispatch(clearUser());
-                }
-                break;
-            case access_token:
-                if (event.newValue === access_token) {
-                    dispatch(deleteAccessToken());
                 }
                 break;
         }

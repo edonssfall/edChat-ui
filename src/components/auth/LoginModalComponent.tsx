@@ -1,10 +1,11 @@
 import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from "@chakra-ui/react";
 import {ILogin, ILoginResponse} from "../../interfaces/user.interface.ts";
 import {saveToken, setTokens} from "../../store/slices/token.slice.ts";
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {IModalLogin} from "../../interfaces/modal.interface.ts";
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 import {environment} from "../../services/environment.ts";
 import {setUser} from "../../store/slices/user.slice.ts";
+import {useAppSelector} from "../../store/hooks.ts";
+import {useDispatch} from "react-redux";
 import {useState} from "react";
 import axios from "axios";
 
@@ -12,13 +13,14 @@ import axios from "axios";
  * @name LoginComponent
  * @description This component is used to log in the user.
  */
-function LoginComponent({setModalType}: IModalLogin) {
+function LoginComponent() {
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
         [loginFailed, setLoginFailed] = useState<boolean>(false),
-        dispatch = useAppDispatch(),
-        {save} = useAppSelector(state => state.token);
+        dispatch = useDispatch(),
+        {save} = useAppSelector(state => state.token),
+        {setModalState} = useModalTypeContext();
 
     /**
      * @name login
@@ -36,7 +38,7 @@ function LoginComponent({setModalType}: IModalLogin) {
                 setLoginFailed(false);
                 dispatch(setTokens({accessToken: data.access, refreshToken: data.refresh}));
                 dispatch(setUser(data.user));
-                setModalType(null);
+                setModalState({state: null});
             })
             .catch(err => {
                 console.log(err);
@@ -70,7 +72,7 @@ function LoginComponent({setModalType}: IModalLogin) {
                     align={'start'}
                     justify={'space-between'}>
                     <Link color={'blue.400'}
-                          onClick={() => setModalType('forgot')}
+                          onClick={() => setModalState({state: 'forgot'})}
                     >Password forget?</Link>
                 </Stack>
                 <Stack spacing={5}>

@@ -10,20 +10,21 @@ import {
     Text,
     Box
 } from '@chakra-ui/react';
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 import {setUsername} from '../../store/slices/user.slice.ts';
-import {IModal} from '../../interfaces/modal.interface.ts';
-import {useAppDispatch} from '../../store/hooks.ts';
+import {useDispatch} from "react-redux";
 import React, {useState} from 'react';
 
 /**
  * @name ModalUsername
  * @description This component is used to log in the user.
  */
-function ModalUsername({modalType, setModalType}: IModal) {
+function ModalUsername() {
     const [userName, setUserName] = useState<string>(''),
         [Error, setError] = useState<string>(''),
         [Failed, setFailed] = useState<boolean>(false),
-        dispatch = useAppDispatch();
+        {modalState, setModalState} = useModalTypeContext(),
+        dispatch = useDispatch();
 
     /**
      * @name initialStates
@@ -42,7 +43,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
     function closeUsernameModal() {
         initialStates();
         dispatch(setUsername(userName));
-        setModalType(null);
+        setModalState({state: null});
     }
 
     /**
@@ -65,7 +66,7 @@ function ModalUsername({modalType, setModalType}: IModal) {
     };
 
     return (
-        <Modal isOpen={modalType === 'username'} onClose={closeUsernameModal}>
+        <Modal isOpen={modalState.state === 'username'} onClose={closeUsernameModal}>
             <ModalOverlay/>
             <ModalContent className='modalWindow' onKeyDown={handleKeyDown}>
                 <Box p={'6'}>

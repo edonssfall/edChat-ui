@@ -1,30 +1,37 @@
 import {Button, Flex, FormControl, Heading, Input, Spacer} from '@chakra-ui/react';
 import {IChatProps, IMessage} from '../../interfaces/chat.interface.ts';
 import MessageComponent from './MessageComponent.tsx';
-import {useAppSelector} from '../../store/hooks.ts';
 import React, {useEffect, useState} from 'react';
 import useWebSocket from 'react-use-websocket';
+import {useProfile} from "../../services/user.service.ts";
 
+/**
+ * @name ChatComponent
+ * @description component: ChatComponent
+ * @constructor
+ */
 function ChatComponent({wsUrl}: IChatProps) {
-    const username = useAppSelector(state => state.user.username);
-
     const [sender, setSender] = useState<string>(''),
         [message, setMessage] = useState<string>(''),
         [messageHistory, setMessageHistory] = useState<IMessage[]>([]),
-        [status, setStatus] = useState<string>('');
+        {profile} = useProfile(),
+        [status, setStatus] = useState<string>(''),
+        {sendJsonMessage, lastJsonMessage} = useWebSocket(
+            wsUrl,
+            {
+                share: false,
+                shouldReconnect: () => true,
+            },
+        );
 
-    const {sendJsonMessage, lastJsonMessage} = useWebSocket(
-        wsUrl,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        },
-    )
-
+    /**
+     * @name useEffect
+     * @description This function is used to set the initial states.
+     */
     useEffect(() => {
         if (lastJsonMessage) {
             const message = lastJsonMessage as IMessage;
-            if (message.sender !== username) {
+            if (message.sender !== profile.username) {
                 setSender(message.sender);
             }
             if (message.message) {
@@ -33,19 +40,28 @@ function ChatComponent({wsUrl}: IChatProps) {
                 setStatus(message.status);
             }
         }
-    }, [lastJsonMessage, sender, username]);
+    }, [lastJsonMessage, sender, profile.username]);
 
+    /**
+     * @name onWriteMessage
+     * @param e
+     * @description This function is used to handle the key down event.
+     */
     function onWriteMessage(e: React.ChangeEvent<HTMLInputElement>) {
         setMessage(e.target.value);
-        sendJsonMessage({type: 'chat.status', status: 'typing...', sender: username})
+        sendJsonMessage({type: 'chat.status', status: 'typing...', sender: profile.username})
 
         setTimeout(() => {
-            sendJsonMessage({type: 'chat.status', status: 'online', sender: username});
+            sendJsonMessage({type: 'chat.status', status: 'online', sender: profile.username});
         }, 2000);
     }
 
+    /**
+     * @name handleSubmit
+     * @description This function is used to handle the submit event.
+     */
     function handleSubmit() {
-        sendJsonMessage({type: 'chat.message', message, sender: username});
+        sendJsonMessage({type: 'chat.message', message, sender: profile.username});
         setMessage('');
     }
 
@@ -56,15 +72,12 @@ function ChatComponent({wsUrl}: IChatProps) {
                 :
                 <></>
             }
-
             <Flex direction='column' mb={4} h='full' overflowY='auto'>
                 {messageHistory.map((message, index) => (
                     <MessageComponent message={message} index={index}/>
                 ))}
             </Flex>
-
             <Spacer/>
-
             <Flex>
                 <FormControl flex='1' mr={2} mb={2}>
                     <Input
@@ -74,7 +87,6 @@ function ChatComponent({wsUrl}: IChatProps) {
                         onChange={onWriteMessage}
                     />
                 </FormControl>
-
                 <Button
                     colorScheme='blue'
                     onClick={handleSubmit}

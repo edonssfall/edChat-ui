@@ -12,24 +12,26 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import {IModal, IModalResetPasswordResponse} from '../../../interfaces/modal.interface.ts';
+import {IModalResetPasswordResponse} from '../../../interfaces/modal.interface.ts';
 import {IForgotPassword} from '../../../interfaces/user.interface.ts';
 import {environment} from '../../../services/environment.ts';
 import {useNavigate} from "react-router-dom";
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useModalTypeContext} from "../../../context/modal.context.tsx";
 
 /**
  * @name ModalForgotPassword
  * @description This component is used to start reset password.
  */
-function ModalForgotPassword({modalType, setModalType}: IModal) {
+function ModalForgotPassword() {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState<boolean>(false),
         [email, setEmail] = useState<string>(''),
         [Error, setError] = useState<string>(''),
-        [Failed, setFailed] = useState<boolean>(false);
+        [Failed, setFailed] = useState<boolean>(false),
+        {modalState, setModalState} = useModalTypeContext();
 
     /**
      * @name initialStates
@@ -47,7 +49,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
      */
     function closeForgot() {
         initialStates();
-        setModalType('auth');
+        setModalState({state: 'auth'});
     }
 
     /**
@@ -71,7 +73,6 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
             email: email,
             url: window.location.href,
         }
-
         axios.post(environment.BACKEND_URL_AUTH + environment.api.password_reset, data)
             .then((response) => {
                 const data: IModalResetPasswordResponse = response.data;
@@ -88,7 +89,7 @@ function ModalForgotPassword({modalType, setModalType}: IModal) {
     };
 
     return (
-        <Modal isOpen={modalType === 'forgot'} onClose={closeForgot}>
+        <Modal isOpen={modalState.state === 'forgot'} onClose={closeForgot}>
             <ModalOverlay/>
             <ModalContent className='modalWindow' onKeyDown={handleKeyDown}>
                 <ModalHeader>Forgot Password?</ModalHeader>

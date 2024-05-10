@@ -81,10 +81,13 @@ const selectProfileMemoized = createSelector(
  * @description This function is used to get the user from the store.
  */
 export const useProfile = () => {
-    const profile = useSelector(selectProfileMemoized);
+    const profile = useSelector(selectProfileMemoized),
+        dispatch = useAppDispatch();
 
-    const dispatch = useAppDispatch();
-
+    /**
+     * @name storageEventListener
+     * @description This function is used to listen to the storage event.
+     */
     window.addEventListener('storage', (event) => {
         console.log(event.key, event.newValue)
         switch (event.key) {

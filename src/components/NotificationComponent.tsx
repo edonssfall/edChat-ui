@@ -1,30 +1,27 @@
+import {useWebSocketContext} from "../context/websocket.context.tsx";
 import {IConnection} from '../interfaces/chat.interface.ts';
 import {setTokens} from '../store/slices/token.slice.ts';
-import {environment} from '../services/environment.ts';
-import {useProfile} from '../services/user.service.ts';
-import useWebSocket from 'react-use-websocket';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 
+/**
+ * @name NotificationComponent
+ * @description component: NotificationComponent
+ */
 function NotificationComponent() {
-    const {profile} = useProfile(),
-        dispatch = useDispatch();
+    const dispatch = useDispatch(),
+        {lastJsonMessage} = useWebSocketContext();
 
-    const {lastJsonMessage} = useWebSocket(
-        `${environment.BACKEND_WS_CHAT}/${profile.username}`,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        },
-    )
-
-    // useState(() => dispatch(setTokens({refreshToken: lastJsonMessage, accessToken: true}));
+    /**
+     * @name useEffect
+     * @description This function is used to set the initial states.
+     */
     useEffect(() => {
-        if (lastJsonMessage) {
+        if (lastJsonMessage && (lastJsonMessage as IConnection).access !== undefined && (lastJsonMessage as IConnection).refresh !== undefined) {
             const tokens = lastJsonMessage as IConnection;
             dispatch(setTokens({refreshToken: tokens.refresh, accessToken: tokens.access}));
         }
-    }, [dispatch, lastJsonMessage]);
+    }, [lastJsonMessage]);
 
     return (
         <>
