@@ -3,7 +3,7 @@ import {useProfile} from "../../services/user.service.ts";
 import {useAppSelector} from "../../store/hooks.ts";
 import {Center, Heading} from '@chakra-ui/react';
 import ChatComponent from './ChatComponent.tsx';
-import React, {useEffect} from 'react';
+import React from 'react';
 
 /**
  * @name MainChatComponent
