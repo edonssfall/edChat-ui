@@ -21,7 +21,7 @@ function ChatComponent() {
         chat = useAppSelector(state => state.chat),
         [status, setStatus] = useState<string>(''),
         {sendJsonMessage, lastJsonMessage} = useWebSocket(
-            `${environment.BACKEND_WS_CHAT}/chat/${chat.chat_uuid}`,
+            `${environment.BACKEND_WS_CHAT}/chat/${chat.selectedChat}`,
             {
                 share: false,
                 shouldReconnect: () => true,
@@ -98,11 +98,9 @@ function ChatComponent() {
                 :
                 <></>
             }
-            <Flex direction='column' mb={4} h='full' overflowY='auto'>
-                {messageHistory.map((message, index) => (
-                    <MessageComponent message={message} index={index}/>
-                ))}
-            </Flex>
+            {messageHistory.map((message, index) => (
+                    <MessageComponent key={index} message={message} index={index}/>
+            ))}
             <Spacer/>
             <Flex>
                 <FormControl flex='1' mr={2} mb={2}>

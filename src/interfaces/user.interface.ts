@@ -85,3 +85,13 @@ export interface IPasswordIconProps {
     showPassword: boolean;
     setShowPassword: () => void;
 }
+
+/**
+ * @name IUserChatResponse
+ * @description Interface for user chat response object
+ */
+export interface IUserChatResponse {
+    id: number;
+    avatar: string | null;
+    username: string;
+}

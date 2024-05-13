@@ -1,6 +1,8 @@
 import {Box, CloseButton, Flex, Spacer, useColorModeValue, Text} from '@chakra-ui/react';
 import {ISidebarContentProps} from '../../../interfaces/sidebar.interface.ts';
+import {useWebSocketContext} from "../../../context/websocket.context.tsx";
 import {faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons';
+import {IChatsResponse} from "../../../interfaces/chat.interface.ts";
 import {clearUserStore} from '../../../store/slices/user.slice.ts';
 import AddChatModalComponent from '../AddChatModalComponent.tsx';
 import {clearTokens} from '../../../store/slices/token.slice.ts';
@@ -10,6 +12,8 @@ import ChatBoxComponent from '../ChatBoxComponent.tsx';
 import {useAppSelector} from '../../../store/hooks.ts';
 import SearchBarComponent from "./SearchBar.tsx";
 import {useDispatch} from 'react-redux';
+import {useEffect} from "react";
+import {addChat} from "../../../store/slices/chat.slice.ts";
 
 /**
  * @name SidebarContent
@@ -19,6 +23,7 @@ import {useDispatch} from 'react-redux';
  */
 function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
     const {profile} = useProfile(),
+        {lastJsonMessage} = useWebSocketContext(),
         chat = useAppSelector((state) => state.chat),
         dispatch = useDispatch();
 
@@ -28,7 +33,16 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
      */
     const redirectHome = () => {
         window.location.href = '/';
-    }
+    };
+
+    useEffect(() => {
+        if (lastJsonMessage && (lastJsonMessage as IChatsResponse).chats) {
+            const chats = (lastJsonMessage as IChatsResponse).chats;
+            if (chats.length > 0) {
+                chats.forEach((chat) => dispatch(addChat(chat)));
+            }
+        }
+    }, [lastJsonMessage]);
 
     return (
         <>
@@ -50,7 +64,7 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
                     {profile.username ?
                         <>
                             <Flex>
-                                <SearchBarComponent />
+                                <SearchBarComponent/>
                             </Flex>
 
                             {chat.chats.map((chat, index) => (

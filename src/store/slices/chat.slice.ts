@@ -6,7 +6,6 @@ import {IChatStore} from "../../interfaces/chat.interface.ts";
  * @description Initial state for chat store
  */
 const initialState: IChatStore= {
-    chat_uuid: null,
     selectedChat: null,
     chats: [],
 };
@@ -19,9 +18,6 @@ const ChatSlice = createSlice({
     name: 'chat',
     initialState: initialState,
     reducers: {
-        setChatUUID: (state, action) => {
-            state.chat_uuid = action.payload;
-        },
         setChat: (state, action) => {
             state.selectedChat = action.payload;
         },
@@ -35,7 +31,6 @@ const ChatSlice = createSlice({
 });
 
 export const {
-    setChatUUID,
     setChat,
     addChat,
     deleteChat

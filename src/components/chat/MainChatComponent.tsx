@@ -3,7 +3,7 @@ import {useProfile} from "../../services/user.service.ts";
 import {useAppSelector} from "../../store/hooks.ts";
 import {Center, Heading} from '@chakra-ui/react';
 import ChatComponent from './ChatComponent.tsx';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 /**
  * @name MainChatComponent
@@ -18,7 +18,7 @@ const MainChatComponent: React.FC = () => {
         <>
             <Center h={'100vh'}>
                 {refreshToken && profile.username ? (
-                    !chat.chat_uuid ? (
+                    !chat.selectedChat ? (
                         <Heading size={{lg: '3xl', md: 'xl'}} color={'blue.500'}>
                             Welcome, {profile.username}!
                         </Heading>

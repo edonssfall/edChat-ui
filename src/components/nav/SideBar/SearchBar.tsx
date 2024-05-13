@@ -1,9 +1,9 @@
 import {Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, Text} from "@chakra-ui/react";
 import {ISearchResponse, ISearchUser} from "../../../interfaces/sidebar.interface.ts";
 import {useWebSocketContext} from "../../../context/websocket.context.tsx";
+import {setChat} from "../../../store/slices/chat.slice.ts";
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {setChatUUID} from "../../../store/slices/chat.slice.ts";
 
 /**
  * @name SearchBarComponent
@@ -49,7 +49,7 @@ function SearchBarComponent() {
             } else if ((lastJsonMessage as ISearchResponse).room_uuid !== undefined) {
                 const room_uuid = (lastJsonMessage as ISearchResponse).room_uuid;
                 if (room_uuid) {
-                    dispatch(setChatUUID(room_uuid));
+                    dispatch(setChat(room_uuid));
                     handleClear();
                 }
             }
