@@ -10,11 +10,12 @@ import {useDispatch} from "react-redux";
  * @description This component is used to display the chat box.
  */
 function ChatBoxComponent({chat}: ISidebarProps) {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(),
+        user = chat.users[0];
 
     return (
         <>
-            <Link onClick={() => dispatch(setChat(chat))}>
+            <Link onClick={() => dispatch(setChat(chat.uuid))}>
                 <Box
                     display='flex'
                     alignItems='center'
@@ -23,13 +24,16 @@ function ChatBoxComponent({chat}: ISidebarProps) {
                     p={3}
                     mb={4}
                 >
-                    <Avatar size='sm' src={'as'} mr={3}/>
+                    <Avatar size='sm' src={user.avatar ? user.avatar : ''} mr={3}/>
                     <Box>
                         <Text fontWeight='bold' fontSize='sm'>
-                            {chat.name}
+                            {user.username}
                         </Text>
                         <Text fontSize='xs' color='gray.500'>
-                            {chat.message}
+                            {chat.last_message}
+                        </Text>
+                        <Text fontSize='xs' color='gray.500'>
+                            {chat.timestamp}
                         </Text>
                     </Box>
                 </Box>

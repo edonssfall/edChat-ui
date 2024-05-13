@@ -20,7 +20,7 @@ function MessageComponent({message, index}: IMessageProps) {
                 bg={message.sender === profile.username ? 'blue' : 'green'}
                 textColor={'white'}
             >
-                {message.sender}: {message.message}
+                {message.sender}: {message.content}
             </Heading>
         </>
     );

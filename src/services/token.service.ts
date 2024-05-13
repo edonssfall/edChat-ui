@@ -45,7 +45,7 @@ export function setCoockiesAccessToken(accessToken: string) {
  */
 export function setCoockiesRefreshToken(refreshToken: string) {
     const refreshTokenExpiration = new Date();
-    refreshTokenExpiration.setDate(refreshTokenExpiration.getDate() + environment.accessTokenLive);
+    refreshTokenExpiration.setDate(refreshTokenExpiration.getDate() + environment.refreshTokenLive);
     coockies.set(refresh_token, refreshToken, {
         expires: refreshTokenExpiration,
     });

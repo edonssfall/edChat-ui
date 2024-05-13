@@ -1,23 +1,27 @@
 import {Button, Flex, FormControl, Heading, Input, Spacer} from '@chakra-ui/react';
-import {IChatProps, IMessage} from '../../interfaces/chat.interface.ts';
+import {IMessage} from '../../interfaces/chat.interface.ts';
+import {useProfile} from "../../services/user.service.ts";
+import {environment} from "../../services/environment.ts";
 import MessageComponent from './MessageComponent.tsx';
+import {useAppSelector} from "../../store/hooks.ts";
 import React, {useEffect, useState} from 'react';
 import useWebSocket from 'react-use-websocket';
-import {useProfile} from "../../services/user.service.ts";
 
 /**
  * @name ChatComponent
  * @description component: ChatComponent
  * @constructor
  */
-function ChatComponent({wsUrl}: IChatProps) {
+function ChatComponent() {
     const [sender, setSender] = useState<string>(''),
         [message, setMessage] = useState<string>(''),
         [messageHistory, setMessageHistory] = useState<IMessage[]>([]),
+        [currentStatus, setCurrentStatus] = useState<string>(''),
         {profile} = useProfile(),
+        chat = useAppSelector(state => state.chat),
         [status, setStatus] = useState<string>(''),
         {sendJsonMessage, lastJsonMessage} = useWebSocket(
-            wsUrl,
+            `${environment.BACKEND_WS_CHAT}/chat/${chat.selectedChat}`,
             {
                 share: false,
                 shouldReconnect: () => true,
@@ -34,9 +38,11 @@ function ChatComponent({wsUrl}: IChatProps) {
             if (message.sender !== profile.username) {
                 setSender(message.sender);
             }
-            if (message.message) {
-                setMessageHistory((prev) => [...prev, message]);
-            } else if (message.status && message.sender === sender) {
+            if (message.messages && message.messages?.length > 0) {
+                const messages = message.messages as IMessage[];
+                setMessageHistory((prev) => [...prev, ...messages]);
+            }
+            if (message.status && message.sender === sender) {
                 setStatus(message.status);
             }
         }
@@ -49,11 +55,22 @@ function ChatComponent({wsUrl}: IChatProps) {
      */
     function onWriteMessage(e: React.ChangeEvent<HTMLInputElement>) {
         setMessage(e.target.value);
-        sendJsonMessage({type: 'chat.status', status: 'typing...', sender: profile.username})
-
-        setTimeout(() => {
-            sendJsonMessage({type: 'chat.status', status: 'online', sender: profile.username});
-        }, 2000);
+        if (profile.username) {
+            const messageData: IMessage = {
+                type: 'chat.status',
+                sender: profile.username
+            }
+            if (currentStatus !== 'typing...') {
+                messageData.status = 'typing...';
+                sendJsonMessage(messageData)
+                setCurrentStatus('typing...');
+            }
+            setTimeout(() => {
+                messageData.status = 'online';
+                sendJsonMessage(messageData);
+                setCurrentStatus('online');
+            }, 2000);
+        }
     }
 
     /**
@@ -61,8 +78,17 @@ function ChatComponent({wsUrl}: IChatProps) {
      * @description This function is used to handle the submit event.
      */
     function handleSubmit() {
-        sendJsonMessage({type: 'chat.message', message, sender: profile.username});
-        setMessage('');
+        if (profile.username) {
+            const messageData: IMessage = {
+                type: 'chat.content',
+                content: message,
+                sender: profile.username,
+                timestamp: new Date().toISOString()
+            }
+            sendJsonMessage(messageData);
+            setMessage('');
+            setMessageHistory((prev) => [...prev, messageData]);
+        }
     }
 
     return (
@@ -72,11 +98,9 @@ function ChatComponent({wsUrl}: IChatProps) {
                 :
                 <></>
             }
-            <Flex direction='column' mb={4} h='full' overflowY='auto'>
-                {messageHistory.map((message, index) => (
-                    <MessageComponent message={message} index={index}/>
-                ))}
-            </Flex>
+            {messageHistory.map((message, index) => (
+                    <MessageComponent key={index} message={message} index={index}/>
+            ))}
             <Spacer/>
             <Flex>
                 <FormControl flex='1' mr={2} mb={2}>
@@ -91,6 +115,7 @@ function ChatComponent({wsUrl}: IChatProps) {
                     colorScheme='blue'
                     onClick={handleSubmit}
                     disabled={!message.trim()}
+                    onKeyDown={(e) => e.key === 'Enter' ? handleSubmit() : null}
                 >
                     Send
                 </Button>

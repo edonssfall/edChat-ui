@@ -40,4 +40,5 @@ export interface ISearchUser {
  */
 export interface ISearchResponse {
     users?: ISearchUser[];
+    room_uuid?: string;
 }
