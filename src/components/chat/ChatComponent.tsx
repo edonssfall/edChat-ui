@@ -99,7 +99,7 @@ function ChatComponent() {
                 <></>
             }
             {messageHistory.map((message, index) => (
-                    <MessageComponent key={index} message={message} index={index}/>
+                <MessageComponent key={index} message={message} index={index}/>
             ))}
             <Spacer/>
             <Flex>
@@ -109,13 +109,13 @@ function ChatComponent() {
                         type='text'
                         placeholder='Enter your message'
                         onChange={onWriteMessage}
+                        onKeyDown={(e) => e.key === 'Enter' ? handleSubmit() : null}
                     />
                 </FormControl>
                 <Button
                     colorScheme='blue'
                     onClick={handleSubmit}
                     disabled={!message.trim()}
-                    onKeyDown={(e) => e.key === 'Enter' ? handleSubmit() : null}
                 >
                     Send
                 </Button>
