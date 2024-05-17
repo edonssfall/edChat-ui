@@ -1,7 +1,8 @@
-FROM node:20.1
+FROM node:21.6.2
+LABEL authors="edonssfall"
 
 WORKDIR /web
 
 COPY . .
 
-RUN npm install --force
+RUN npm install

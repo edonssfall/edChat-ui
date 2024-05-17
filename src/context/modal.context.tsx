@@ -1,6 +1,6 @@
-import {IModalState, IModalTypeContextType} from "../interfaces/modal.interface.ts";
-import {IProviderProps} from "../interfaces/chat.interface.ts";
-import React, {createContext, FC, useState} from 'react';
+import { IModalState, IModalTypeContextType } from '../interfaces/modal.interface.ts';
+import { IProviderProps } from '../interfaces/chat.interface.ts';
+import React, { createContext, FC, useState } from 'react';
 
 /**
  * @name ModalTypeContext
@@ -15,18 +15,18 @@ const ModalTypeContext = createContext<IModalTypeContextType | undefined>(undefi
  * @description Modal type provider component
  */
 const ModalTypeProvider: FC<IProviderProps> = ({ children }) => {
-    const [modalState, setModalState] = useState<IModalState>({ state: null });
+  const [modalState, setModalState] = useState<IModalState>({ state: null });
 
-    const contextValue: IModalTypeContextType = {
-        modalState,
-        setModalState,
-    };
+  const contextValue: IModalTypeContextType = {
+    modalState,
+    setModalState,
+  };
 
-    return (
-        <ModalTypeContext.Provider value={contextValue}>
-            {children}
-        </ModalTypeContext.Provider>
-    );
+  return (
+    <ModalTypeContext.Provider value={contextValue}>
+      {children}
+    </ModalTypeContext.Provider>
+  );
 };
 
 /**
@@ -34,11 +34,11 @@ const ModalTypeProvider: FC<IProviderProps> = ({ children }) => {
  * @description Hook to use modal type context
  */
 const useModalTypeContext = () => {
-    const context = React.useContext(ModalTypeContext);
-    if (!context) {
-        throw new Error('useModalTypeContext must be used within a ModalTypeProvider');
-    }
-    return context;
+  const context = React.useContext(ModalTypeContext);
+  if (!context) {
+    throw new Error('useModalTypeContext must be used within a ModalTypeProvider');
+  }
+  return context;
 };
 
-export { ModalTypeContext, ModalTypeProvider, useModalTypeContext}
+export { ModalTypeContext, ModalTypeProvider, useModalTypeContext };

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 /**
  * Interface for ModalState
@@ -42,4 +42,8 @@ export interface IModalResetPasswordResponse {
 export interface IValidationRule {
     condition: (val: string) => boolean;
     errorMsg: string;
+}
+
+export interface ISignupProps {
+    setIndexTab: React.Dispatch<React.SetStateAction<number>>;
 }
