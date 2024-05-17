@@ -11,18 +11,18 @@ import React from 'react';
  * @constructor
  */
 const PasswordIconButton: React.FC<IPasswordIconProps> = ({ showPassword, setShowPassword }) => {
-    return (
-        <InputRightElement width='3rem'>
-            <IconButton
-                id='toggle-button'
-                _hover={{ bg: 'none' }}
-                onClick={setShowPassword}
-                icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                aria-label={showPassword ? 'Hide content' : 'Show content'}
-                variant='unstyled'
-            />
-        </InputRightElement>
-    );
+  return (
+    <InputRightElement width='3rem'>
+      <IconButton
+        id='toggle-button'
+        _hover={{ bg: 'none' }}
+        onClick={setShowPassword}
+        icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+        aria-label={showPassword ? 'Hide content' : 'Show content'}
+        variant='unstyled'
+      />
+    </InputRightElement>
+  );
 };
 
 export default PasswordIconButton;
