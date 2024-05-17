@@ -1,8 +1,8 @@
-import {IWebsocketContext, IProviderProps} from '../interfaces/chat.interface.ts';
-import React, {createContext, FC, useEffect, useState} from 'react';
-import {environment} from '../services/environment.ts';
-import {useProfile} from '../services/user.service.ts';
-import {useTokens} from '../services/token.service.ts';
+import { IWebsocketContext, IProviderProps } from '../interfaces/chat.interface.ts';
+import React, { createContext, FC, useEffect, useState } from 'react';
+import { environment } from '../services/environment.ts';
+import { useTokens } from '../services/token.service.ts';
+import { useProfile } from '../services/user.service.ts';
 import useWebSocket from 'react-use-websocket';
 
 /**
@@ -17,9 +17,9 @@ const WebSocketContext = createContext<IWebsocketContext | null>(null);
  * @constructor
  * @description WebSocket provider component
  */
-const WebSocketProvider: FC<IProviderProps> = ({children}) => {
-  const {profile} = useProfile(),
-    {refreshToken} = useTokens(),
+const WebSocketProvider: FC<IProviderProps> = ({ children }) => {
+  const { profile } = useProfile(),
+    { refreshToken } = useTokens(),
     [socketUrl, setSocketUrl] = useState<string | null>(null);
 
   const { lastJsonMessage, sendJsonMessage, getWebSocket } = useWebSocket(socketUrl ?? '', {
@@ -63,4 +63,4 @@ const useWebSocketContext = () => {
   return context;
 };
 
-export {WebSocketProvider, WebSocketContext, useWebSocketContext};
+export { WebSocketProvider, WebSocketContext, useWebSocketContext };

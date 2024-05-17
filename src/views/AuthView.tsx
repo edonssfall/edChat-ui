@@ -2,26 +2,27 @@ import ModalForgotPassword from '../components/auth/password/modalForgotPassword
 import ModalResetPassword from '../components/auth/password/modalResetPassword.tsx';
 import ModalAuthComponent from '../components/auth/modalAuthComponent.tsx';
 import ModalUsername from '../components/auth/modalUsernameComponent.tsx';
-import {useWebSocketContext} from '../context/websocket.context.tsx';
-import {useModalTypeContext} from '../context/modal.context.tsx';
-import {IConnection} from '../interfaces/chat.interface.ts';
-import {setUsername} from '../store/slices/user.slice.ts';
-import {useProfile} from '../services/user.service.ts';
-import {useTokens} from '../services/token.service.ts';
-import {useParams} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import React, {useEffect} from 'react';
+import { useWebSocketContext } from '../context/websocket.context.tsx';
+import { useModalTypeContext } from '../context/modal.context.tsx';
+import { IConnection } from '../interfaces/chat.interface.ts';
+import { setUsername } from '../store/slices/user.slice.ts';
+import { useTokens } from '../services/token.service.ts';
+import { useProfile } from '../services/user.service.ts';
+import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 
 /**
  * @name AuthView
  * @description View: HomeView page
  */
 function AuthView(): React.JSX.Element {
-  const {profile} = useProfile(),
-    {refreshToken} = useTokens(),
-    {uidb64, token} = useParams(),
-    {modalState, setModalState} = useModalTypeContext(),
-    {lastJsonMessage} = useWebSocketContext(),
+  const { profile } = useProfile(),
+    { refreshToken } = useTokens(),
+    { uidb64, token } = useParams(),
+    { modalState, setModalState } = useModalTypeContext(),
+    { lastJsonMessage } = useWebSocketContext(),
     dispatch = useDispatch();
 
   /**
@@ -30,16 +31,16 @@ function AuthView(): React.JSX.Element {
      */
   useEffect(() => {
     if (!refreshToken && modalState.state === null) {
-      setModalState({state: 'auth'});
+      setModalState({ state: 'auth' });
     } else if (uidb64 && token) {
-      setModalState({state: 'password-reset'});
+      setModalState({ state: 'password-reset' });
     } else if (refreshToken && !profile.username && lastJsonMessage) {
       const jsonResponse = lastJsonMessage as IConnection;
       if (jsonResponse.error) {
-        setModalState({state: 'username'});
+        setModalState({ state: 'username' });
       } else if (jsonResponse.username) {
         dispatch(setUsername(jsonResponse.username));
-        setModalState({state: null});
+        setModalState({ state: null });
       }
     }
   }, [profile.username, modalState, refreshToken, lastJsonMessage, uidb64, token]);

@@ -10,10 +10,11 @@ import {
   Text,
   Box
 } from '@chakra-ui/react';
-import {useModalTypeContext} from '../../context/modal.context.tsx';
-import {setUsername} from '../../store/slices/user.slice.ts';
-import {useDispatch} from 'react-redux';
-import React, {useState} from 'react';
+import { useModalTypeContext } from '../../context/modal.context.tsx';
+import { setUsername } from '../../store/slices/user.slice.ts';
+import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+
 
 /**
  * @name ModalUsername
@@ -23,7 +24,7 @@ function ModalUsername() {
   const [userName, setUserName] = useState<string>(''),
     [Error, setError] = useState<string>(''),
     [Failed, setFailed] = useState<boolean>(false),
-    {modalState, setModalState} = useModalTypeContext(),
+    { modalState, setModalState } = useModalTypeContext(),
     dispatch = useDispatch();
 
   /**
@@ -43,7 +44,7 @@ function ModalUsername() {
   function closeUsernameModal() {
     initialStates();
     dispatch(setUsername(userName));
-    setModalState({state: null});
+    setModalState({ state: null });
   }
 
   /**

@@ -1,11 +1,12 @@
-import {Button, Flex, FormControl, Heading, Input, Spacer} from '@chakra-ui/react';
-import {IMessage} from '../../interfaces/chat.interface.ts';
-import {useProfile} from '../../services/user.service.ts';
-import {environment} from '../../services/environment.ts';
+import { Button, Flex, FormControl, Heading, Input, Spacer } from '@chakra-ui/react';
+import { IMessage } from '../../interfaces/chat.interface.ts';
+import { environment } from '../../services/environment.ts';
+import { useProfile } from '../../services/user.service.ts';
 import MessageComponent from './MessageComponent.tsx';
-import {useAppSelector} from '../../store/hooks.ts';
-import React, {useEffect, useState} from 'react';
+import { useAppSelector } from '../../store/hooks.ts';
+import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+
 
 /**
  * @name ChatComponent
@@ -17,10 +18,10 @@ function ChatComponent() {
     [message, setMessage] = useState<string>(''),
     [messageHistory, setMessageHistory] = useState<IMessage[]>([]),
     [currentStatus, setCurrentStatus] = useState<string>(''),
-    {profile} = useProfile(),
+    { profile } = useProfile(),
     chat = useAppSelector(state => state.chat),
     [status, setStatus] = useState<string>(''),
-    {sendJsonMessage, lastJsonMessage} = useWebSocket(
+    { sendJsonMessage, lastJsonMessage } = useWebSocket(
       `${environment.BACKEND_WS_CHAT}/chat/${chat.selectedChat}`,
       {
         share: false,

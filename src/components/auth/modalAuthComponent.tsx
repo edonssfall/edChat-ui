@@ -10,10 +10,11 @@ import {
   Tabs,
   Tab,
 } from '@chakra-ui/react';
-import {useModalTypeContext} from '../../context/modal.context.tsx';
+import { useModalTypeContext } from '../../context/modal.context.tsx';
 import SignupComponent from './SignupModalComponent.tsx';
 import LoginComponent from './LoginModalComponent.tsx';
 import React from 'react';
+
 
 /**
  * @name AuthModal
@@ -21,7 +22,7 @@ import React from 'react';
  * @constructor
  */
 function AuthModal() {
-  const {modalState, setModalState} = useModalTypeContext(),
+  const { modalState, setModalState } = useModalTypeContext(),
     [indexTab, setIndexTab] = React.useState<number>(0);
 
   /**
@@ -29,7 +30,7 @@ function AuthModal() {
      * @description This function is used to close the modal.
      */
   const closeModal = () => {
-    setModalState({state: null});
+    setModalState({ state: null });
   };
 
   /**

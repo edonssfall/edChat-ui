@@ -1,12 +1,13 @@
 import {
-  deleteUserLocal,
   deleteUsernameLocal,
-  getUserLocal, getUsernameLocal,
-  setUserLocal,
-  setUsernameLocal
+  getUsernameLocal,
+  setUsernameLocal,
+  deleteUserLocal,
+  getUserLocal,
+  setUserLocal
 } from '../../services/user.service.ts';
-import {IUserChat} from '../../interfaces/user.interface.ts';
-import {createSlice} from '@reduxjs/toolkit';
+import { IUserChat } from '../../interfaces/user.interface.ts';
+import { createSlice } from '@reduxjs/toolkit';
 
 /**
  * @name initialState

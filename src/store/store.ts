@@ -1,7 +1,7 @@
+import { configureStore } from '@reduxjs/toolkit';
 import tokenSlice from './slices/token.slice.ts';
-import {configureStore} from '@reduxjs/toolkit';
-import userSlice from './slices/user.slice.ts';
 import chatSlice from './slices/chat.slice.ts';
+import userSlice from './slices/user.slice.ts';
 
 /**
  * @name store

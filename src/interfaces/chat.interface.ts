@@ -1,6 +1,6 @@
-import {SendJsonMessage, WebSocketLike} from 'react-use-websocket/dist/lib/types';
-import {IUserChatResponse} from './user.interface.ts';
-import {ReactNode} from 'react';
+import { SendJsonMessage, WebSocketLike } from 'react-use-websocket/dist/lib/types';
+import { IUserChatResponse } from './user.interface.ts';
+import { ReactNode } from 'react';
 
 /**
  * @name IChat

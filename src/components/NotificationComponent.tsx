@@ -1,8 +1,8 @@
-import {useWebSocketContext} from '../context/websocket.context.tsx';
-import {IConnection} from '../interfaces/chat.interface.ts';
-import {setTokens} from '../store/slices/token.slice.ts';
-import {useDispatch} from 'react-redux';
-import {useEffect} from 'react';
+import { useWebSocketContext } from '../context/websocket.context.tsx';
+import { IConnection } from '../interfaces/chat.interface.ts';
+import { setTokens } from '../store/slices/token.slice.ts';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 /**
  * @name NotificationComponent
@@ -10,7 +10,7 @@ import {useEffect} from 'react';
  */
 function NotificationComponent() {
   const dispatch = useDispatch(),
-    {lastJsonMessage} = useWebSocketContext();
+    { lastJsonMessage } = useWebSocketContext();
 
   /**
      * @name useEffect
@@ -19,7 +19,7 @@ function NotificationComponent() {
   useEffect(() => {
     if (lastJsonMessage && (lastJsonMessage as IConnection).access !== undefined && (lastJsonMessage as IConnection).refresh !== undefined) {
       const tokens = lastJsonMessage as IConnection;
-      dispatch(setTokens({refreshToken: tokens.refresh, accessToken: tokens.access}));
+      dispatch(setTokens({ refreshToken: tokens.refresh, accessToken: tokens.access }));
     }
   }, [lastJsonMessage]);
 

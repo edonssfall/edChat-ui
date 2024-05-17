@@ -9,21 +9,22 @@ import {
   Text,
   Box,
 } from '@chakra-ui/react';
-import {ISignupProps, IValidationRule} from '../../interfaces/modal.interface.ts';
-import {IRegister} from '../../interfaces/user.interface.ts';
+import { ISignupProps, IValidationRule } from '../../interfaces/modal.interface.ts';
+import { IRegister } from '../../interfaces/user.interface.ts';
 import PasswordIconButton from './password/IconPassword.tsx';
-import {environment} from '../../services/environment.ts';
-import React, {useEffect, useRef, useState} from 'react';
+import { environment } from '../../services/environment.ts';
+import React, { useEffect, useRef, useState } from 'react';
 import PasswordChecklist from 'react-password-checklist';
 import ReCAPTCHA from 'react-google-recaptcha';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from 'axios';
+
 
 /**
  * @name SignupComponent
  * @description Component for signing up a new user.
  */
-function SignupComponent({setIndexTab}: ISignupProps): React.JSX.Element {
+function SignupComponent({ setIndexTab }: ISignupProps): React.JSX.Element {
   // Create a reference to the reCAPTCHA component
   const captchaRef = useRef<ReCAPTCHA | null>(null),
     captchaKey = import.meta.env.VITE_RECAPTCHA_KEY;
@@ -121,21 +122,21 @@ function SignupComponent({setIndexTab}: ISignupProps): React.JSX.Element {
   function validate() {
     // firstname field validation control
     validateField(firstname, setFirstnameError, setFirstnameValid, [
-      {condition: (val) => val.length <= 0, errorMsg: 'Enter your first name.'},
+      { condition: (val) => val.length <= 0, errorMsg: 'Enter your first name.' },
       {
         condition: (val) => val.length > 50,
         errorMsg: 'Enter your first name, which contains less than 50 characters.'
       },
-      {condition: (val) => val.includes(' '), errorMsg: 'Enter your first name without spaces.'},
+      { condition: (val) => val.includes(' '), errorMsg: 'Enter your first name without spaces.' },
     ]);
     // lastname field validation control
     validateField(lastname, setLastnameError, setLastnameValid, [
-      {condition: (val) => val.length <= 0, errorMsg: 'Enter your last name.'},
+      { condition: (val) => val.length <= 0, errorMsg: 'Enter your last name.' },
       {
         condition: (val) => val.length > 50,
         errorMsg: 'Enter your last name, which contains less than 50 characters.'
       },
-      {condition: (val) => val.includes(' '), errorMsg: 'Enter your last name without spaces.'},
+      { condition: (val) => val.includes(' '), errorMsg: 'Enter your last name without spaces.' },
     ]);
     // email field validation control
     validateField(email, setEmailError, setEmailValid, [
@@ -147,29 +148,29 @@ function SignupComponent({setIndexTab}: ISignupProps): React.JSX.Element {
         condition: (val) => val.length > 254,
         errorMsg: 'Enter your e-mail, which contains less than 254 characters.'
       },
-      {condition: (val) => val.includes(' '), errorMsg: 'Enter your e-mail without spaces.'},
-      {condition: (val) => val.length <= 0, errorMsg: 'Enter your e-mail address.'},
+      { condition: (val) => val.includes(' '), errorMsg: 'Enter your e-mail without spaces.' },
+      { condition: (val) => val.length <= 0, errorMsg: 'Enter your e-mail address.' },
     ]);
     // password field validation control
     validateField(password, setPasswordError, setPasswordValid, [
-      {condition: (val) => val.length < 8, errorMsg: 'Enter your password, which is greater than or equal to 8.'},
+      { condition: (val) => val.length < 8, errorMsg: 'Enter your password, which is greater than or equal to 8.' },
       {
         condition: (val) => val.length > 128,
         errorMsg: 'Enter a password of less than 128 characters.'
       },
-      {condition: (val) => val.includes(' '), errorMsg: 'Enter your password without spaces.'},
+      { condition: (val) => val.includes(' '), errorMsg: 'Enter your password without spaces.' },
       {
         condition: (val) => !/[#?!@$%^&*-/(/)_}{|':;'\\.><=[\]]/.test(val),
         errorMsg: 'Enter at least 1 special character.'
       },
-      {condition: (val) => !/[0-9]/.test(val), errorMsg: 'Enter at least 1 number.'},
-      {condition: (val) => !/[a-zA-Z]/.test(val), errorMsg: 'Enter at least 1 letter.'},
-      {condition: (val) => val.length <= 0, errorMsg: 'Enter your password.'},
+      { condition: (val) => !/[0-9]/.test(val), errorMsg: 'Enter at least 1 number.' },
+      { condition: (val) => !/[a-zA-Z]/.test(val), errorMsg: 'Enter at least 1 letter.' },
+      { condition: (val) => val.length <= 0, errorMsg: 'Enter your password.' },
     ]);
     // password2 field validation control
     validateField(password2, setPassword2Error, setPassword2Valid, [
-      {condition: (val) => val !== password, errorMsg: 'Enter your same password.'},
-      {condition: () => password === '', errorMsg: 'Enter your password.'},
+      { condition: (val) => val !== password, errorMsg: 'Enter your same password.' },
+      { condition: () => password === '', errorMsg: 'Enter your password.' },
     ]);
     // captcha validate control
     validateCaptcha();
@@ -180,13 +181,13 @@ function SignupComponent({setIndexTab}: ISignupProps): React.JSX.Element {
      */
   function setFieldsTouched() {
     const fields = [
-      {valid: firstnameValid, setTouched: setFirstnameTouched},
-      {valid: lastnameValid, setTouched: setLastnameTouched},
-      {valid: emailValid, setTouched: setEmailTouched},
-      {valid: passwordValid, setTouched: setPasswordTouched},
-      {valid: password2Valid, setTouched: setPassword2Touched},
-      {valid: checkbox, setCheckboxError: () => setCheckboxError('It must be active.')},
-      {valid: captchaValid, setTouched: setCaptchaTouched},
+      { valid: firstnameValid, setTouched: setFirstnameTouched },
+      { valid: lastnameValid, setTouched: setLastnameTouched },
+      { valid: emailValid, setTouched: setEmailTouched },
+      { valid: passwordValid, setTouched: setPasswordTouched },
+      { valid: password2Valid, setTouched: setPassword2Touched },
+      { valid: checkbox, setCheckboxError: () => setCheckboxError('It must be active.') },
+      { valid: captchaValid, setTouched: setCaptchaTouched },
     ];
     fields.forEach(field => {
       if (field.setTouched) {

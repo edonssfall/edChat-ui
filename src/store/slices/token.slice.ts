@@ -5,9 +5,10 @@ import {
   setCoockiesTokens,
   deleteTokens,
 } from '../../services/token.service.ts';
-import {ITokenStore} from '../../interfaces/token.interface.ts';
-import {environment} from '../../services/environment.ts';
-import {createSlice} from '@reduxjs/toolkit';
+import { ITokenStore } from '../../interfaces/token.interface.ts';
+import { environment } from '../../services/environment.ts';
+import { createSlice } from '@reduxjs/toolkit';
+
 
 /**
  * @name initialState

@@ -1,8 +1,8 @@
-import {clearTokens, setAccessToken} from '../store/slices/token.slice.ts';
-import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
-import {useAppDispatch} from '../store/hooks.ts';
-import {environment} from './environment.ts';
-import {useTokens} from './token.service.ts';
+import { clearTokens, setAccessToken } from '../store/slices/token.slice.ts';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import { useAppDispatch } from '../store/hooks.ts';
+import { useTokens } from './token.service.ts';
+import { environment } from './environment.ts';
 
 const refresh_token_api = environment.api.refresh_token;
 const backend_api_url = environment.BACKEND_URL_AUTH;
@@ -13,7 +13,7 @@ const logout = environment.api.logout;
  * @description This function is used to create an axios instance.
  */
 export const AxiosService = () => {
-  const {accessToken, refreshToken} = useTokens(),
+  const { accessToken, refreshToken } = useTokens(),
     dispatch = useAppDispatch();
 
   /**

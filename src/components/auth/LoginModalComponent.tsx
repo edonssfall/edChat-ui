@@ -1,13 +1,14 @@
-import {Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text} from '@chakra-ui/react';
-import {ILogin, ILoginResponse} from '../../interfaces/user.interface.ts';
-import {saveToken, setTokens} from '../../store/slices/token.slice.ts';
-import {useModalTypeContext} from '../../context/modal.context.tsx';
-import {environment} from '../../services/environment.ts';
-import {setUser} from '../../store/slices/user.slice.ts';
-import {useAppSelector} from '../../store/hooks.ts';
-import {useDispatch} from 'react-redux';
-import {useState} from 'react';
+import { Box, Button, Checkbox, FormControl, FormLabel, Input, Link, Stack, Text } from '@chakra-ui/react';
+import { ILogin, ILoginResponse } from '../../interfaces/user.interface.ts';
+import { saveToken, setTokens } from '../../store/slices/token.slice.ts';
+import { useModalTypeContext } from '../../context/modal.context.tsx';
+import { environment } from '../../services/environment.ts';
+import { setUser } from '../../store/slices/user.slice.ts';
+import { useAppSelector } from '../../store/hooks.ts';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import axios from 'axios';
+
 
 /**
  * @name LoginComponent
@@ -19,8 +20,8 @@ function LoginComponent() {
     [password, setPassword] = useState<string>(''),
     [loginFailed, setLoginFailed] = useState<boolean>(false),
     dispatch = useDispatch(),
-    {save} = useAppSelector(state => state.token),
-    {setModalState} = useModalTypeContext();
+    { save } = useAppSelector(state => state.token),
+    { setModalState } = useModalTypeContext();
 
   /**
      * @name handleKeyDown
@@ -47,9 +48,9 @@ function LoginComponent() {
       .then(res => {
         const data: ILoginResponse = res.data;
         setLoginFailed(false);
-        dispatch(setTokens({accessToken: data.access, refreshToken: data.refresh}));
+        dispatch(setTokens({ accessToken: data.access, refreshToken: data.refresh }));
         dispatch(setUser(data.user));
-        setModalState({state: null});
+        setModalState({ state: null });
       })
       .catch(err => {
         console.log(err);
@@ -79,11 +80,11 @@ function LoginComponent() {
       </Checkbox>
       <Stack spacing={3}>
         <Stack
-          direction={{base: 'column', sm: 'row'}}
+          direction={{ base: 'column', sm: 'row' }}
           align={'start'}
           justify={'space-between'}>
           <Link color={'blue.400'}
-            onClick={() => setModalState({state: 'forgot'})}
+            onClick={() => setModalState({ state: 'forgot' })}
           >Password forget?</Link>
         </Stack>
         <Stack spacing={5}>

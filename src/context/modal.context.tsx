@@ -1,6 +1,6 @@
-import {IModalState, IModalTypeContextType} from '../interfaces/modal.interface.ts';
-import {IProviderProps} from '../interfaces/chat.interface.ts';
-import React, {createContext, FC, useState} from 'react';
+import { IModalState, IModalTypeContextType } from '../interfaces/modal.interface.ts';
+import { IProviderProps } from '../interfaces/chat.interface.ts';
+import React, { createContext, FC, useState } from 'react';
 
 /**
  * @name ModalTypeContext
@@ -41,4 +41,4 @@ const useModalTypeContext = () => {
   return context;
 };
 
-export { ModalTypeContext, ModalTypeProvider, useModalTypeContext};
+export { ModalTypeContext, ModalTypeProvider, useModalTypeContext };

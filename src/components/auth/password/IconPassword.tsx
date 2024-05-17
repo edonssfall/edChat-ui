@@ -1,7 +1,8 @@
-import {IPasswordIconProps} from '../../../interfaces/user.interface.ts';
-import { IconButton, InputRightElement } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { IconButton, InputRightElement } from '@chakra-ui/react';
 import React from 'react';
+
+import { IPasswordIconProps } from '../../../interfaces/user.interface.ts';
 
 /**
  * @name PasswordIconButton

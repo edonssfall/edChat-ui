@@ -1,6 +1,6 @@
-import {Box, Heading, useColorModeValue, Text} from '@chakra-ui/react';
-import {IMessageProps} from '../../interfaces/chat.interface.ts';
-import {useProfile} from '../../services/user.service.ts';
+import { Box, Heading, useColorModeValue, Text } from '@chakra-ui/react';
+import { IMessageProps } from '../../interfaces/chat.interface.ts';
+import { useProfile } from '../../services/user.service.ts';
 
 /**
  * @name MessageComponent

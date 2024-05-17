@@ -1,17 +1,17 @@
-import {useTokens} from '../../services/token.service.ts';
-import {useProfile} from '../../services/user.service.ts';
-import {useAppSelector} from '../../store/hooks.ts';
-import {Center, Heading} from '@chakra-ui/react';
+import { useTokens } from '../../services/token.service.ts';
+import { useProfile } from '../../services/user.service.ts';
+import { useAppSelector } from '../../store/hooks.ts';
+import { Center, Heading } from '@chakra-ui/react';
 import ChatComponent from './ChatComponent.tsx';
-import React from 'react';
+
 
 /**
  * @name MainChatComponent
  * @description component: MainChatComponent
  */
-const MainChatComponent: React.FC = () => {
-  const {profile} = useProfile(),
-    {refreshToken} = useTokens(),
+function MainChatComponent() {
+  const { profile } = useProfile(),
+    { refreshToken } = useTokens(),
     chat = useAppSelector(state => state.chat);
 
   return (
@@ -19,7 +19,7 @@ const MainChatComponent: React.FC = () => {
       <Center h={'100vh'}>
         {refreshToken && profile.username ? (
           !chat.selectedChat ? (
-            <Heading size={{lg: '3xl', md: 'xl'}} color={'blue.500'}>
+            <Heading size={{ lg: '3xl', md: 'xl' }} color={'blue.500'}>
                             Welcome, {profile.username}!
             </Heading>
           ) : (

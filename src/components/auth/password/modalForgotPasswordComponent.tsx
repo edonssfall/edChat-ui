@@ -12,13 +12,15 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import {IModalResetPasswordResponse} from '../../../interfaces/modal.interface.ts';
-import {IForgotPassword} from '../../../interfaces/user.interface.ts';
-import {environment} from '../../../services/environment.ts';
-import {useNavigate} from 'react-router-dom';
-import React, {useState} from 'react';
 import axios from 'axios';
-import {useModalTypeContext} from '../../../context/modal.context.tsx';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useModalTypeContext } from '../../../context/modal.context.tsx';
+import { IModalResetPasswordResponse } from '../../../interfaces/modal.interface.ts';
+import { IForgotPassword } from '../../../interfaces/user.interface.ts';
+import { environment } from '../../../services/environment.ts';
+
 
 /**
  * @name ModalForgotPassword
@@ -31,7 +33,7 @@ function ModalForgotPassword() {
     [email, setEmail] = useState<string>(''),
     [Error, setError] = useState<string>(''),
     [Failed, setFailed] = useState<boolean>(false),
-    {modalState, setModalState} = useModalTypeContext();
+    { modalState, setModalState } = useModalTypeContext();
 
   /**
      * @name initialStates
@@ -49,7 +51,7 @@ function ModalForgotPassword() {
      */
   function closeForgot() {
     initialStates();
-    setModalState({state: 'auth'});
+    setModalState({ state: 'auth' });
   }
 
   /**

@@ -1,7 +1,8 @@
-import {WebSocketProvider} from './websocket.context.tsx';
-import {ModalTypeProvider} from './modal.context.tsx';
-import {IProviderProps} from '../interfaces/chat.interface.ts';
+import { IProviderProps } from '../interfaces/chat.interface.ts';
+import { WebSocketProvider } from './websocket.context.tsx';
+import { ModalTypeProvider } from './modal.context.tsx';
 import React from 'react';
+
 
 /**
  * @name AppProvider

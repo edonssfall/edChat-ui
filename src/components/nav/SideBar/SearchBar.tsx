@@ -1,9 +1,10 @@
-import {Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, Text} from '@chakra-ui/react';
-import {ISearchResponse, ISearchUser} from '../../../interfaces/sidebar.interface.ts';
-import {useWebSocketContext} from '../../../context/websocket.context.tsx';
-import {setChat} from '../../../store/slices/chat.slice.ts';
-import {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import { Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, Text } from '@chakra-ui/react';
+import { ISearchResponse, ISearchUser } from '../../../interfaces/sidebar.interface.ts';
+import { useWebSocketContext } from '../../../context/websocket.context.tsx';
+import { setChat } from '../../../store/slices/chat.slice.ts';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 
 /**
  * @name SearchBarComponent
@@ -14,7 +15,7 @@ function SearchBarComponent() {
     dispatch = useDispatch(),
     [searchResults, setSearchResults] = useState<ISearchUser[]>([]),
     [isSearching, setIsSearching] = useState<boolean>(false),
-    {sendJsonMessage, lastJsonMessage, getWebSocket} = useWebSocketContext();
+    { sendJsonMessage, lastJsonMessage, getWebSocket } = useWebSocketContext();
 
   /**
      * @name useEffect
@@ -26,7 +27,7 @@ function SearchBarComponent() {
 
     if (search) {
       timeoutId = setTimeout(() => {
-        sendJsonMessage({search_query: search});
+        sendJsonMessage({ search_query: search });
       }, 2000);
     } else {
       getWebSocket()?.close();
@@ -105,7 +106,7 @@ function SearchBarComponent() {
                 key={result.id}
                 cursor="pointer"
                 _hover={{ bg: '#ddd' }}
-                onClick={() => sendJsonMessage({chat: result.username})}
+                onClick={() => sendJsonMessage({ chat: result.username })}
               >
                 {result.username}
               </Text>

@@ -1,10 +1,11 @@
-import {useAppDispatch, useAppSelector} from '../store/hooks.ts';
-import {clearTokens} from '../store/slices/token.slice.ts';
-import {clearUser} from '../store/slices/user.slice.ts';
-import {createSelector} from '@reduxjs/toolkit';
-import {environment} from './environment.ts';
-import {RootState} from '../store/store.ts';
+import { useAppDispatch, useAppSelector } from '../store/hooks.ts';
+import { clearTokens } from '../store/slices/token.slice.ts';
+import { clearUser } from '../store/slices/user.slice.ts';
+import { createSelector } from '@reduxjs/toolkit';
+import { environment } from './environment.ts';
+import { RootState } from '../store/store.ts';
 import Cookie from 'universal-cookie';
+
 
 
 export const refresh_token = environment.refresh_token;
@@ -35,7 +36,7 @@ export function getRefreshTokenLocal(): string | undefined {
 export function setCoockiesAccessToken(accessToken: string) {
   const accessTokenExpiration = new Date();
   accessTokenExpiration.setMinutes(accessTokenExpiration.getMinutes() + environment.accessTokenLive);
-  coockies.set(access_token, accessToken, {expires: accessTokenExpiration});
+  coockies.set(access_token, accessToken, { expires: accessTokenExpiration });
 }
 
 /**
@@ -67,8 +68,8 @@ export function setCoockiesTokens(accessToken: string, refreshToken: string) {
  * @description This function is used to delete the tokens from the coockies.
  */
 export function deleteTokens() {
-  coockies.remove(refresh_token, {path: '/'});
-  coockies.remove(access_token, {path: '/'});
+  coockies.remove(refresh_token, { path: '/' });
+  coockies.remove(access_token, { path: '/' });
 }
 
 // Token interface
@@ -91,7 +92,7 @@ const selectedTokensMemoized = createSelector(
  * @description This function is used to get the tokens from the store.
  */
 export const useTokens = () => {
-  const {refreshToken, accessToken} = useAppSelector(selectedTokensMemoized),
+  const { refreshToken, accessToken } = useAppSelector(selectedTokensMemoized),
     dispatch = useAppDispatch();
 
   window.addEventListener('storage', (event) => {
@@ -105,5 +106,5 @@ export const useTokens = () => {
     }
   });
 
-  return {refreshToken, accessToken};
+  return { refreshToken, accessToken };
 };

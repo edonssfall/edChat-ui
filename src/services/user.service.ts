@@ -1,10 +1,11 @@
-import {clearUser, clearUserName} from '../store/slices/user.slice.ts';
-import {IUser, IUserChat} from '../interfaces/user.interface.ts';
-import {useAppDispatch} from '../store/hooks.ts';
-import {createSelector} from '@reduxjs/toolkit';
-import {environment} from './environment.ts';
-import {RootState} from '../store/store.ts';
-import {useSelector} from 'react-redux';
+import { clearUser, clearUserName } from '../store/slices/user.slice.ts';
+import { IUser, IUserChat } from '../interfaces/user.interface.ts';
+import { useAppDispatch } from '../store/hooks.ts';
+import { createSelector } from '@reduxjs/toolkit';
+import { environment } from './environment.ts';
+import { RootState } from '../store/store.ts';
+import { useSelector } from 'react-redux';
+
 
 const user_data = environment.user;
 const username_data = environment.username;

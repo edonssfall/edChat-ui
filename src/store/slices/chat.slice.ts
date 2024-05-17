@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {IChatStore} from '../../interfaces/chat.interface.ts';
+import { IChatStore } from '../../interfaces/chat.interface.ts';
+import { createSlice } from '@reduxjs/toolkit';
 
 /**
  * @name initialState

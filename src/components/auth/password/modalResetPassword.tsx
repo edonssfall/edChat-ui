@@ -13,20 +13,23 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import {IModalResetPassword} from '../../../interfaces/modal.interface.ts';
-import {IResetPassword} from '../../../interfaces/user.interface.ts';
-import {environment} from '../../../services/environment.ts';
-import PasswordChecklist from 'react-password-checklist';
-import PasswordIconButton from './IconPassword.tsx';
-import React, {useState} from 'react';
 import axios from 'axios';
-import {useModalTypeContext} from '../../../context/modal.context.tsx';
+import React, { useState } from 'react';
+import PasswordChecklist from 'react-password-checklist';
+
+import PasswordIconButton from './IconPassword.tsx';
+import { useModalTypeContext } from '../../../context/modal.context.tsx';
+import { IModalResetPassword } from '../../../interfaces/modal.interface.ts';
+import { IResetPassword } from '../../../interfaces/user.interface.ts';
+import { environment } from '../../../services/environment.ts';
+
+
 
 /**
  * @name ModalResetPassword
  * @description This component is used to log in the user.
  */
-function ModalResetPassword({token, uidb64}: IModalResetPassword) {
+function ModalResetPassword({ token, uidb64 }: IModalResetPassword) {
   const [isLoading, setIsLoading] = useState<boolean>(false),
     [newPassword, setNewPassword] = useState<string>(''),
     [showNewPassword, setShowNewPassword] = useState<boolean>(false),
@@ -34,7 +37,7 @@ function ModalResetPassword({token, uidb64}: IModalResetPassword) {
     [showNewRepeatPassword, setShowNewRepeatPassword] = useState<boolean>(false),
     [Error, setError] = useState<string>(''),
     [Failed, setFailed] = useState<boolean>(false),
-    {modalState, setModalState} = useModalTypeContext();
+    { modalState, setModalState } = useModalTypeContext();
 
   /**
      * @name initialStates
@@ -53,7 +56,7 @@ function ModalResetPassword({token, uidb64}: IModalResetPassword) {
      */
   function closePasswordModal() {
     initialStates();
-    setModalState({state: 'auth'});
+    setModalState({ state: 'auth' });
   }
 
   /**

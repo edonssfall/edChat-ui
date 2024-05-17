@@ -1,4 +1,4 @@
-import {AppProvider} from './context/app.context.tsx';
+import { AppProvider } from './context/app.context.tsx';
 import HomeView from './views/HomeView.tsx';
 
 /**

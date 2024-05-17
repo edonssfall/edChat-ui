@@ -1,7 +1,8 @@
-import {ISidebarProps} from '../../interfaces/sidebar.interface.ts';
-import {Box, Text, Avatar, Link} from '@chakra-ui/react';
-import {setChat} from '../../store/slices/chat.slice.ts';
-import {useDispatch} from 'react-redux';
+import { ISidebarProps } from '../../interfaces/sidebar.interface.ts';
+import { setChat } from '../../store/slices/chat.slice.ts';
+import { Box, Text, Avatar, Link } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+
 
 /**
  * @name ChatBoxComponent
@@ -9,7 +10,7 @@ import {useDispatch} from 'react-redux';
  * @constructor
  * @description This component is used to display the chat box.
  */
-function ChatBoxComponent({chat}: ISidebarProps) {
+function ChatBoxComponent({ chat }: ISidebarProps) {
   const dispatch = useDispatch(),
     user = chat.users[0];
 
