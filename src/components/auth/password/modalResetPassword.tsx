@@ -65,6 +65,9 @@ function ModalResetPassword({token, uidb64}: IModalResetPassword) {
         if (e.key === 'Escape') {
             closePasswordModal();
         }
+        if (e.key === 'Enter') {
+            resetPassword();
+        }
     }
 
     /**

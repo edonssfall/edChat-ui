@@ -21,8 +21,8 @@ const ChatSlice = createSlice({
         setChat: (state, action) => {
             state.selectedChat = action.payload;
         },
-        addChat: (state, action) => {
-            state.chats.push(action.payload);
+        setChats: (state, action) => {
+            state.chats = action.payload;
         },
         deleteChat: (state, action) => {
             state.chats = state.chats.filter((chat) => chat !== action.payload);
@@ -32,7 +32,7 @@ const ChatSlice = createSlice({
 
 export const {
     setChat,
-    addChat,
+    setChats,
     deleteChat
 } = ChatSlice.actions;
 

@@ -9,15 +9,13 @@ import {
     Text,
     Box,
 } from '@chakra-ui/react';
-import {IValidationRule} from '../../interfaces/modal.interface.ts';
+import {ISignupProps, IValidationRule} from '../../interfaces/modal.interface.ts';
 import {IRegister} from '../../interfaces/user.interface.ts';
 import PasswordIconButton from './password/IconPassword.tsx';
-import {setUsername} from '../../store/slices/user.slice.ts';
 import {environment} from '../../services/environment.ts';
 import React, {useEffect, useRef, useState} from 'react';
 import PasswordChecklist from 'react-password-checklist'
 import ReCAPTCHA from 'react-google-recaptcha';
-import {useDispatch} from "react-redux";
 import {toast} from 'react-toastify';
 import axios from 'axios';
 
@@ -25,15 +23,13 @@ import axios from 'axios';
  * @name SignupComponent
  * @description Component for signing up a new user.
  */
-function SignupComponent(): React.JSX.Element {
+function SignupComponent({setIndexTab}: ISignupProps): React.JSX.Element {
     // Create a reference to the reCAPTCHA component
     const captchaRef = useRef<ReCAPTCHA | null>(null),
-        captchaKey = import.meta.env.VITE_RECAPTCHA_KEY,
-        dispatch = useDispatch();
+        captchaKey = import.meta.env.VITE_RECAPTCHA_KEY;
 
     // Variables with state for form
-    const [username, setUserName] = useState<string>(''),
-        [firstname, setFirstname] = useState<string>(''),
+    const [firstname, setFirstname] = useState<string>(''),
         [lastname, setLastname] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -48,10 +44,7 @@ function SignupComponent(): React.JSX.Element {
     Error to set error message.
     Valid to set validation status.
      **/
-    const [usernameError, setUsernameError] = useState<string>(''),
-        [usernameTouched, setUsernameTouched] = useState<boolean>(false),
-        [usernameValid, setUsernameValid] = useState<boolean>(false),
-        [firstnameError, setFirstnameError] = useState<string>(''),
+    const [firstnameError, setFirstnameError] = useState<string>(''),
         [firstnameTouched, setFirstnameTouched] = useState<boolean>(false),
         [firstnameValid, setFirstnameValid] = useState<boolean>(false),
         [lastnameError, setLastnameError] = useState<string>(''),
@@ -126,15 +119,6 @@ function SignupComponent(): React.JSX.Element {
      *   (username, firstname, lastname, email, password, password2, birthDate, captcha)
      */
     function validate() {
-        // username field validation control
-        validateField(username, setUsernameError, setUsernameValid, [
-            {condition: (val) => val.length <= 0, errorMsg: 'Enter your user name.'},
-            {
-                condition: (val) => val.length > 20,
-                errorMsg: 'Enter your user name with a length of less than 20.'
-            },
-            {condition: (val) => val.includes(' '), errorMsg: 'Enter your user name without spaces.'},
-        ]);
         // firstname field validation control
         validateField(firstname, setFirstnameError, setFirstnameValid, [
             {condition: (val) => val.length <= 0, errorMsg: 'Enter your first name.'},
@@ -196,7 +180,6 @@ function SignupComponent(): React.JSX.Element {
      */
     function setFieldsTouched() {
         const fields = [
-            {valid: usernameValid, setTouched: setUsernameTouched},
             {valid: firstnameValid, setTouched: setFirstnameTouched},
             {valid: lastnameValid, setTouched: setLastnameTouched},
             {valid: emailValid, setTouched: setEmailTouched},
@@ -218,8 +201,19 @@ function SignupComponent(): React.JSX.Element {
      * Separate function to control if all fields valid
      */
     function allValid(): boolean {
-        const fields = [usernameValid, firstnameValid, lastnameValid, emailValid, passwordValid, password2Valid, checkbox, captchaValid]
+        const fields = [firstnameValid, lastnameValid, emailValid, passwordValid, password2Valid, checkbox, captchaValid]
         return fields.every(value => value);
+    }
+
+    /**
+     * @name handleKeyDown
+     * @param e React.KeyboardEvent
+     * @description This function is used to handle the key down event.
+     */
+    function handleKeyDown(e: React.KeyboardEvent) {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
     }
 
     /**
@@ -227,7 +221,7 @@ function SignupComponent(): React.JSX.Element {
      */
     useEffect(() => {
         validate();
-    }, [username, firstname, lastname, email, password, password2, checkbox]);
+    }, [firstname, lastname, email, password, password2, checkbox]);
 
     /**
      * Submit function
@@ -256,7 +250,7 @@ function SignupComponent(): React.JSX.Element {
             axios.post(environment.BACKEND_URL_AUTH + environment.api.register, data)
                 .then(res => {
                     if (res.status >= 200 && res.status < 300) {
-                        dispatch(setUsername(username));
+                        setIndexTab(0);
                         toast.success('Register successfully!!!');
                     }
                 })
@@ -266,10 +260,7 @@ function SignupComponent(): React.JSX.Element {
                         const errorObject = err.response.data;
                         Object.entries(errorObject).forEach(([field, message]: [string, unknown]) => {
                             if (Array.isArray(message) && message.length > 0 && typeof message[0] === 'string') {
-                                if (field === 'username') {
-                                    setUsernameValid(false);
-                                    setUsernameError(message[0]);
-                                } else if (field === 'email') {
+                                if (field === 'email') {
                                     setEmailValid(false);
                                     setEmailError(message[0]);
                                 }
@@ -291,24 +282,7 @@ function SignupComponent(): React.JSX.Element {
     }
 
     return (
-        <Box>
-            <FormControl
-                isRequired
-                id='username'
-                isInvalid={!usernameValid && usernameTouched}
-            >
-                <FormLabel color={!usernameValid && usernameTouched ? 'red' : 'black'}>
-                    Username
-                </FormLabel>
-                <Input
-                    type='text'
-                    value={username}
-                    onChange={((event) => handleInputChange(event, setUserName, setUsernameTouched))}
-                />
-                {!usernameValid && usernameTouched &&
-                    <Text color={'red'}>{usernameError}</Text>
-                }
-            </FormControl>
+        <Box onKeyDown={handleKeyDown}>
             <Box display='flex' justifyContent='space-between' width='100%'>
                 <FormControl
                     isRequired

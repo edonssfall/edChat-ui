@@ -10,10 +10,10 @@ import {
     Tabs,
     Tab,
 } from '@chakra-ui/react';
+import {useModalTypeContext} from "../../context/modal.context.tsx";
 import SignupComponent from './SignupModalComponent.tsx';
 import LoginComponent from './LoginModalComponent.tsx';
 import React from 'react';
-import {useModalTypeContext} from "../../context/modal.context.tsx";
 
 /**
  * @name AuthModal
@@ -21,7 +21,8 @@ import {useModalTypeContext} from "../../context/modal.context.tsx";
  * @constructor
  */
 function AuthModal() {
-    const {modalState, setModalState} = useModalTypeContext();
+    const {modalState, setModalState} = useModalTypeContext(),
+        [indexTab, setIndexTab] = React.useState<number>(0);
 
     /**
      * @name closeModal
@@ -49,7 +50,7 @@ function AuthModal() {
         >
             <ModalOverlay/>
             <ModalContent className='modalWindow' onKeyDown={handleKeyDown}>
-                <Tabs isFitted variant='enclosed'>
+                <Tabs isFitted variant='enclosed' index={indexTab} onChange={(e) => setIndexTab(e)}>
                     <ModalHeader>
                         <TabList>
                             <Tab>Log In</Tab>
@@ -62,7 +63,7 @@ function AuthModal() {
                                 <LoginComponent/>
                             </TabPanel>
                             <TabPanel>
-                                <SignupComponent/>
+                                <SignupComponent setIndexTab={setIndexTab}/>
                             </TabPanel>
                         </TabPanels>
                     </ModalBody>

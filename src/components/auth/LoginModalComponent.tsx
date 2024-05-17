@@ -23,6 +23,17 @@ function LoginComponent() {
         {setModalState} = useModalTypeContext();
 
     /**
+     * @name handleKeyDown
+     * @param e React.KeyboardEvent
+     * @description This function is used to handle the key down event.
+     */
+    function handleKeyDown(e: React.KeyboardEvent) {
+        if (e.key === 'Enter') {
+            login();
+        }
+    }
+
+    /**
      * @name login
      * @description This function is used to log in the user.
      */
@@ -50,7 +61,7 @@ function LoginComponent() {
     };
 
     return (
-        <Box>
+        <Box onKeyDown={handleKeyDown}>
             <FormControl isInvalid={loginFailed}>
                 <FormLabel>E-Mail</FormLabel>
                 <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>

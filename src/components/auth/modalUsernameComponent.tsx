@@ -55,15 +55,10 @@ function ModalUsername() {
         if (e.key === 'Escape') {
             closeUsernameModal();
         }
+        if (e.key === 'Enter') {
+            closeUsernameModal();
+        }
     }
-
-    /**
-     * @name setCurrentUsername
-     * @description This function is used to set the current username.
-     */
-    const setCurrentUsername = () => {
-        closeUsernameModal();
-    };
 
     return (
         <Modal isOpen={modalState.state === 'username'} onClose={closeUsernameModal}>
@@ -80,7 +75,7 @@ function ModalUsername() {
                             <Text color={'red.500'}>{Error}</Text>
                         }
                         <Button
-                            onClick={setCurrentUsername}
+                            onClick={closeUsernameModal}
                             bg={'blue.400'}
                             color={'white'}
                             _hover={{

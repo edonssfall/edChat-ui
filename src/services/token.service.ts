@@ -67,7 +67,6 @@ export function setCoockiesTokens(accessToken: string, refreshToken: string) {
  * @description This function is used to delete the tokens from the coockies.
  */
 export function deleteTokens() {
-    console.log('dwa')
     coockies.remove(refresh_token, {path: '/'});
     coockies.remove(access_token, {path: '/'});
 }

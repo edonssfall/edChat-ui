@@ -51,8 +51,10 @@ export interface IMessageProps {
  * @description Interface for connection object
  */
 export interface IConnection {
-    access: string;
-    refresh: string;
+    access?: string;
+    refresh?: string;
+    error?: string;
+    username?: string;
 }
 
 /**

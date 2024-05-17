@@ -8,12 +8,12 @@ import AddChatModalComponent from '../AddChatModalComponent.tsx';
 import {clearTokens} from '../../../store/slices/token.slice.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useProfile} from "../../../services/user.service.ts";
+import {setChats} from "../../../store/slices/chat.slice.ts";
 import ChatBoxComponent from '../ChatBoxComponent.tsx';
 import {useAppSelector} from '../../../store/hooks.ts';
 import SearchBarComponent from "./SearchBar.tsx";
 import {useDispatch} from 'react-redux';
 import {useEffect} from "react";
-import {addChat} from "../../../store/slices/chat.slice.ts";
 
 /**
  * @name SidebarContent
@@ -39,7 +39,7 @@ function SidebarContent({onClose, ...rest}: ISidebarContentProps) {
         if (lastJsonMessage && (lastJsonMessage as IChatsResponse).chats) {
             const chats = (lastJsonMessage as IChatsResponse).chats;
             if (chats.length > 0) {
-                chats.forEach((chat) => dispatch(addChat(chat)));
+                dispatch(setChats(chats));
             }
         }
     }, [lastJsonMessage]);

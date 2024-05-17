@@ -61,6 +61,9 @@ function ModalForgotPassword() {
         if (e.key === 'Escape') {
             closeForgot();
         }
+        if (e.key === 'Enter') {
+            resetPassword();
+        }
     }
 
     /**
