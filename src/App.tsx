@@ -1,5 +1,5 @@
-import {AppProvider} from "./context/app.context.tsx";
-import HomeView from "./views/HomeView.tsx";
+import { AppProvider } from './context/app.context.tsx';
+import HomeView from './views/HomeView.tsx';
 
 /**
  * @name App
@@ -7,11 +7,11 @@ import HomeView from "./views/HomeView.tsx";
  * @description Main application component
  */
 function App() {
-    return (
-        <AppProvider>
-            <HomeView/>
-        </AppProvider>
-    );
+  return (
+    <AppProvider>
+      <HomeView/>
+    </AppProvider>
+  );
 }
 
 export default App;
