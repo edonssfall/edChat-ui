@@ -1,8 +1,9 @@
-import {IWebsocketContext, IProviderProps} from "../interfaces/chat.interface.ts";
-import React, {createContext, FC} from "react";
-import useWebSocket from "react-use-websocket";
-import {environment} from "../services/environment.ts";
-import {useProfile} from "../services/user.service.ts";
+import { IWebsocketContext, IProviderProps } from '../interfaces/chat.interface.ts';
+import React, { createContext, FC, useEffect, useState } from 'react';
+import { environment } from '../services/environment.ts';
+import { useTokens } from '../services/token.service.ts';
+import { useProfile } from '../services/user.service.ts';
+import useWebSocket from 'react-use-websocket';
 
 /**
  * @name WebSocketContext
@@ -16,27 +17,37 @@ const WebSocketContext = createContext<IWebsocketContext | null>(null);
  * @constructor
  * @description WebSocket provider component
  */
-const WebSocketProvider: FC<IProviderProps> = ({children}) => {
-    const {profile} = useProfile();
-    const {lastJsonMessage, sendJsonMessage, getWebSocket} = useWebSocket(
-        `${environment.BACKEND_WS_CHAT}/${profile.username}`,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        }
-    );
+const WebSocketProvider: FC<IProviderProps> = ({ children }) => {
+  const { profile } = useProfile(),
+    { refreshToken } = useTokens(),
+    [socketUrl, setSocketUrl] = useState<string | null>(null);
 
-    const contextValue: IWebsocketContext = {
-        lastJsonMessage,
-        sendJsonMessage,
-        getWebSocket,
-    };
+  const { lastJsonMessage, sendJsonMessage, getWebSocket } = useWebSocket(socketUrl ?? '', {
+    share: false,
+    shouldReconnect: () => true,
+  });
 
-    return (
-        <WebSocketContext.Provider value={contextValue}>
-            {children}
-        </WebSocketContext.Provider>
-    );
+  /**
+     * @name useEffect
+     * @description This hook is used to set the socket url.
+     */
+  useEffect(() => {
+    if (profile && refreshToken) {
+      setSocketUrl(`${environment.BACKEND_WS_CHAT}/${profile.username ? profile.username : ''}`);
+    }
+  }, [profile, refreshToken]);
+
+  const contextValue: IWebsocketContext = {
+    lastJsonMessage,
+    sendJsonMessage,
+    getWebSocket,
+  };
+
+  return (
+    <WebSocketContext.Provider value={contextValue}>
+      {children}
+    </WebSocketContext.Provider>
+  );
 };
 
 /**
@@ -44,12 +55,12 @@ const WebSocketProvider: FC<IProviderProps> = ({children}) => {
  * @description Hook to use websocket context
  */
 const useWebSocketContext = () => {
-    const context = React.useContext(WebSocketContext);
-    if (!context) {
-        console.warn("useWebSocketContext must be used within a WebSocketProvider");
-        return {} as IWebsocketContext;
-    }
-    return context;
+  const context = React.useContext(WebSocketContext);
+  if (!context) {
+    console.warn('useWebSocketContext must be used within a WebSocketProvider');
+    return {} as IWebsocketContext;
+  }
+  return context;
 };
 
-export {WebSocketProvider, WebSocketContext, useWebSocketContext};
+export { WebSocketProvider, WebSocketContext, useWebSocketContext };

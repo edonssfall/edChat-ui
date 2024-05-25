@@ -1,7 +1,8 @@
-import {WebSocketProvider} from "./websocket.context.tsx";
-import {ModalTypeProvider} from "./modal.context.tsx";
-import {IProviderProps} from "../interfaces/chat.interface.ts";
-import React from "react";
+import { IProviderProps } from '../interfaces/chat.interface.ts';
+import { WebSocketProvider } from './websocket.context.tsx';
+import { ModalTypeProvider } from './modal.context.tsx';
+import React from 'react';
+
 
 /**
  * @name AppProvider
@@ -10,11 +11,11 @@ import React from "react";
  * @description App provider component
  */
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
-    return (
-        <WebSocketProvider>
-            <ModalTypeProvider>
-                {children}
-            </ModalTypeProvider>
-        </WebSocketProvider>
-    );
+  return (
+    <WebSocketProvider>
+      <ModalTypeProvider>
+        {children}
+      </ModalTypeProvider>
+    </WebSocketProvider>
+  );
 };

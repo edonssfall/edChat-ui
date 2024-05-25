@@ -1,5 +1,5 @@
-import {BoxProps, FlexProps} from '@chakra-ui/react';
-import {IChat} from './chat.interface.ts';
+import { BoxProps, FlexProps } from '@chakra-ui/react';
+import { IChat } from './chat.interface.ts';
 
 /**
  * @name ISidebarProps
