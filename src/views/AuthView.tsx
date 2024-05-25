@@ -5,8 +5,8 @@ import ModalUsername from '../components/auth/modalUsernameComponent.tsx';
 import {useModalTypeContext} from "../context/modal.context.tsx";
 import {useTokens} from '../services/token.service.ts';
 import {useProfile} from "../services/user.service.ts";
-import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import React, {useEffect} from 'react';
 
 /**
  * @name AuthView
@@ -23,18 +23,6 @@ function AuthView(): React.JSX.Element {
      * @description This hook is used to set the modal state.
      */
     useEffect(() => {
-        if (!refreshToken && modalState === null) {
-            setModalState({state: 'auth'});
-        } else if (refreshToken && !profile.username) {
-            setModalState({state: 'username'});
-        }
-    }, [profile.username, modalState, refreshToken]);
-
-    /**
-     * @name useState
-     * @description This hook is used to set the modal state.
-     */
-    useState(() => {
         if (uidb64 && token) {
             setModalState({state: 'password-reset'});
         } else if (!refreshToken) {
@@ -42,7 +30,7 @@ function AuthView(): React.JSX.Element {
         } else if (!profile.username) {
             setModalState({state: 'username'});
         }
-    })
+    }, [profile.username, modalState, refreshToken]);
 
     return (
         <>

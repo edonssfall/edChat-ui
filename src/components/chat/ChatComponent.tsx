@@ -55,7 +55,7 @@ function ChatComponent() {
      */
     function onWriteMessage(e: React.ChangeEvent<HTMLInputElement>) {
         setMessage(e.target.value);
-        if (profile.username) {
+        if (profile.username && currentStatus !== 'typing...') {
             const messageData: IMessage = {
                 type: 'chat.status',
                 sender: profile.username
