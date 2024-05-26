@@ -7,12 +7,13 @@ export default defineConfig({
   base: '/chats',
   server: {
     host: '0.0.0.0',
-    port: 5174,
+    port: 5173,
     open: false,
   },
   build: {
     outDir: 'build',
     sourcemap: true,
+    envFile: '.env.production',
   },
   test: {
     globals: true,
