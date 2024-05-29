@@ -1,12 +1,26 @@
+import { SendJsonMessage, WebSocketLike } from 'react-use-websocket/dist/lib/types';
+import { IUserChatResponse } from './user.interface.ts';
+import { ReactNode } from 'react';
+
 /**
  * @name IChat
  * @description Interface for chat route object
  */
 export interface IChat {
-    message?: string;
-    icon?: string;
-    name: string;
-    path: string;
+    uuid: string;
+    last_message?: string;
+    description?: string;
+    timestamp?: string;
+    users: IUserChatResponse[];
+}
+
+/**
+ * @name IChatStore
+ * @description Interface for chat store object
+ */
+export interface IChatStore {
+    selectedChat: string | null;
+    chats: IChat[];
 }
 
 /**
@@ -16,15 +30,11 @@ export interface IChat {
 export interface IMessage {
     type: string,
     sender: string,
-    message: string,
-}
-
-/**
- * @name IChatProps
- * @description Interface for chat props
- */
-export interface IChatProps {
-    wsUrl: string;
+    content?: string,
+    timestamp?: string,
+    file?: string,
+    status?: string,
+    messages?: IMessage[],
 }
 
 /**
@@ -34,4 +44,37 @@ export interface IChatProps {
 export interface IMessageProps {
     message: IMessage;
     index: number;
+}
+
+/**
+ * @name IConnection
+ * @description Interface for connection object
+ */
+export interface IConnection {
+    access?: string;
+    refresh?: string;
+    error?: string;
+    username?: string;
+}
+
+/**
+ * @name IProviderProps
+ * @description Interface for websocket provider props
+ */
+export interface IProviderProps {
+    children: ReactNode;
+}
+
+/**
+ * @name IWebsocketContext
+ * @description Interface for websocket context
+ */
+export interface IWebsocketContext {
+    sendJsonMessage: SendJsonMessage;
+    lastJsonMessage: IMessage | IConnection | unknown;
+    getWebSocket: () => (WebSocketLike | null);
+}
+
+export interface IChatsResponse {
+    chats: IChat[];
 }

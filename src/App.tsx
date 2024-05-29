@@ -1,9 +1,17 @@
-import HomeView from "./views/HomeView.tsx";
+import { AppProvider } from './context/app.context.tsx';
+import HomeView from './views/HomeView.tsx';
 
+/**
+ * @name App
+ * @constructor
+ * @description Main application component
+ */
 function App() {
-    return (
-        <HomeView />
-    );
+  return (
+    <AppProvider>
+      <HomeView/>
+    </AppProvider>
+  );
 }
 
 export default App;

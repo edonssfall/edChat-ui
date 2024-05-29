@@ -16,7 +16,7 @@ export interface IUser {
  * @description Interface for user object
  */
 export interface IUserChat {
-    username: string;
+    username: string | null;
     user: IUser | null;
 }
 
@@ -84,4 +84,14 @@ export interface IResetPassword {
 export interface IPasswordIconProps {
     showPassword: boolean;
     setShowPassword: () => void;
+}
+
+/**
+ * @name IUserChatResponse
+ * @description Interface for user chat response object
+ */
+export interface IUserChatResponse {
+    id: number;
+    avatar: string | null;
+    username: string;
 }
