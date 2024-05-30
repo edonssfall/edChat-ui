@@ -36,7 +36,7 @@ export function getRefreshTokenLocal(): string | undefined {
 export function setCoockiesAccessToken(accessToken: string) {
   const accessTokenExpiration = new Date();
   accessTokenExpiration.setMinutes(accessTokenExpiration.getMinutes() + environment.accessTokenLive);
-  coockies.set(access_token, accessToken, { expires: accessTokenExpiration , path: '/'});
+  coockies.set(access_token, accessToken, { expires: accessTokenExpiration , path: '/' });
 }
 
 /**
