@@ -32,6 +32,6 @@ function MainChatComponent() {
       </Center>
     </>
   );
-};
+}
 
 export default MainChatComponent;

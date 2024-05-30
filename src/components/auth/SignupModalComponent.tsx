@@ -62,7 +62,7 @@ function SignupComponent({ setIndexTab }: ISignupProps): React.JSX.Element {
     [password2Valid, setPassword2Valid] = useState<boolean>(false),
     [checkboxError, setCheckboxError] = useState<string>(''),
     [captchaTouched, setCaptchaTouched] = useState<boolean>(false),
-    [captchaValid, setCaptchaValid] = useState<boolean>(false);
+    [captchaValid, setCaptchaValid] = useState<boolean>(true);
 
   /**
      * Function to set that field touched been.
@@ -173,7 +173,7 @@ function SignupComponent({ setIndexTab }: ISignupProps): React.JSX.Element {
       { condition: () => password === '', errorMsg: 'Enter your password.' },
     ]);
     // captcha validate control
-    validateCaptcha();
+    // validateCaptcha();
   }
 
   /**

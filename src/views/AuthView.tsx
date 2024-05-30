@@ -34,13 +34,17 @@ function AuthView(): React.JSX.Element {
       setModalState({ state: 'auth' });
     } else if (uidb64 && token) {
       setModalState({ state: 'password-reset' });
-    } else if (refreshToken && !profile.username && lastJsonMessage) {
-      const jsonResponse = lastJsonMessage as IConnection;
-      if (jsonResponse.error) {
+    } else if (refreshToken && !profile.username) {
+      if (lastJsonMessage) {
+        const jsonResponse = lastJsonMessage as IConnection;
+        if (jsonResponse.error) {
+          setModalState({ state: 'username' });
+        } else if (jsonResponse.username) {
+          dispatch(setUsername(jsonResponse.username));
+          setModalState({ state: null });
+        }
+      } else if (!profile.username) {
         setModalState({ state: 'username' });
-      } else if (jsonResponse.username) {
-        dispatch(setUsername(jsonResponse.username));
-        setModalState({ state: null });
       }
     }
   }, [profile.username, modalState, refreshToken, lastJsonMessage, uidb64, token]);
